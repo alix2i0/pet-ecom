@@ -1,17 +1,15 @@
 const express = require ("express");
-const mongoose  = require ("mongoose");
-const {key} = require('./db')
-const port = 3300;
 const app = express();
+const apiRoutes = require ('./routes/api');
+const { errorHandler } = require('./middleware/errorMiddleware');
 
-mongoose.connect(key);
-mongoose.connection.on('is connected', () => {
-    console.log('hada kdam mongodb tahwa ')
-})
-app.get('/',(req,res) => {
-    res.send('rah khdam')
-})
+// middleware
+app.use(express.json());
 
-app.listen(port, () =>{
-    console.log(`app running on port : ${port}`);
-})
+// Routes
+app.use('/api', apiRoutes);
+
+// Error handling middleware
+app.use(errorHandler);
+
+module.exports = app;
