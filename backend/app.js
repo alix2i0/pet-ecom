@@ -1,18 +1,36 @@
-const express = require ("express");
+const express = require("express");
 const app = express();
 const db = require('./config/database');
+const cookieParser = require('cookie-parser');
+const userRoutes = require('./routes/userRoutes');
+const passport = require('passport'); // Importez Passport
+
+// Importez la configuration Passport
+require('./config/passport');
+
+// Utilisez Passport middleware
+app.use(passport.initialize());
+
+// Middleware Session
+
+app.use(session({
+    secret: 'your_secret_key_here',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.session());
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes)
+
+db();
 
 
-// const apiRoutes = require ('./routes/api');
-// const { errorHandler } = require('./middleware/errorMiddleware');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// // middleware
-// app.use(express.json());
-
-// // Routes
-// app.use('/api', apiRoutes);
-
-// // Error handling middleware
-// app.use(errorHandler);
+app.use("/api/users", userRoutes);
 
 module.exports = app;
