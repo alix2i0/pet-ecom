@@ -13,7 +13,7 @@ router.get('/', isAdmin, userController.getAllUsers);
 router.get('/:userId',isAdmin, userController.getUserById);
 
 // Update a user's details (only accessible to admin)
-router.put('/:userId', isAdmin, userController.updateUser);
+router.put('/:userId', userController.updateUser);
 
 // Delete a user (only accessible to admin)
 router.delete('/:userId', isAdmin, userController.deleteUser);

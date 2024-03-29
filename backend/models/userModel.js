@@ -6,12 +6,12 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     lastName: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     username: {
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 8 // Adjust as per your requirements
+        minlength: 8 
     },
     isAdmin: {
         type: Boolean,

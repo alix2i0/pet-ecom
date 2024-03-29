@@ -1,15 +1,18 @@
 const express = require("express");
 const app = express();
-const db = require('./config/database');
+require('./config/database');
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes');
-const passport = require('passport'); // Importez Passport
+const authRoutes = require('./routes/authRoutes');
+const passport = require('passport'); 
+
 
 // Importez la configuration Passport
 require('./config/passport');
 
 // Utilisez Passport middleware
-app.use(passport.initialize());
+app.use(express.json());
 
 // Middleware Session
 
@@ -18,16 +21,16 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes)
 
-db();
 
 
-app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
