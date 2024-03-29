@@ -15,6 +15,7 @@ require('./config/passport');
 app.use(express.json());
 
 // // Routes
+app.use('/api', apiRoutes);
 app.use('/api/orders', cmdRoutes);
 
 app.use(session({
