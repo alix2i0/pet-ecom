@@ -3,7 +3,15 @@ const Order = require("../models/Order");
 // Récupérer toutes les commandes
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    let query = {};
+
+    // Check if status query parameter exists
+    const { status } = req.query;
+    if (status) {
+      query.status = status;
+    }
+
+    const orders = await Order.find(query);
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: err.message });
