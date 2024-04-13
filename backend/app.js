@@ -7,16 +7,29 @@ const userRoutes = require('./routes/userRoutes'); // Importing user routes
 const authRoutes = require('./routes/authRoutes'); // Importing authentication routes
 const cmdRoutes = require('./routes/orderRoutes'); // Importing order routes
 
+const orderRoutes = require('./routes/orderRoutes');
+const apiRoutes = require('./routes/api');
 
 app.use(express.json()); // Middleware for parsing JSON bodies
 app.use(cookieParser()); // Middleware for parsing cookies
 
-// Routes for order-related actions
-app.use('/api/orders', cmdRoutes);
+
+// Utilisez Passport middleware
+app.use(express.json());
+
+// // Routes
+
+app.use('/api/orders', orderRoutes);
+
+
 
 // Defining routes for authentication and user-related actions
 app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
+
+app.use('/user', userRoutes)
+app.use('/api', apiRoutes);
+
+
 
 app.use(express.urlencoded({ extended: true })); // Middleware for parsing URL-encoded bodies
 
