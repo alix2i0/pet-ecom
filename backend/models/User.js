@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
-
-
+const validator = require('validator'); // Importing validator library
+const crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -26,32 +26,24 @@ const userSchema = new mongoose.Schema({
         required: true,
         lowercase: true,
         trim: true,
-        match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
+        validate: {
+            validator: validator.isEmail, // Using isEmail method from validator for email validation 
+            message: 'Please enter a valid email address'
+        }
     },
     password: {
         type: String,
         required: true,
-        minlength: 8 
+        minlength: 8
     },
     isAdmin: {
         type: Boolean,
         default: false
-    }
+    },
+    passwordChangeAt:Date,
+    resetPasswordToken: String,
+    resetPasswordExpire: Date
 }, { timestamps: true });
-
-// // Hash password before saving user
-// userSchema.pre('save', async function (next) {
-//     const user = this;
-//     if (user.isModified('password')) {
-//         user.password = await bcrypt.hash(user.password, 8);
-//     }
-//     next();
-// });
-
-
-// userSchema.methods.comparePassword = async function(candidatePassword) {
-//     return bcrypt.compare(candidatePassword, this.password);
-// };
 
 userSchema.methods.isValidPassword = async function(password) {
     try {
@@ -61,7 +53,15 @@ userSchema.methods.isValidPassword = async function(password) {
     }
 };
 
+userSchema.methods.createResetPasswordToken= async function() {
+    const resetToken = crypto.randomBytes(32).toString('hex');
 
+    this.resetPasswordToken =crypto.createHash('sha256').update(resetToken).digest('hex');
+    
+    this.resetPasswordExpire = Date.now()+10*60*1000;//expires in 10 mins
+    
+    return resetToken;
+}
 
 const User = mongoose.model('User', userSchema);
 
