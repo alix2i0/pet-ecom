@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const passport = require('passport'); 
-const apiRoutes = require('./routes/api');
+
+const orderRoutes = require('./routes/orderRoutes');
+
 
 // Importez la configuration Passport
 require('./config/passport');
@@ -15,7 +17,9 @@ require('./config/passport');
 app.use(express.json());
 
 // // Routes
-// app.use('/api/orders', cmdRoutes);
+
+app.use('/api/orders', orderRoutes);
+
 
 app.use(session({
     secret: 'your_secret_key_here',
