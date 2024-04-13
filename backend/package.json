@@ -9,15 +9,18 @@
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "pet"
+  ],
+  "author": "ali, mouad, salma",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.5.0",
-    "mongoose": "^8.2.3"
+    "mongoose": "^8.2.3",
+    "stripe": "^15.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
