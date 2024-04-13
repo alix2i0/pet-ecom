@@ -1,6 +1,7 @@
 const Order = require("../models/Order");
-const { STRIPE_KEY } = require('./env');
-const stripe = require("../models/stripe")(STRIPE_KEY);
+const { STRIPE_KEY } = require('../config/env');
+const stripe = require("stripe")(STRIPE_KEY);
+
 // Récupérer toutes les commandes
 exports.getAllOrders = async (req, res) => {
   try {
