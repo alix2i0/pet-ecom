@@ -23,7 +23,8 @@
     "nodemailer": "^6.9.13",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "stripe": "^15.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
