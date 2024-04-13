@@ -1,4 +1,6 @@
 const Order = require("../models/Order");
+const { STRIPE_KEY } = require('../config/env');
+const stripe = require("stripe")(STRIPE_KEY);
 
 // Récupérer toutes les commandes
 exports.getAllOrders = async (req, res) => {
@@ -44,8 +46,32 @@ exports.postOrder = async (req, res) => {
       orderDate,
       status,
     });
+    //strip
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "mad",
+            product_data: {
+              name: "Commande",
+            },
+            unit_amount: totalAmount * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${req.protocol}://${req.get(
+        "host"
+      )}/api/orders/success`,
+      cancel_url: `${req.protocol}://${req.get(
+        "host"
+      )}/api/orders/cancel`,
+    });
     const savedOrder = await newOrder.save();
-    res.status(201).json(savedOrder);
+    // res.status(201).json(savedOrder);
+    res.status(201).json({url : session.url});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
