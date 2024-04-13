@@ -111,3 +111,4 @@ exports.deleteProductById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//add a function for filter the products by category

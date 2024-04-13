@@ -1,6 +1,4 @@
 const Order = require("../models/Order");
-const { STRIPE_KEY } = require('../config/env');
-const stripe = require("stripe")(STRIPE_KEY);
 
 // Récupérer toutes les commandes
 exports.getAllOrders = async (req, res) => {
@@ -37,12 +35,6 @@ exports.postOrder = async (req, res) => {
     // Destructure properties from req.body
     const { orderId, customer, products, totalAmount, orderDate, status } =
       req.body;
-    // Create a new Charge object with Stripe
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalAmount * 100, // Stripe amount is in cents
-      currency: "usd", // Change currency as required
-      description: `Order ${orderId}`,
-    });
     // Create a new Commande instance
     const newOrder = new Order({
       orderId,
@@ -51,7 +43,6 @@ exports.postOrder = async (req, res) => {
       totalAmount,
       orderDate,
       status,
-      paymentIntentId: paymentIntent.id,
     });
     const savedOrder = await newOrder.save();
     res.status(201).json(savedOrder);

@@ -12,8 +12,8 @@ router.get('/search', productController.searchProducts);
 
 // Admin-only routes for full CRUD operations
 // tested
-router.post('/',isAdmin, productController.createProduct);
 router.get('/',isAdmin, productController.getAllProducts);
+router.post('/',isAdmin, productController.createProduct);
 //not yet tested
 router.get('/:id',isAdmin, productController.getProductById);
 router.put('/:id',isAdmin, productController.updateProductById);
