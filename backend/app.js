@@ -8,7 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const passport = require('passport'); 
 
 const orderRoutes = require('./routes/orderRoutes');
-
+const apiRoutes = require('./routes/api');
 
 // Importez la configuration Passport
 require('./config/passport');
