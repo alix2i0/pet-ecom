@@ -43,12 +43,6 @@ exports.getProductById = async (req, res) => {
 
 // Create a new product (accessible only to admin)
 exports.createProduct = async (req, res) => {
-    // Check if the user is an admin
-    // hadi commentitha bach ndir test rah khdma ghir khas roles
-    // if (!req.user || req.user.role !== 'admin') {
-    //   return res.status(403).json({ message: 'Unauthorized' });
-    // }
-  
     const { name, description, price, category, quantity } = req.body;
   
     try {
@@ -78,11 +72,6 @@ exports.createProduct = async (req, res) => {
 
 // Update an existing product by ID (accessible only to admin)
 exports.updateProductById = async (req, res) => {
-  // Check if the user is an admin
-//   if (!req.user || req.user.role !== 'admin') {
-//     return res.status(403).json({ message: 'Unauthorized' });
-//   }
-
   try {
     const product = await Productmd.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!product) {
@@ -96,10 +85,6 @@ exports.updateProductById = async (req, res) => {
 
 // Delete a product by ID (accessible only to admin)
 exports.deleteProductById = async (req, res) => {
-  // Check if the user is an admin
-//   if (!req.user || req.user.role !== 'admin') {
-//     return res.status(403).json({ message: 'Unauthorized' });
-//   }
 
   try {
     const product = await Productmd.findByIdAndDelete(req.params.id);
@@ -111,3 +96,4 @@ exports.deleteProductById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//add a function for filter the products by category

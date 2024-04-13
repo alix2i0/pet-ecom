@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const orderController = require("../controllers/orderController");
-
+const { isAdmin } = require('../middleware/authMiddleware');
+router.use(isAdmin);
 // GET all commandes
 router.get("/", orderController.getAllOrders);
 //GET order by ID
