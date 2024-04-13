@@ -9,7 +9,7 @@ exports.getAllOrders = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
+  
 // Get a commande by ID
 exports.getOrderById = async (req, res) => {
   try {

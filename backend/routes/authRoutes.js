@@ -1,18 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const userController = require('../controllers/userController');
-const passport = require('../config/passport');
+const express = require('express'); 
+const router = express.Router(); 
+const authController = require('../controllers/userController'); 
+const authToken = require('../middleware/authToken'); 
+// Routes for user actions
+router.post('/register', authController.register); // Route for user registration
+router.post('/login', authController.login); // Route for user login
+router.get('/logout', authController.logout); // Route for user logout
+router.get('/profile', authToken, authController.getProfile); // Route for user profile with authentication middleware
 
-router.post('/register', userController.register);
-router.post('/login', passport.authenticate('local'), userController.login);
-router.get('/logout', userController.logout);
-router.get('/profile', isAuthenticated, userController.getProfile);
+router.post('/forgotPassword', authController.forgotPassword); // Send reset password link to the
+router.put('/passwordReset/:token', authController.passwordReset); // Send reset password request with new password
 
-function isAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-    return next();
-}
-    res.status(401).json({ message: 'Unauthorized' });
-}
-
-module.exports = router;
+module.exports = router; // Exporting the router
