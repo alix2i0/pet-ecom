@@ -1,6 +1,7 @@
 const Order = require("../models/Order");
 const { STRIPE_KEY } = require('../config/env');
 const stripe = require("stripe")(STRIPE_KEY);
+const Product = require("../models/Product")
 
 // Récupérer toutes les commandes
 exports.getAllOrders = async (req, res) => {
@@ -70,24 +71,43 @@ exports.getOrderById = async (req, res) => {
 exports.postOrder = async (req, res) => {
   try {
     // Check if req.body exists and contains orderId
-    if (!req.body || !req.body.orderId) {
+    if (!req.body ) {
       return res
         .status(400)
         .json({ message: "orderId is required in request body" });
     }
+
     // Destructure properties from req.body
-    const { orderId, customer, products, totalAmount, status } =
-      req.body;
-    // Create a new Commande instance
-    
+    const { customer, products } = req.body;
+
+    // Calculate total amount based on products and their quantities
+    let totalAmount = 0;
+    for (const product of products) {
+      const { productId, quantity } = product;
+      // Retrieve the product from the database to get its price
+      const productDoc = await Product.findById(productId);
+      if (!productDoc) {
+        return res.status(404).json({ message: `Product with ID ${productId} not found` });
+      }
+      // Add the price of the product multiplied by its quantity to the total amount
+      totalAmount += productDoc.price * quantity;
+    }
+    const p = products
+
+    // Create a new Order instance
+    const orderId = "ORD" + Date.now().toString(); // Generating orderId
+    const orderDate = new Date(); // Creating order date
     const newOrder = new Order({
       orderId,
       customer,
-      products,
+      p,
       totalAmount,
-      status,
+      orderDate
     });
-    //strip
+
+
+
+    // Create a Stripe session for payment
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -97,7 +117,7 @@ exports.postOrder = async (req, res) => {
             product_data: {
               name: "Commande",
             },
-            unit_amount: totalAmount * 100,
+            unit_amount: totalAmount * 100, // Convert total amount to cents
           },
           quantity: 1,
         },
@@ -105,18 +125,49 @@ exports.postOrder = async (req, res) => {
       mode: "payment",
       success_url: `${req.protocol}://${req.get(
         "host"
-      )}/api/orders/success`,
+      )}/api/orders/success/${orderId}`,
       cancel_url: `${req.protocol}://${req.get(
         "host"
-      )}/api/orders/cancel`,
+      )}/api/orders/reject/${orderId}`,
     });
+
+    // Save the order to the database
     const savedOrder = await newOrder.save();
-    // res.status(201).json(savedOrder);
-    res.status(201).json({url : session.url});
+    res.status(201).json({ url: session.url }); // Return the URL for Stripe checkout
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
+
+
+// Endpoint pour le succès de la commande
+exports.orderSuccess = async (req, res) => {
+  try {
+    console.log("checking")
+    const orderId = req.params.orderId;
+    console.log(orderId);
+    // Mettez à jour le statut de la commande comme "Completed"
+    await Order.findOneAndUpdate({ orderId }, { status: 'Completed' });
+    // res.redirect('/success-page'); // Redirigez l'utilisateur vers une page de succès
+    res.send('Payment was successful!')
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Endpoint pour le rejet de la commande
+exports.orderReject = async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    // Mettez à jour le statut de la commande comme "Rejected"
+    await Order.findOneAndUpdate({ orderId }, { status: 'Rejected' });
+    res.send('Rejected');
+    // res.redirect('/cancel-page'); // Redirigez l'utilisateur vers une page d'annulation
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 
 //Update order by ID
 exports.updateOrder = async (req, res) => {
