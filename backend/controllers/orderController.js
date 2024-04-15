@@ -7,19 +7,52 @@ exports.getAllOrders = async (req, res) => {
   try {
     let query = {};
 
-    // Check if status query parameter exists
-    const { status } = req.query;
+    // Check if status and customer query parameters exist
+    const { status, customer, search } = req.query;
     if (status) {
       query.status = status;
     }
+    if (customer) {
+      query.customer = customer; // customer is the customer ID
+    }
+    if (search) {
+      const searchRegex = new RegExp(search, "i"); // Case-insensitive search
+      query.$or = [
+        { orderId: searchRegex },
+      ];
+    }
 
-    const orders = await Order.find(query);
-    res.json(orders);
+    const page = parseInt(req.query.page) || 1; // Get the page number from query parameters, default to 1
+    const limit = 10; // Limiting to 10 orders per page
+    const skip = (page - 1) * limit; // Calculating the number of documents to skip
+
+    let ordersQuery = Order.find(query).skip(skip).limit(limit);
+
+    // Check if sorting query parameter exists
+    const { sortBy } = req.query;
+    if (sortBy === 'dateAsc') {
+      ordersQuery = ordersQuery.sort({ orderDate: 1 }); // Sorting by orderDate in ascending order
+    } else if (sortBy === 'dateDesc') {
+      ordersQuery = ordersQuery.sort({ orderDate: -1 }); // Sorting by orderDate in descending order
+    }
+
+    const orders = await ordersQuery.exec();
+    const totalOrdersCount = await Order.countDocuments(query); // Count total number of orders matching the query criteria
+
+    // Calculating total pages
+    const totalPages = Math.ceil(totalOrdersCount / limit);
+
+    res.json({
+      orders,
+      currentPage: page,
+      totalPages,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-  
+
+
 // Get a commande by ID
 exports.getOrderById = async (req, res) => {
   try {
@@ -43,15 +76,15 @@ exports.postOrder = async (req, res) => {
         .json({ message: "orderId is required in request body" });
     }
     // Destructure properties from req.body
-    const { orderId, customer, products, totalAmount, orderDate, status } =
+    const { orderId, customer, products, totalAmount, status } =
       req.body;
     // Create a new Commande instance
+    
     const newOrder = new Order({
       orderId,
       customer,
       products,
       totalAmount,
-      orderDate,
       status,
     });
     //strip
