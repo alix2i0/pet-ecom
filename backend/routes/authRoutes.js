@@ -3,6 +3,7 @@ const router = express.Router();
 const authController = require('../controllers/userController'); 
 const authToken = require('../middleware/authToken'); 
 // Routes for user actions
+
 router.post('/register', authController.register); // Route for user registration
 router.post('/login', authController.login); // Route for user login
 router.get('/logout', authController.logout); // Route for user logout

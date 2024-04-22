@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser'); // Importing cookie-parser for pa
 const userRoutes = require('./routes/userRoutes'); // Importing user routes
 const authRoutes = require('./routes/authRoutes'); // Importing authentication routes
 const cmdRoutes = require('./routes/orderRoutes'); // Importing order routes
+const cors = require('cors');
 
 const orderRoutes = require('./routes/orderRoutes');
 const apiRoutes = require('./routes/api');
@@ -18,10 +19,14 @@ app.use(cookieParser()); // Middleware for parsing cookies
 app.use(express.json());
 
 // // Routes
+app.use(cors({ origin: 'http://localhost:5173' }));
 
 app.use('/api/orders', orderRoutes);
 
-
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+//   });
 
 // Defining routes for authentication and user-related actions
 app.use('/auth', authRoutes);

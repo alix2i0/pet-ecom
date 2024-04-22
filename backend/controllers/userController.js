@@ -6,6 +6,8 @@ const crypto = require( 'crypto' )
 
 // Controller function for user registration
 exports.register = async (req, res) => {
+    console.log('User registration');
+    console.log(req.body);
     try {
         const { username, email, password } = req.body; // Extracting username, email, and password from request body
         const hashedPassword = await bcrypt.hash(password, 10); // Hashing the password
