@@ -14,31 +14,12 @@ const apiRoutes = require('./routes/api');
 app.use(express.json()); // Middleware for parsing JSON bodies
 app.use(cookieParser()); // Middleware for parsing cookies
 
-
-// Utilisez Passport middleware
 app.use(express.json());
-
-// // Routes
 app.use(cors({ origin: 'http://localhost:5173' }));
 
-app.use('/api/orders', orderRoutes);
-
-// app.use((req, res, next) => {
-//     res.header('Access-Control-Allow-Origin', '*');
-//     next();
-//   });
-
-// Defining routes for authentication and user-related actions
-app.use('/auth', authRoutes);
-
-app.use('/user', userRoutes)
+// // Routes
 app.use('/api', apiRoutes);
 
-
-
 app.use(express.urlencoded({ extended: true })); // Middleware for parsing URL-encoded bodies
-
-// Another route definition for user-related actions
-app.use("/api/users", userRoutes);
 
 module.exports = app; // Exporting the Express application

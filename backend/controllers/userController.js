@@ -9,9 +9,9 @@ exports.register = async (req, res) => {
     console.log('User registration');
     console.log(req.body);
     try {
-        const { username, email, password } = req.body; // Extracting username, email, and password from request body
+        const { firstName, lastName, username, email, password } = req.body; // Extracting username, email, and password from request body
         const hashedPassword = await bcrypt.hash(password, 10); // Hashing the password
-        const user = await User.create({ username, email, password: hashedPassword }); // Creating a new user
+        const user = await User.create({ firstName, lastName, username, email, password: hashedPassword }); // Creating a new user
         res.status(201).json({ user }); // Sending response with the created user object
     } catch (err) {
     res.status(400).json({ message: err.message }); // Handling errors
@@ -158,8 +158,8 @@ exports.getProfile = async(req, res) => {
 // Controller function to create a new user
 exports.createUser = async (req, res) => {
     try {
-        const { username, email, password } = req.body; // Extracting username, email, and password from request body
-        const newUser = await User.create({ username, email, password }); // Creating a new user
+        const { firstName, lastName, username, email, password } = req.body; // Extracting username, email, and password from request body
+        const newUser = await User.create({ firstName, lastName, username, email, password }); // Creating a new user
         res.status(201).json(newUser); // Sending response with the created user object
     } catch (error) {
         res.status(400).json({ message: error.message }); // Handling errors
