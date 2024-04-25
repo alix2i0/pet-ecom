@@ -2,6 +2,7 @@ const express = require("express"); // Importing the Express framework
 const app = express(); // Creating an instance of the Express application
 require('./config/database'); // Importing database configuration
 const cookieParser = require('cookie-parser'); // Importing cookie-parser for parsing cookies
+const apiRoutes = require('./routes/api');
 
 
 // Middleware to handle data parsing
