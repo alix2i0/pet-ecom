@@ -6,8 +6,8 @@ import { useNavigate, NavLink } from "react-router-dom";
 export default function Signup({ onSignUp }) {
     const navigate = useNavigate();
 
-    const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,7 +17,7 @@ export default function Signup({ onSignUp }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!firstname || !lastname || !email || !password || !confirmPassword) {
+        if (!firstName || !lastName || !email || !password || !confirmPassword) {
             setError("Please fill in all fields.");
             return;
         }
@@ -41,7 +41,9 @@ export default function Signup({ onSignUp }) {
             const response = await fetch("http://localhost:3300/auth/register", {
                 method: "POST",
                 body: JSON.stringify({
-                    username: `${firstname}${lastname}`,
+                    firstName,
+                    lastName,
+                    username: `${firstName}${lastName}`,
                     email,
                     password,
                 }),
