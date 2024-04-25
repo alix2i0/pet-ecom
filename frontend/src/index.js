@@ -4,6 +4,8 @@ import './index.css';
 import './styles/main.css'
 import App from './App';
 import { BrowserRouter } from "react-router-dom";
+import {store} from "./services/reducer/configureStore"
+import { Provider } from 'react-redux';
 
 const title = "Meowtopia";
 const navLinks = [
@@ -16,8 +18,10 @@ const navLinks = [
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <Provider store={store}>
+    <BrowserRouter >
       <App title={title} navLinks={navLinks} />
     </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
