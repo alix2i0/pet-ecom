@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-const Dashboard = () => {
+const DashboardProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const Dashboard = () => {
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <div className="flex justify-center">
-            <img src="./icon_blue.png" className="h-[100px] w-[100px] mb-5" />
+            <img src="../icon_blue.png" className="h-[100px] w-[100px] mb-5" />
           </div>
 
           <ul class="space-y-2 font-medium">
@@ -91,7 +90,7 @@ const Dashboard = () => {
             </li>
             <li>
               <a
-                href="#"
+                href="/dashboard/products"
                 class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -256,12 +255,13 @@ const Dashboard = () => {
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl">All Products</h3>
-            <button className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white">Add product</button>
+            <a href="/dashboard/products/addproduct" className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white">Add product</a>
           </div>
           <div className="overflow-x-auto">
             <table class="text-center w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-100 ">
                 <tr>
+
                   <th scope="col" class="px-6 py-3">
                     Name
                   </th>
@@ -308,6 +308,39 @@ const Dashboard = () => {
                 ))}
               </tbody>
             </table>
+  <ul class="flex items-center justify-center -space-x-px h-8 text-sm">
+    <li>
+      <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg ">
+        <span class="sr-only">Previous</span>
+        <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+        </svg>
+      </a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ">1</a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ">2</a>
+    </li>
+    <li>
+      <a href="#" aria-current="page" class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ">3</a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ">4</a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 ">5</a>
+    </li>
+    <li>
+      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 ">
+        <span class="sr-only">Next</span>
+        <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+        </svg>
+      </a>
+    </li>
+  </ul>
           </div>
         </div>
       </div>
@@ -315,4 +348,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DashboardProducts;
