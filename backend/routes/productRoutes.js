@@ -8,7 +8,7 @@ router.get('/search', productController.searchProducts);
 
 // Admin-only routes for full CRUD operations
 
-router.get('/',isAdmin, productController.getAllProducts);
+router.get('/', productController.getAllProducts);
 router.post('/',isAdmin, productController.createProduct);
 
 router.get('/:id',isAdmin, productController.getProductById);
