@@ -4,11 +4,21 @@ const Category = require('../models/category.js');
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Productmd.find();
+    for (const product of products) {
+      // Utilisez findById pour trouver la catégorie à partir de l'ID
+      const categoryObj = await Category.findById(product.category);
+      if (categoryObj) {
+        // Mettez à jour le nom de la catégorie dans le produit
+        product.category = categoryObj.name;
+      }
+    }
+    console.log(products);
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Search products
 exports.searchProducts = async (req, res) => {
@@ -35,6 +45,10 @@ exports.getProductById = async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
+    let categoryObj = await Category.findOne(product.category);
+
+    product.category = categoryObj.name;
+    
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
