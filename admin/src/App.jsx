@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import ProductList from './components/Product/ProductList';
 import { Routes, Route } from "react-router-dom";
 import Dashboard from './components/Dashboard';
+import Sidebar from './components/Sidebar/Sidebar';
 
 
 
@@ -14,6 +15,7 @@ function App() {
   return (
     <div>
       {/* <Dashboard/> */}
+      <Sidebar/>
       <Routes>
         
         <Route path='/dashboard' element={<Dashboard/>}/>
