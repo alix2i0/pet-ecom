@@ -14,15 +14,6 @@ app.use(
     methods: ["GET", "HEAD", "PUT", "POST", "DELETE"],
   }))
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    optionSuccessStatus: 200,
-    methods: ["GET", "HEAD", "PUT", "POST", "DELETE"],
-  })
-);
-
 app.use(express.json()); // Middleware for parsing JSON bodies
 app.use(cookieParser()); // Middleware for parsing cookies
 
