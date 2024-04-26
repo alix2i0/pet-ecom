@@ -179,7 +179,8 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// Controller function to get all users
+
+// Controller function to get all users with pagination, limit, and search
 exports.getAllUsers = async (req, res) => {
   try {
     let query = {};
@@ -199,7 +200,7 @@ exports.getAllUsers = async (req, res) => {
       ];
     }
     const page = parseInt(req.query.page) || 1; // Get the page number from query parameters, default to 1
-    const limit = 10; // Limiting to 3 users per page
+    const limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
     const skip = (page - 1) * limit; // Calculating the number of documents to skip
 
     let usersQuery = User.find(query).skip(skip).limit(limit); // Finding all users
@@ -215,7 +216,7 @@ exports.getAllUsers = async (req, res) => {
     const users = await usersQuery.exec();
     const totalUsersCount = await User.countDocuments(query);
 
-    //Calculating total pages
+    // Calculating total pages
     const totalPages = Math.ceil(totalUsersCount / limit);
 
     res.json({
@@ -227,6 +228,8 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ message: error.message }); // Handling errors
   }
 };
+
+
 
 // Controller function to get a specific user by ID
 exports.getUserById = async (req, res) => {

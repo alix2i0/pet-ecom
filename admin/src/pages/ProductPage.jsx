@@ -20,9 +20,7 @@ const ProductPage = () => {
     }, []);
 
     return (
-        <>
-            <Sidebar />
-            <ProductList/>
+        <>            <ProductList/>
         </>
     );
 };

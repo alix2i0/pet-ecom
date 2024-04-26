@@ -20,7 +20,6 @@ const ProductList = () => {
 
   return (
     <>
-    <Sidebar/>
     <div className="bg-teal-400 h-screen p-3 sm:ml-64 overflow-hidden">
       <div className="bg-white p-3 shadow-md sm:rounded-lg ">
         <div className="flex justify-between items-center mb-4">
