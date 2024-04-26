@@ -40,29 +40,50 @@ const UserList = () => {
   };
 
   return (
-    <>
-      <div className="bg-teal-400 h-screen p-3 sm:ml-64 overflow-hidden">
+    <div className="bg-teal-400 h-screen">
+      <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl">All Users</h3>
             <div className="flex items-center">
-              <span>Items per page: </span>
-              <select
-                className="border border-gray-300 rounded px-3 py-1"
-                value={limit}
-                onChange={handleLimitChange}
-              >
-                <option value={3}>3</option>
-                <option value={5}>5</option>
-                <option value={7}>7</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border border-gray-300 rounded ml-3 px-3 py-1"
-                value={searchTerm}
-                onChange={handleSearch}
-              />
+              <div className="mr-5">
+                <span>Items per page:&nbsp;</span>
+                <select
+                  className="border border-gray-300 text-gray-500 rounded px-3 py-1"
+                  value={limit}
+                  onChange={handleLimitChange}
+                >
+                  <option value={3}>3</option>
+                  <option value={5}>5</option>
+                  <option value={7}>7</option>
+                </select>
+              </div>
+              <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg
+                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  class="text-sm bg-white bg-opacity-0 block ps-10 p-2.5 border-0 border-b-2 border-grey-dark placeholder-gray-400"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
+              </div>
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -104,9 +125,7 @@ const UserList = () => {
                       >
                         Edit
                       </button>
-                      <button
-                        className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]"
-                      >
+                      <button className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]">
                         Delete
                       </button>
                     </td>
@@ -121,7 +140,9 @@ const UserList = () => {
               <button
                 key={index}
                 className={`mx-1 px-3 py-1 rounded-lg ${
-                  currentPage === index + 1 ? "bg-gray-600 text-white" : "bg-white text-gray-600"
+                  currentPage === index + 1
+                    ? "bg-gray-600 text-white"
+                    : "bg-white text-gray-600"
                 }`}
                 onClick={() => handlePageChange(index + 1)}
               >
@@ -131,7 +152,7 @@ const UserList = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
