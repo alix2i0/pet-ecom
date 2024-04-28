@@ -142,7 +142,7 @@ const Orders = () => {
                     <td className="px-6 py-3">{order.status}</td>
                     <td className="px-6 py-3">{formatDate(order.orderDate)}</td>
                     <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-1">
-                      <Link to={`/order/${order._id}`}
+                      <Link to={`/orders/${order._id}`}
                         className="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
 
                       >
