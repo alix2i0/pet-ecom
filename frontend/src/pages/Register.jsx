@@ -1,6 +1,6 @@
-import React, { useState , useRef } from "react";
+import React, { useState } from "react";
 // import axios from "axios";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // import image from "../../public/";
 export default function Register({ onSignUp }) {

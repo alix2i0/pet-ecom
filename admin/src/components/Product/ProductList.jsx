@@ -7,7 +7,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3300/api/products"); // Adjust the endpoint URL as per your backend setup
+        const response = await axios.get("http://localhost:3300/api/products");
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -18,7 +18,8 @@ const ProductList = () => {
   }, []);
 
   return (
-    <div className="bg-teal-400 h-screen p-3 sm:ml-64 overflow-hidden">
+    <div className="bg-teal-400 h-screen">
+    <div className=" p-3 sm:ml-64 overflow-hidden">
       <div className="bg-white p-3 shadow-md sm:rounded-lg ">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl">All Products</h3>
@@ -77,6 +78,7 @@ const ProductList = () => {
           </table>
         </div>
       </div>
+    </div>
     </div>
   );
 };

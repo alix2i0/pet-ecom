@@ -24,8 +24,17 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
     return response.data.data;
 })
 
+export const getAllUsers = createAsyncThunk("user/getALLUsers", async (data) => {
+    const response = await axios.get("http://localhost:3300/api/users/",{
+        withCredentials: true,
+        headers : {
+            'Content-Type' : 'application/json',
+        }
+    });
+    return response.data.data;
+    
 
-e
+})
 
 export const userSlice = createSlice({
     name: "user",
@@ -50,7 +59,20 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.isError = action.payload;
             })
-            //Logout
+            //GetAll users
+            .addCase(getAllUsers.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(getAllUsers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.allUsers = action.payload;
+            })
+            .addCase(getAllUsers.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
+
             
     },
 })
