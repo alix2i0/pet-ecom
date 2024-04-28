@@ -2,7 +2,7 @@ const Order = require("../models/Order");
 const { STRIPE_KEY } = require('../config/env');
 const stripe = require("stripe")(STRIPE_KEY);
 const Product = require("../models/Product")
-
+const User = require("../models/User");
 // Récupérer toutes les commandes
 exports.getAllOrders = async (req, res) => {
   try {
@@ -16,18 +16,26 @@ exports.getAllOrders = async (req, res) => {
     if (customer) {
       query.customer = customer; // customer is the customer ID
     }
+
     if (search) {
-      const searchRegex = new RegExp(search, "i"); // Case-insensitive search
-      query.$or = [
-        { orderId: searchRegex },
-      ];
+      const searchRegex = new RegExp(search, "i"); // Partial match search
+      // Find users whose usernames contain the search term
+      const users = await User.find({ username: searchRegex });
+      const userIds = users.map(user => user._id);
+      query.customer = { $in: userIds }; // Assign the user IDs to the query
     }
 
     const page = parseInt(req.query.page) || 1; // Get the page number from query parameters, default to 1
-    const limit = 10; // Limiting to 10 orders per page
+    const limit = parseInt(req.query.limit) || 10; // Get the limit from query parameters, default to 10
     const skip = (page - 1) * limit; // Calculating the number of documents to skip
 
-    let ordersQuery = Order.find(query).skip(skip).limit(limit);
+    let ordersQuery = Order.find(query).populate({
+      path: 'customer',
+      select: 'username', // Select only the username field
+    }).populate({
+      path: 'products.product', // Populate the products field with product details
+      select: 'name', // Select only the name field of the product
+    }).skip(skip).limit(limit);
 
     // Check if sorting query parameter exists
     const { sortBy } = req.query;
@@ -37,7 +45,8 @@ exports.getAllOrders = async (req, res) => {
       ordersQuery = ordersQuery.sort({ orderDate: -1 }); // Sorting by orderDate in descending order
     }
 
-    const orders = await ordersQuery.exec();
+    let orders = await ordersQuery.exec();
+
     const totalOrdersCount = await Order.countDocuments(query); // Count total number of orders matching the query criteria
 
     // Calculating total pages
@@ -48,6 +57,7 @@ exports.getAllOrders = async (req, res) => {
       currentPage: page,
       totalPages,
     });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -82,6 +92,7 @@ exports.postOrder = async (req, res) => {
 
     // Calculate total amount based on products and their quantities
     let totalAmount = 0;
+    const orderedProducts = []; // Array to hold structured product objects
     for (const product of products) {
       const { productId, quantity } = product;
       // Retrieve the product from the database to get its price
@@ -91,8 +102,9 @@ exports.postOrder = async (req, res) => {
       }
       // Add the price of the product multiplied by its quantity to the total amount
       totalAmount += productDoc.price * quantity;
+      // Push structured product object into orderedProducts array
+      orderedProducts.push({ product: productId, quantity });
     }
-    const p = products
 
     // Create a new Order instance
     const orderId = "ORD" + Date.now().toString(); // Generating orderId
@@ -100,7 +112,7 @@ exports.postOrder = async (req, res) => {
     const newOrder = new Order({
       orderId,
       customer,
-      p,
+      products: orderedProducts,
       totalAmount,
       orderDate
     });
@@ -138,7 +150,6 @@ exports.postOrder = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
 
 // Endpoint pour le succès de la commande
 exports.orderSuccess = async (req, res) => {
