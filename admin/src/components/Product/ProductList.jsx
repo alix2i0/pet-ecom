@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Sidebar from "../Sidebar/Sidebar";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -8,7 +7,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3300/api/products"); // Adjust the endpoint URL as per your backend setup
+        const response = await axios.get("http://localhost:3300/api/products");
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);

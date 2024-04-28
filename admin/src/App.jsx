@@ -8,6 +8,10 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Sidebar from "./components/Sidebar/Sidebar";
 import UserList from "./components/User/UserList";
+import ProductPage from "./pages/ProductPage";
+import UserPage from "./pages/UserPage";
+import OrdersPage from "./pages/OrdersPage";
+import OrderDetail from "./components/Orders/EditOrder";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -22,9 +26,12 @@ function App() {
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Login />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/users" element={<UserList />} />
+        <Route path="/products" element={<ProductPage />} />
+        <Route path="/users" element={<UserPage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/order/:id" element={<OrderDetail />} />
+
       </Routes>
     </div>
   );
