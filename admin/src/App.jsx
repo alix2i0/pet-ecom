@@ -11,7 +11,7 @@ import UserList from "./components/User/UserList";
 import ProductPage from "./pages/ProductPage";
 import UserPage from "./pages/UserPage";
 import OrdersPage from "./pages/OrdersPage";
-import OrderDetail from "./components/Orders/EditOrder";
+import OrderDetail from "./components/Orders/OrderDetail";
 import UserForm from "./components/User/UserForm";
 import EditOrder from "./components/Orders/EditOrder";
 
