@@ -1,0 +1,63 @@
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { passwordReset } from '../services/reducer/authSlice'
+
+const PasswordReset = () => {
+    const dispatch = useDispatch()
+    const { token } = useParams()
+
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const handlePasswordConfirmation = () => {
+        return password === confirmPassword
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (handlePasswordConfirmation()) {
+            console.log('Passwords match');
+            // Dispatch password reset action
+            
+            dispatch(passwordReset({ token, password }))
+        } else {
+            // Handle password mismatch error here
+            console.error('Passwords do not match')
+        }
+    }
+
+    return (
+        <div className="max-w-lg mx-auto my-16">
+            <h1>Password Reset : New Password</h1>
+            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring focus:ring-teal-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-teal-500"
+                    required
+                    placeholder="Enter your new password"
+                    name="new_password"
+                />
+                <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring focus:ring-teal-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-teal-500"
+                    required
+                    placeholder="Confirm your new password"
+                />
+                <button
+                    type="submit"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                    disabled={!handlePasswordConfirmation()}
+                >
+                    Submit
+                </button>
+            </form>
+        </div>
+    )
+}
+
+export default PasswordReset

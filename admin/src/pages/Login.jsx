@@ -27,7 +27,7 @@ const Login = () => {
                         name="username"
                         id="username"
                         autoComplete="username"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring focus:ring-teal-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-teal-500"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring focus:ring-teal-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-teal-500"
                         placeholder="Enter your username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -57,6 +57,8 @@ const Login = () => {
                     </button>
                 </div>
             </form>
+            <p>Don't have an account? <a href="/register" className="text-teal-500">Register</a></p>
+            <p>Forgot your password? <a href="/forgot-password" className="text-teal-500">Reset Password</a></p>
         </div>
     );
 };

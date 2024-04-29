@@ -44,6 +44,28 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   return response.data;
 });
 
+export const forgotPassword = createAsyncThunk ("auth/forgotPassword", async (data) => {
+  try {
+    console.log("data", data);
+    const response = await axios.post("http://localhost:3300/api/auth/forgotPassword", data);
+    console.log("response", response);
+    return response.data;
+  } catch (error) {
+    return isRejectedWithValue(error.response.data);
+  }
+
+})
+
+export const passwordReset = createAsyncThunk ("auth/passwordReset", async (data) => {
+  try {
+    const response = await axios.put(`http://localhost:3300/api/auth/passwordReset/${data.token}`, data);
+    console.log("response", response.data);
+    return response.data;
+  } catch (error) {
+    return isRejectedWithValue(error.response.data);
+  }
+})
+
 export const register = createAsyncThunk("auth/register", async (data) => {
   try {
     const response = await axios.post("http://localhost:3300/auth/register", data);
@@ -74,6 +96,8 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload;
       })
+
+
       //Logout
       .addCase(logout.pending, (state) => {
         state.isLoading = true;
@@ -101,6 +125,35 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload;
       })
+
+      //Forgot Password
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+        state.isError = null;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.auth = action.payload;
+      })
+
+      //Password Reset
+      .addCase(passwordReset.pending, (state) => {
+        state.isLoading = true;
+        state.isError = null;
+      })
+      .addCase(passwordReset.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.auth = action.payload;
+      })
+      .addCase(passwordReset.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+
       //Profile
       .addCase(fetchUser.pending, (state) => {
         state.isLoading = true;
@@ -125,6 +178,8 @@ export const authActions = {
   login,
   logout,
   register,
+  forgotPassword,
+  passwordReset,
 };
 
 export const selectUser = (state) => state.auth.auth;
