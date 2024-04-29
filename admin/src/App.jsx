@@ -13,6 +13,7 @@ import UserPage from "./pages/UserPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetail from "./components/Orders/EditOrder";
 import UserForm from "./components/User/UserForm";
+import EditOrder from "./components/Orders/EditOrder";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -33,7 +34,8 @@ function App() {
         <Route path="/users/:userId" element={<UserForm />} />
         <Route path="/register" element={<Register />} />
         <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/order/:id" element={<OrderDetail />} />
+        <Route path="/orders/:id" element={<OrderDetail />} />
+        <Route path="/orders/:id/edit" element={<EditOrder />} />
 
       </Routes>
     </div>
