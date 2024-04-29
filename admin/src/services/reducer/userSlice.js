@@ -72,6 +72,7 @@ export const deleteUser = createAsyncThunk("user/deleteUser", async (data) => {
             'Content-Type' : 'application/json',
         }
     });
+    console.log("response",response.data);
     return response.data.data;
 
 })
@@ -130,9 +131,9 @@ export const userSlice = createSlice({
                 state.isError = null;
             })
             .addCase(deleteUser.fulfilled, (state, action) => {
-                state.isLoading = false;
-                
+                state.isLoading = false;              
                 state.allUsers = state.allUsers.filter((user) => user._id !== action.payload._id);
+                console.log("state.allUsers",state.allUsers);
             })  
             .addCase(deleteUser.rejected, (state, action) => {
                 state.isLoading = false;

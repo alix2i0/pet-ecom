@@ -2,8 +2,12 @@ import React from "react";
 import ProductList from "./Product/ProductList";
 import UserList from "./User/UserList";
 import Orders from "./Orders/Orders";
+import { getAllUsers } from "../services/reducer/userSlice";
+import { useDispatch } from "react-redux";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+ 
   return (
     <div className="bg-teal-400 min-h-screen">
       <div className="p-4 sm:ml-64">
