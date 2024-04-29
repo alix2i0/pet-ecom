@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getAllUsers } from "../../services/reducer/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserList = () => {
   const [limit, setLimit] = useState(5);
@@ -47,7 +47,7 @@ const UserList = () => {
   };
 
   const handleEditClick = (id) => {
-    navigate(`/users/${id}`);
+    navigate(`/users/${id}/edit`);
   };
 
   const confirmDelete = () => {
@@ -147,12 +147,11 @@ const UserList = () => {
                     <td className="px-6 py-3">{user.username}</td>
                     <td className="px-6 py-3">{user.isAdmin ? "Yes" : "No"}</td>
                     <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-1 ">
-                      <button
-                        href="#"
+                      <Link to={`/users/${user._id}`}
                         className="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
                       >
                         View
-                      </button>
+                      </Link>
                       <button
                         onClick={() => handleEditClick(user._id)}
                         
