@@ -179,7 +179,6 @@ exports.createUser = async (req, res) => {
   }
 };
 
-
 // Controller function to get all users with pagination, limit, and search
 exports.getAllUsers = async (req, res) => {
   try {
@@ -207,13 +206,16 @@ exports.getAllUsers = async (req, res) => {
 
     // Check if sorting query parameter exists
     const { sortBy } = req.query;
-    if (sortBy === "createdAtAsc") {
-      usersQuery = usersQuery.sort({ createdAt: 1 }); // Sorting by createdAt in ascending order
-    } else if (sortBy === "createdAtDesc") {
-      usersQuery = usersQuery.sort({ createdAt: -1 }); // Sorting by createdAt in descending order
+    const sortOptions = {};
+    if (sortBy === "firstName" || sortBy === "lastName" || sortBy === "email" || sortBy === "username") {
+      // Sorting by firstName, lastName, email, or username
+      sortOptions[sortBy] = req.query.sortOrder === "desc" ? -1 : 1;
+    } else if (sortBy === "isAdmin") {
+      // Sorting by isAdmin
+      sortOptions.isAdmin = req.query.sortOrder === "desc" ? -1 : 1;
     }
 
-    const users = await usersQuery.exec();
+    const users = await usersQuery.sort(sortOptions).exec();
     const totalUsersCount = await User.countDocuments(query);
 
     // Calculating total pages
