@@ -13,7 +13,6 @@ import UserPage from "./pages/UserPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetail from "./components/Orders/OrderDetail";
 import UserForm from "./components/User/UserForm";
-import EditOrder from "./components/Orders/EditOrder";
 import ForgotPassword from "./pages/ForgotPassword";
 import PasswordReset from "./pages/PasswordReset";
 
@@ -39,7 +38,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
-        <Route path="/orders/:id/edit" element={<EditOrder />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<PasswordReset />} />
 
