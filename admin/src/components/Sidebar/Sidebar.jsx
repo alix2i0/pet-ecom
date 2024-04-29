@@ -1,6 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import de Link depuis react-router-dom
+import { Link, useNavigate } from "react-router-dom"; // Import de Link depuis react-router-dom
+import { logout } from "../../services/reducer/authSlice";
+import { useDispatch } from "react-redux";
 const Sidebar = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleLogout  = () => {
+    dispatch(logout());
+    window.location.reload();
+    navigate('/')
+    
+  }
   const toggleSettingsMenu = () => {
     const settingsMenu = document.getElementById("settings-menu");
     settingsMenu.classList.toggle("hidden"); // Toggle the visibility of the settings menu
@@ -116,7 +126,6 @@ const Sidebar = () => {
             </li>
             <li>
               <Link
-                to="/logout"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -135,7 +144,7 @@ const Sidebar = () => {
                   />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
-              </Link>
+              </Link >
             </li>
           </ul>
         </div>
@@ -231,7 +240,9 @@ const Sidebar = () => {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="block py-2 px-4 hover:bg-gray-100">
+                    <a 
+                      onClick={handleLogout}
+                     className="block py-2 px-4 hover:bg-gray-100">
                       Logout
                     </a>
                   </li>

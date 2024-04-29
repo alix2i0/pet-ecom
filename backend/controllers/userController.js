@@ -171,8 +171,16 @@ exports.getProfile = async (req, res) => {
 // Controller function to create a new user
 exports.createUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body; // Extracting username, email, and password from request body
-    const newUser = await User.create({ username, email, password }); // Creating a new user
+    const { firstName,lastName,username, email, password, isAdmin } = req.body; 
+
+    if (!firstName || !lastName || !username || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" }); // Handling missing fields
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    console.log("email", email, "password", password, "username", username, "firstName", firstName, "lastName", lastName, "isAdmin", isAdmin);
+
+    const newUser = await User.create({ firstName,lastName,username, email, password: hashedPassword, isAdmin }); // Creating a new user
     res.status(201).json(newUser); // Sending response with the created user object
   } catch (error) {
     res.status(400).json({ message: error.message }); // Handling errors
