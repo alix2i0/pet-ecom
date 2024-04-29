@@ -1,37 +1,27 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser, getAllUsers } from "../../services/reducer/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const UserList = () => {
-  const [users, setUsers] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [limit, setLimit] = useState(5); // Default limit
-  const [searchTerm, setSearchTerm] = useState(""); // State to hold search term
-  const [sortBy, setSortBy] = useState(""); // State to hold current sorting option
-  const [sortOrder, setSortOrder] = useState(1); // State to hold sorting order (1 for ascending, -1 for descending)
+  const [limit, setLimit] = useState(5);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState(1);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteUserId, setDeleteUserId] = useState(null);
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.user.allUsers);
+  const totalPages = useSelector((state) => state.user.totalPages);
+  const currentPage = useSelector((state) => state.user.currentPage);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3300/api/users?page=${currentPage}&limit=${limit}&search=${searchTerm}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
-          {
-            withCredentials: true,
-          }
-        );
-        console.log(sortBy, sortOrder);
-        setUsers(response.data.users);
-        setTotalPages(response.data.totalPages);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchUsers();
-  }, [currentPage, limit, searchTerm, sortBy, sortOrder]); // Include sortBy and sortOrder in the dependency array
+    dispatch(getAllUsers({ limit, searchTerm, sortBy, sortOrder }));
+  }, [dispatch, limit, searchTerm, sortBy, sortOrder]);
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+    dispatch(getAllUsers({ currentPage: newPage, limit, searchTerm, sortBy, sortOrder }));
   };
 
   const handleLimitChange = (e) => {
@@ -44,13 +34,33 @@ const UserList = () => {
 
   const handleSort = (key) => {
     if (sortBy === key) {
-      // If already sorting by the same key, toggle the sorting order
       setSortOrder(sortOrder === 1 ? -1 : 1);
     } else {
-      // If sorting by a different key, set the new key and default to ascending order
       setSortBy(key);
       setSortOrder(1);
     }
+  };
+
+  const handleDeleteClick = (id) => {
+    setDeleteUserId(id);
+    setDeleteModalOpen(true);
+  };
+
+  const handleEditClick = (id) => {
+    navigate(`/users/${id}`);
+  };
+
+  const confirmDelete = () => {
+    if (deleteUserId) {
+      dispatch(deleteUser(deleteUserId));
+      setDeleteUserId(null);
+      setDeleteModalOpen(false);
+    }
+  };
+
+  const closeModal = () => {
+    setDeleteUserId(null);
+    setDeleteModalOpen(false);
   };
 
   return (
@@ -72,10 +82,10 @@ const UserList = () => {
                   <option value={7}>7</option>
                 </select>
               </div>
-              <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <div className="relative">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg
-                    class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -83,21 +93,27 @@ const UserList = () => {
                   >
                     <path
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                     />
                   </svg>
                 </div>
                 <input
                   type="text"
-                  class="text-sm bg-white bg-opacity-0 block ps-10 p-2.5 border-0 border-b-2 border-grey-dark placeholder-gray-400"
+                  className="text-sm bg-white bg-opacity-0 block ps-10 p-2.5 border-0 border-b-2 border-grey-dark placeholder-gray-400"
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={handleSearch}
                 />
               </div>
+              <button
+                onClick={() => navigate("/users/new")}
+                className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white"
+              >
+                Add Users
+              </button>
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -138,12 +154,16 @@ const UserList = () => {
                         View
                       </button>
                       <button
-                        href="#"
+                        onClick={() => handleEditClick(user._id)}
+                        
                         className="rounded-lg font-medium bg-yellow-400 hover:bg-yellow-500 text-white p-0.5 w-[70px]"
                       >
                         Edit
                       </button>
-                      <button className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]">
+                      <button
+                        onClick={() => handleDeleteClick(user._id)}
+                        className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]"
+                      >
                         Delete
                       </button>
                     </td>
@@ -170,6 +190,25 @@ const UserList = () => {
           </div>
         </div>
       </div>
+      {/* Delete confirmation modal */}
+      {deleteModalOpen && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-5 rounded-lg">
+            <p>Are you sure you want to delete this user?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={confirmDelete}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg mr-2"
+              >
+                Confirm
+              </button>
+              <button onClick={closeModal} className="bg-gray-400 text-white px-4 py-2 rounded-lg">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

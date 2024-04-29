@@ -7,11 +7,11 @@ import axios  from "axios";
 
 
 const initialState = {
-    isAuthenticated : false,
-    user: null,
+    totalPages: 0,
+    currentPage: 1,
+    allUsers: [],
     isLoading: false,
     isError: null,
-    admin: false
 }
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
@@ -25,14 +25,54 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
 })
 
 export const getAllUsers = createAsyncThunk("user/getALLUsers", async (data) => {
-    const response = await axios.get("http://localhost:3300/api/users/",{
+    const { currentPage, limit, searchTerm, sortBy, sortOrder } = data;
+    const url = `http://localhost:3300/api/users?page=${currentPage}&limit=${limit}&search=${searchTerm}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+    const response = await axios.get(url, {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+
+    return response.data;
+})
+
+
+export const createUser = createAsyncThunk("user/createUser", async (data) => {
+    try {
+    const response = await axios.post("http://localhost:3300/api/users/",data,{
+        withCredentials: true,
+        headers : {
+            'Content-Type' : 'application/json',
+        }
+    });
+
+    return response.data.data;
+    } catch (error) {
+        return error.response.data
+    }
+})
+
+
+export const updateUser = createAsyncThunk("user/updateUser", async (data) => {
+    console.log("data",data);
+    const response = await axios.put(`http://localhost:3300/api/users/${data.id}`,data,{
         withCredentials: true,
         headers : {
             'Content-Type' : 'application/json',
         }
     });
     return response.data.data;
-    
+})
+
+export const deleteUser = createAsyncThunk("user/deleteUser", async (data) => {
+    const response = await axios.delete(`http://localhost:3300/api/users/${data}`,{
+        withCredentials: true,
+        headers : {
+            'Content-Type' : 'application/json',
+        }
+    });
+    return response.data.data;
 
 })
 
@@ -42,23 +82,6 @@ export const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            //Login User
-            .addCase(login.pending, (state) => {
-                state.isLoading = true;
-                state.isError = null;
-            })
-            .addCase(login.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.user = action.payload;
-                state.isAuthenticated = true;
-                state.admin = action.payload.role;
-                console.log('admin',state.admin);
-
-            })
-            .addCase(login.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = action.payload;
-            })
             //GetAll users
             .addCase(getAllUsers.pending, (state) => {
                 state.isLoading = true;
@@ -66,25 +89,73 @@ export const userSlice = createSlice({
             })
             .addCase(getAllUsers.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.allUsers = action.payload;
+                state.allUsers = action.payload.users;
+                state.totalPages = action.payload.totalPages;
+                state.currentPage = action.payload.currentPage;
+
             })
             .addCase(getAllUsers.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = action.payload;
             })
+            //Create user
+            .addCase(createUser.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(createUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.allUsers = [...state.allUsers, action.payload];
+            })
+            .addCase(createUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
+            //Update user
+            .addCase(updateUser.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.allUsers = state.allUsers.map((user) => user._id === action.payload._id ? action.payload : user);
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
+            //Delete user
+            .addCase(deleteUser.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                
+                state.allUsers = state.allUsers.filter((user) => user._id !== action.payload._id);
+            })  
+            .addCase(deleteUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
 
-            
     },
 })
 
 export const authActions = {
     fetchUser,
-    login,
-    logout,
-    register
+    getAllUsers,
+    createUser,
+    deleteUser,
+    updateUser
+
 }
 
 export const selectUser = (state) => state.user.user;
+
+export const selectAllUsers = (state) => state.user.allUsers;
+export const selectCurrentPage  = (state) => state.user.currentPage ;
+
 export const selectLoading = (state) => state.loading;
 export const selectError = (state) => state.error;
 //Thunk actions

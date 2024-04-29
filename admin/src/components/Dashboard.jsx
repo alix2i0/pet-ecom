@@ -1,83 +1,37 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Sidebar from "./Sidebar/Sidebar";
+import React from "react";
+import ProductList from "./Product/ProductList";
+import UserList from "./User/UserList";
+import Orders from "./Orders/Orders";
 
 const Dashboard = () => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get("http://localhost:3300/api/products"); // Adjust the endpoint URL as per your backend setup
-        setProducts(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-
   return (
-    <div className="bg-teal-400 h-screen">
-      <div className="p-3 sm:ml-64 overflow-hidden">
-        <div className="bg-white p-3 shadow-md sm:rounded-lg ">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl">All Products</h3>
-            <button className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white">Add product</button>
+    <div className="bg-gray-100 min-h-screen">
+      <div className="p-4 sm:ml-64">
+        <div className="bg-white p-4 shadow-md sm:rounded-lg mb-4">
+          <h1 className="text-3xl font-semibold">Dashboard</h1>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-white p-4 shadow-md rounded-lg">
+            <h3 className="text-lg font-semibold mb-2">Total Users</h3>
+            <div className="text-xl font-bold">100</div>
           </div>
-          <div className="overflow-x-auto">
-            <table class="text-center w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-100 ">
-                <tr>
-                  <th scope="col" class="px-6 py-3">
-                    Name
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Price
-                  </th>
-                  <th scope="col" class="px-6 py-3 truncate">
-                    Description
-                  </th>
-                  <th>Category</th>
-                  <th>Stock</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product._id} class="text-gray-900">
-                    
-                    <td class="px-6 py-3">{product.name}</td>
-                    <td class="px-6 py-3">${product.price}</td>
-                    <td class="px-6 py-3">{product.description}</td>
-                    <td class="px-6 py-3">{product.category}</td>
-                    <td class="px-6 py-3">{product.quantity}</td>
-                    <td class="px-6 py-3 flex h-[100px] items-center justify-center gap-1 ">
-                      <button
-                        href="#"
-                        class="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
-                      >
-                        View
-                      </button>
-                      <button
-                        href="#"
-                        class="rounded-lg font-medium bg-yellow-400 hover:bg-yellow-500 text-white p-0.5 w-[70px]"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="bg-white p-4 shadow-md rounded-lg">
+            <h3 className="text-lg font-semibold mb-2">Total Orders</h3>
+            <div className="text-xl font-bold">50</div>
           </div>
+          <div className="bg-white p-4 shadow-md rounded-lg">
+            <h3 className="text-lg font-semibold mb-2">Total Products</h3>
+            <div className="text-xl font-bold">200</div>
+          </div>
+        </div>          
+          <ProductList />
+        <div className="bg-white p-4 shadow-md rounded-lg mt-4">
+          <h3 className="text-lg font-semibold mb-2">User List</h3>
+          <UserList />
+        </div>
+        <div className="bg-white p-4 shadow-md rounded-lg mt-4">
+          <h3 className="text-lg font-semibold mb-2">Order List</h3>
+          <Orders />
         </div>
       </div>
     </div>
