@@ -55,12 +55,50 @@ const ProductList = () => {
 
   return (
     <div className="bg-teal-400 h-screen">
-      <div className=" p-3 sm:ml-64 overflow-hidden">
+      <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
-          <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl">All Products</h3>
+          <div className="flex justify-end items-center gap-8 mb-4">
+            <div className="flex justify-center items-center">
+              <div className="mr-5">
+                <span>Items per page:&nbsp;</span>
+                <select
+                  className="border border-gray-300 text-gray-500 rounded px-3 py-1"
+                  
+                >
+                  <option>3</option>
+                  <option>5</option>
+                  <option>7</option>
+                </select>
+              </div>
+              <div className="relative">
+                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <svg
+                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  className="text-sm bg-white bg-opacity-0 block ps-10 p-2.5 border-0 border-b-2 border-grey-dark placeholder-gray-400"
+                  placeholder="Search..."
+                />
+              </div>
+            </div>
+            
             <button
-              className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white"
+              className="p-2 hover:bg-teal-500 rounded-lg  bg-teal-400 text-white"
               onClick={handleOpenProductForm}
             >
               Add product
@@ -91,29 +129,27 @@ const ProductList = () => {
               </thead>
               <tbody>
                 {products.map((product) => (
-                  <tr key={product._id} className="text-gray-900">
+                  <tr key={product._id} className="text-gray-900 hover:bg-gray-100 bg-gray-50">
                     <td className="px-6 py-3">{product.name}</td>
                     <td className="px-6 py-3">${product.price}</td>
                     <td className="px-6 py-3">{product.description}</td>
                     <td className="px-6 py-3">{product.category}</td>
                     <td className="px-6 py-3">{product.quantity}</td>
-                    <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-1 ">
+                    <td className="px-6 py-3 flex h-[100px] items-center justify-around gap-1 ">
                       <button
                         href="#"
-                        className="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
                       >
-                        View
+                        <img src="view.png" alt="view" className="h-[20px]"/>
                       </button>
                       <button
                         href="#"
-                        className="rounded-lg font-medium bg-yellow-400 hover:bg-yellow-500 text-white p-0.5 w-[70px]"
                       >
-                        Edit
+                        <img src="edit.png" alt="edit" className="h-[20px]"/>
                       </button>
-                      <button className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]"
+                      <button
                       onClick={() => handleDeleteProduct(product._id)}
                       >
-                        Delete
+                        <img src="delete.png" alt="delete" className="h-[20px]"/>
                       </button>
                     </td>
                   </tr>

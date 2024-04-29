@@ -67,9 +67,9 @@ const UserList = () => {
     <div className="bg-teal-400 h-screen">
       <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
-          <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl">All Users</h3>
-            <div className="flex items-center">
+          <div className="flex justify-end items-center gap-8 mb-4">
+            <div className="flex justify-center items-center">
               <div className="mr-5">
                 <span>Items per page:&nbsp;</span>
                 <select
@@ -108,13 +108,13 @@ const UserList = () => {
                   onChange={handleSearch}
                 />
               </div>
+            </div>
               <button
                 onClick={() => navigate("/users/new")}
-                className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white"
+                className="p-2 hover:bg-teal-500 rounded-lg  bg-teal-400 text-white"
               >
                 Add Users
               </button>
-            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="text-center w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
@@ -140,30 +140,25 @@ const UserList = () => {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user._id} className="text-gray-900">
+                  <tr key={user._id} className="text-gray-900 hover:bg-gray-100 bg-gray-50">
                     <td className="px-6 py-3">{user.firstName}</td>
                     <td className="px-6 py-3">{user.lastName}</td>
                     <td className="px-6 py-3">{user.email}</td>
                     <td className="px-6 py-3">{user.username}</td>
                     <td className="px-6 py-3">{user.isAdmin ? "Yes" : "No"}</td>
-                    <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-1 ">
+                    <td className="px-6 py-3 flex h-[100px] items-center justify-around gap-1 ">
                       <Link to={`/users/${user._id}`}
-                        className="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
                       >
-                        View
+                        <img src="view.png" alt="view" className="h-[20px]"/>
                       </Link>
                       <button
-                        onClick={() => handleEditClick(user._id)}
-                        
-                        className="rounded-lg font-medium bg-yellow-400 hover:bg-yellow-500 text-white p-0.5 w-[70px]"
-                      >
-                        Edit
+                        onClick={() => handleEditClick(user._id)}>
+                        <img src="edit.png" alt="edit" className="h-[20px]"/>
                       </button>
                       <button
                         onClick={() => handleDeleteClick(user._id)}
-                        className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]"
                       >
-                        Delete
+                        <img src="delete.png" alt="delete" className="h-[20px]"/>
                       </button>
                     </td>
                   </tr>
@@ -178,8 +173,8 @@ const UserList = () => {
                 key={index}
                 className={`mx-1 px-3 py-1 rounded-lg ${
                   currentPage === index + 1
-                    ? "bg-gray-600 text-white"
-                    : "bg-white text-gray-600"
+                  ? "bg-teal-400 hover:bg-teal-500 text-white"
+                  : "bg-gray-200 hover:bg-gray-300 text-gray-600"
                 }`}
                 onClick={() => handlePageChange(index + 1)}
               >

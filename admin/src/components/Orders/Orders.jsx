@@ -8,12 +8,16 @@ const Orders = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(5); // Default limit
   const [searchTerm, setSearchTerm] = useState(""); // State to hold search term
+  const [sortBy, setSortBy] = useState(""); // State to hold current sorting option
+  const [sortOrder, setSortOrder] = useState(1); // State to hold sorting order (1 for ascending, -1 for descending)
 
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3300/api/orders?page=${currentPage}&limit=${limit}&search=${searchTerm}`
+        `http://localhost:3300/api/orders?page=${currentPage}&limit=${limit}&search=${searchTerm}&sortBy=${sortBy}&sortOrder=${sortOrder}`
       );
+      console.log(sortBy, sortOrder);
+
       setOrders(response.data.orders);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -23,7 +27,7 @@ const Orders = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, [currentPage, limit, searchTerm]);
+  }, [currentPage, limit, searchTerm, sortBy, sortOrder]);
 
   const handleDelete = async (id) => {
     try {
@@ -55,13 +59,23 @@ const Orders = () => {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
+  const handleSort = (key) => {
+    if (sortBy === key) {
+      // If already sorting by the same key, toggle the sorting order
+      setSortOrder(sortOrder === 1 ? -1 : 1);
+    } else {
+      // If sorting by a different key, set the new key and default to ascending order
+      setSortBy(key);
+      setSortOrder(1);
+    }
+  };
 
   return (
-    <div className="bg-teal-400">
-      <div className="p-3 sm:ml-64 overflow-hidden">
+    <div className="bg-teal-400 h-screen">
+      <div className="p-3 bg-teal-400 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
-          <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl">All Orders</h3>
+          <div className="flex justify-end items-center mb-4">
             <div className="flex items-center">
               <div className="mr-5">
                 <span>Items per page:&nbsp;</span>
@@ -117,13 +131,13 @@ const Orders = () => {
                     Total Amount
                   </th>
                   <th>Status</th>
-                  <th>Date</th>
+                  <th  onClick={() => handleSort("orderDate")}>Date  {sortBy === "orderDate" && (sortOrder === 1 ? "▲" : "▼")}</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
-                  <tr key={order._id} className="text-gray-900">
+                  <tr key={order._id} className="text-gray-900 bg-gray-50 hover:bg-gray-100">
                     <td className="px-6 py-3">{order.customer.username}</td>
                     <td className="px-6 py-3">
                       {/* Display product details here */}
@@ -141,23 +155,16 @@ const Orders = () => {
                     <td className="px-6 py-3">{order.totalAmount}</td>
                     <td className="px-6 py-3">{order.status}</td>
                     <td className="px-6 py-3">{formatDate(order.orderDate)}</td>
-                    <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-1">
+                    <td className="px-6 py-3 flex h-[100px] items-center justify-around gap-1">
                       <Link to={`/orders/${order._id}`}
-                        className="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
 
                       >
-                        View
-                      </Link>
-                      <Link to={`/editorder/${order._id}`}
-                        className="rounded-lg font-medium bg-yellow-400 hover:bg-yellow-500 text-white p-0.5 w-[70px]"
-                      >
-                        Edit
+                        <img src="view.png" alt="view" className="h-[20px]"/>
                       </Link>
                       <button
                         onClick={() => handleDelete(order._id)}
-                        className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]"
                       >
-                        Delete
+                        <img src="delete.png" alt="delete" className="h-[20px]"/>
                       </button>
                     </td>
                   </tr>
@@ -172,8 +179,8 @@ const Orders = () => {
                 key={index}
                 className={`mx-1 px-3 py-1 rounded-lg ${
                   currentPage === index + 1
-                    ? "bg-gray-600 text-white"
-                    : "bg-white text-gray-600"
+                    ? "bg-teal-400 hover:bg-teal-500 text-white"
+                    : "bg-gray-200 hover:bg-gray-300 text-gray-600"
                 }`}
                 onClick={() => handlePageChange(index + 1)}
               >

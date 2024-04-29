@@ -13,7 +13,6 @@ import UserPage from "./pages/UserPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetail from "./components/Orders/OrderDetail";
 import UserForm from "./components/User/UserForm";
-import EditOrder from "./components/Orders/EditOrder";
 import UserDetail from "./components/User/UserDetail";
 
 function App() {
@@ -36,7 +35,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
-        <Route path="/orders/:id/edit" element={<EditOrder />} />
         <Route path="/users/:id" element={<UserDetail />} />
       </Routes>
     </div>
