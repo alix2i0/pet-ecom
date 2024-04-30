@@ -180,25 +180,25 @@ const Orders = () => {
                         value={selectedStatus[order._id] || order.status}
                         onChange={(e) => handleStatusChange(order._id, e)}
                       >
-                        <option value="pending">Pending</option>
+                        <option value="Pending">Pending</option>
                         <option value="Completed">Completed</option>
                         <option value="Rejected">Rejected</option>
                       </select>
                        
                       <button onClick={() => updateOrderStatus(order._id)}>
-                        <img src="save.png" className="h-[20px]" alt="#"/>
+                        <img src="save.png" className="h-[20px] w-[20px]" alt="#"/>
                       </button>
                     </td>
                     <td className="px-6 py-3">{formatDate(order.orderDate)}</td>
                     <td className="px-6 py-3 flex h-[100px] items-center justify-around gap-1">
                       <Link to={`/orders/${order._id}`}>
-                        <img src="view.png" alt="view" className="h-[20px]" />
+                        <img src="view.png" alt="view" className="h-[20px] w-[20px]" />
                       </Link>
                       <button onClick={() => handleDelete(order._id)}>
                         <img
                           src="delete.png"
                           alt="delete"
-                          className="h-[20px]"
+                          className="h-[20px] w-[20px]"
                         />
                       </button>
                       
