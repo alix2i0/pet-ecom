@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductForm from "./ProductForm";
+import ProductEditForm from "./EditForm";
+import Pagination from "./Pagination.jsx";
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
-  useEffect(() => {
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [editProductId, setEditProductId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(5);
+  const [sortBy, setSortBy] = useState(null);
+  const [filters, setFilters] = useState({});
+  
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:3300/api/products");
@@ -14,8 +23,44 @@ const ProductList = () => {
       }
     };
 
-    fetchProducts();
-  }, []);
+  
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset pagination to first page
+  };
+  // Function to handle pagination change
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Filtered and sorted products based on current state
+  let filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  // Apply filters
+  Object.keys(filters).forEach((key) => {
+    filteredProducts = filteredProducts.filter(
+      (product) => product[key] === filters[key]
+    );
+  });
+
+
+   // Apply sorting
+   if (sortBy) {
+    filteredProducts.sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) return -1;
+      if (a[sortBy] > b[sortBy]) return 1;
+      return 0;
+    });
+  }
+
+  // Get current products for the current page
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
 
   const handleOpenProductForm = () => {
     console.log("Product form started");
@@ -24,6 +69,15 @@ const ProductList = () => {
   };
   
   const handleCloseProductForm = () => setIsProductFormOpen(false);
+
+  const handleOpenEditForm = (productId) => {
+    console.log("Edit form started");
+    setEditProductId(productId);
+    setIsEditFormOpen(true);
+    console.log("Edit form opened");
+  };
+  
+  const handleCloseEditForm = () => setIsEditFormOpen(false);
 
   const handleProductSubmit = async (formData) => {
     try {
@@ -35,10 +89,17 @@ const ProductList = () => {
         }
       );
       console.log("Product created successfully:", response.data);
+      fetchProducts();
     } catch (error) {
       console.error("Error creating product:", error);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  
   const handleDeleteProduct = async (productId) => {
     try {
       await axios.delete(`http://localhost:3300/api/products/${productId}`,
@@ -59,6 +120,13 @@ const ProductList = () => {
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl">All Products</h3>
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="border border-gray-400 p-1 rounded-md"
+            />
             <button
               className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white"
               onClick={handleOpenProductForm}
@@ -90,23 +158,23 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
+                {currentProducts.map((product) => (
                   <tr key={product._id} className="text-gray-900">
                     <td className="px-6 py-3">{product.name}</td>
                     <td className="px-6 py-3">${product.price}</td>
                     <td className="px-6 py-3">{product.description}</td>
-                    <td className="px-6 py-3">{product.category}</td>
+                    <td className="px-6 py-3">{product.category.name}</td>
                     <td className="px-6 py-3">{product.quantity}</td>
                     <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-1 ">
-                      <button
+                      {/* <button
                         href="#"
                         className="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
                       >
                         View
-                      </button>
+                      </button> */}
                       <button
-                        href="#"
                         className="rounded-lg font-medium bg-yellow-400 hover:bg-yellow-500 text-white p-0.5 w-[70px]"
+                        onClick={ () => handleOpenEditForm(product._id)}
                       >
                         Edit
                       </button>
@@ -121,8 +189,21 @@ const ProductList = () => {
               </tbody>
             </table>
           </div>
+          {/* Pagination component */}
+          <Pagination
+            productsPerPage={productsPerPage}
+            totalProducts={filteredProducts.length}
+            currentPage={currentPage}
+            paginate={paginate}
+          />
         </div>
       </div>
+                <ProductEditForm
+                  isOpen={isEditFormOpen}
+                  // onSubmit={handleEditSubmit}
+                  onClose={handleCloseEditForm}
+                  productId={editProductId}
+                />
       {/* {isProductFormOpen && (
         <ProductForm
           onSubmit={handleProductSubmit}

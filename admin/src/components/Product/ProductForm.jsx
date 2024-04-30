@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState , useEffect} from 'react';
+// petcom
 
 // const ProductForm = ({ onSubmit }) => {
 const ProductForm = ({ isOpen, onClose, onSubmit }) => {
@@ -9,14 +11,30 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(''); 
   const [quantity, setQuantity] = useState(0);
-  const [image, setImage] = useState(null); // Store image data (e.g., URL or file object)
+  const [file, setFile] = useState(null);
+  const [image, setImage] = useState(""); // Store image data (e.g., URL or file object)
 
 //   const handleOpen = () => setIsOpen(true);
 //   const handleClose = () => setIsOpen(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    onSubmit({ name, price, description, category, quantity, image });
+    try {
+      await uploadImage();
+      // console.log('----------------------------------------------------------------')
+      // console.log(name);
+      // console.log(price);
+      // console.log(description);
+      // console.log(category);
+      // console.log(file);
+      // console.log(quantity);
+      // console.log(image);
+      // console.log("------------------------------------------------");
+      onSubmit({ name, price, description, category, quantity, image });
+    }
+    catch (error) {
+      console.error(error);
+    }
     handleClose(); // Close modal after submit
   };
   const handleClose = () => {
@@ -25,10 +43,38 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
     setPrice(0);
     setDescription('');
     setCategory(null);
+    setFile(null);
     setQuantity(0);
-    setImage(null);
+    setImage("");
   };
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (isOpen && !e.target.closest('.max-w-sm')) {
+        onClose();
+      }
+    };
 
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [isOpen, onClose]);
+
+  const uploadImage = async () => {
+    console.log("Uploading image");
+    const formm = new FormData();
+    formm.append('file', file);
+    formm.append('upload_preset', 'petcom');
+  
+    try {
+      const response = await axios.post('https://api.cloudinary.com/v1_1/dk28itsov/image/upload', formData);
+      setImage(response.data.secure_url);
+      console.log(response.data.secure_url);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    };
+  };
   return (
     <>
       {/* <button onClick={handleOpen}>Add Product</button> */}
@@ -65,7 +111,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 />
               </div>
@@ -76,7 +122,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                   id="price"
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 //   required
                 />
               </div>
@@ -87,7 +133,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
               <div className="mb-5">
@@ -97,7 +143,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                   id="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   
                 />
               </div>
@@ -108,7 +154,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                   id="quantity"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
               <div className="mb-5">
@@ -116,8 +162,8 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                 <input
                   type="file"
                   id="productImage"
-                  onChange={(event) => setImage(event.target.files[0])}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  onChange={(event) => setFile(event.target.files[0])}
+                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
               <button type="submit" className="block w-full p-4 text-black bg-blue-500 border border-transparent rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900">Save Product</button>
