@@ -18,7 +18,6 @@ const Login = () => {
 
   return (
     <div className="bg-gray-100 flex items-center justify-center shadow-md ">
-      
       <div
         className="max-w-screen-lg w-full h-screen my-5 grid md:grid-cols-2 md:gap-6 object-cover"
         style={{
@@ -30,7 +29,7 @@ const Login = () => {
       >
         <div></div>
         <div className="p-12 text-white ">
-          <h2 className="text-4xl font-bold mb-6 text-center" style={{fontFamily:"Dynapuff Condensed"}}>Login</h2>
+          <h2 className="text-4xl font-bold mb-6 text-center" style={{fontFamily:"Dynapuff"}}>Login</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div class="flex flex-col gap-6">
               <div class="relative z-0 w-full mb-3 ">

@@ -25,9 +25,11 @@ function App() {
 
   // Check if the current route is the login page
   const isLoginPage = location.pathname === "/";
+  const isRegisterPage = location.pathname === "/register";
+
   return (
     <div>
-      {!isLoginPage && <Sidebar />}
+      {!isLoginPage && !isRegisterPage && <Sidebar />}
       <Routes>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Login />} />
