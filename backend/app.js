@@ -8,11 +8,14 @@ const apiRoutes = require('./routes/api'); // Import
 const cors = require("cors");
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://api.cloudinary.com"],
     credentials: true, 
     optionSuccessStatus: 200,
     methods: ["GET", "HEAD", "PUT", "POST", "DELETE"],
-  }))
+  }
+  // allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "Access-Control-Allow-Credentials", "X-Access-Token", "X-Key", "Accept", "Accept-Language", "Content-Language", "Last-Event-ID", "Access-Control-Request-Headers",
+))
+
 
 app.use(express.json()); // Middleware for parsing JSON bodies
 app.use(cookieParser()); // Middleware for parsing cookies
