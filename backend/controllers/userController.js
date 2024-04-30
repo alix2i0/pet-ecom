@@ -128,6 +128,7 @@ exports.logout = (req, res) => {
   try {
     // Clearing token cookie and sending success response
     res.clearCookie("token");
+    res.cookie("token", "", { maxAge: 1 });
     res.status(200).json({
       message: "Logged out Successfully",
       error: false,

@@ -17,6 +17,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import PasswordReset from "./pages/PasswordReset";
 
 import UserDetail from "./components/User/UserDetail";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -31,19 +32,24 @@ function App() {
     <div>
       {!isLoginPage && !isRegisterPage && <Sidebar />}
       <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/" element={<Login />} />
-        <Route path="/products" element={<ProductPage />} />
-        <Route path="/users" element={<UserPage />} />
-        <Route path="/users/new" element={<UserForm />} />
-        <Route path="/users/:userId/edit" element={<UserForm />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/orders/:id" element={<OrderDetail />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<PasswordReset />} />
+            
+        <Route element={<ProtectedRoute/>}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/products" element={<ProductPage />} />
+          <Route path="/users" element={<UserPage />} />
+          <Route path="/users/new" element={<UserForm />} />
+          <Route path="/users/:userId/edit" element={<UserForm />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/orders/:id" element={<OrderDetail />} />
 
-        <Route path="/users/:id" element={<UserDetail />} />
+          <Route path="/users/:id" element={<UserDetail />} />
+
+        </Route>
+    
+        <Route path="/reset-password/:token" element={<PasswordReset />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </div>
   );

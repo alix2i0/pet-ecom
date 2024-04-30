@@ -1,20 +1,32 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate,Link } from "react-router-dom";
 import { login } from "../services/reducer/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const error = useSelector ((state) => state.auth.isError);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(login({ username, password }));
-    navigate("/dashboard");
-  };
+    if (error) {
+        console.log(error);
+    }
+
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(login({ username, password }));
+        // navigate("/dashboard");
+    };
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/dashboard");
+        }
+    }, [isAuthenticated, navigate]);
 
   return (
     <div className="bg-gray-100 flex items-center justify-center shadow-md ">
