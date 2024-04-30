@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/reducer/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const error = useSelector ((state) => state.auth.isError);
+
+    if (error) {
+        console.log(error);
+    }
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -13,8 +20,13 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(login({ username, password }));
-        navigate("/dashboard");
+        // navigate("/dashboard");
     };
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/dashboard");
+        }
+    }, [isAuthenticated, navigate]);
 
     return (
         <div className="max-w-lg mx-auto my-16">
@@ -48,6 +60,7 @@ const Login = () => {
                         required
                     />
                 </div>
+                {error && <p className="text-red-500">{error}</p>}
                 <div>
                     <button
                         type="submit"

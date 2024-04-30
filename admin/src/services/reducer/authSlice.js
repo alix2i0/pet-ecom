@@ -28,18 +28,25 @@ export const login = createAsyncThunk("auth/login", async (data) => {
         'Content-Type': 'application/json',
       },
     });
+    console.log("response ", response);
 
     // Stockage de l'authentification dans le localStorage
     localStorage.setItem('isAuthenticated', true);
 
     return response.data;
   } catch (error) {
-    return isRejectedWithValue(error.response.data);
+    return error.response.data.message;
   }
 });
 
 export const logout = createAsyncThunk("auth/logout", async () => {
-  const response = await axios.get("http://localhost:3300/auth/logout");
+  const response = await axios.get("http://localhost:3300/api/auth/logout", {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  console.log("response logout ", response.data);
   localStorage.removeItem('isAuthenticated');
   return response.data;
 });
@@ -88,9 +95,15 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.auth = action.payload;
-        state.isAuthenticated = true;
-        state.admin = action.payload.role;
+        if(action.payload.success) {
+          state.auth = action.payload;
+          state.isAuthenticated = true
+          state.admin = action.payload.role;
+        }
+        else {
+          state.isError = action.payload
+        }
+        
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
