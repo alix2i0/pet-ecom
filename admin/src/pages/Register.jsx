@@ -74,7 +74,7 @@ export default function Register({ onSignUp }) {
           >
             Sign up
           </h2>
-          <form >
+          <form onSubmit={handleSubmit}>
             <div class="grid md:grid-cols-2 md:gap-6">
               <div class="relative z-0 w-full mb-5 group">
                 <input
@@ -113,7 +113,7 @@ export default function Register({ onSignUp }) {
                 </label>
               </div>
             </div>
-            
+
             <div className="relative z-0 w-full mb-5 group">
               <input
                 id="floating_email"
@@ -181,7 +181,7 @@ export default function Register({ onSignUp }) {
                 type="submit"
                 className="w-full  bg-teal-400 text-white py-2 px-4 rounded-md hover:bg-teal-500 transition-colors"
               >
-                Signup
+                {loading ? "Signing Up..." : "Sign Up"}
               </button>{" "}
             </div>
           </form>
