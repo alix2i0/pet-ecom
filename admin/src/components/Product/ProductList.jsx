@@ -78,7 +78,6 @@ const ProductList = () => {
 
   const handleProductSubmit = async (formData) => {
     try {
-      console.log(formData);
       const response = await axios.post(
         "http://localhost:3300/api/products",
         formData,
@@ -241,7 +240,6 @@ const ProductList = () => {
           onClose={handleCloseProductForm}
         />
       )} */}
-      {/* </div> */}
     </>
   );
 };

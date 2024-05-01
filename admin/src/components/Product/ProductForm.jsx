@@ -11,7 +11,8 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [file, setFile] = useState(null);
-  const [image, setImage] = useState(""); // Store image data (e.g., URL or file object)
+  // const [image, setImage] = useState("");
+  // const [URL, setURL] = useState("");
 
   //   const handleOpen = () => setIsOpen(true);
   //   const handleClose = () => setIsOpen(false);
@@ -19,24 +20,15 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await uploadImage();
-      console.log(
-        "----------------------------------------------------------------"
-      );
-      console.log(name);
-      console.log(price);
-      console.log(description);
-      console.log(category);
-      console.log(file);
-      console.log(quantity);
-      console.log(image);
-      console.log("------------------------------------------------");
+      const image = await uploadImage();
+      console.log("image uploaded successfully", image);
       onSubmit({ name, price, description, category, quantity, image });
+      handleClose(); 
     } catch (error) {
       console.error(error);
     }
-    handleClose(); // Close modal after submit
   };
+
   const handleClose = () => {
     onClose();
     setName("");
@@ -45,8 +37,9 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
     setCategory(null);
     setFile(null);
     setQuantity(0);
-    setImage("");
+    // setImage("");
   };
+
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (isOpen && !e.target.closest(".max-w-sm")) {
@@ -63,23 +56,21 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
 
   const uploadImage = async () => {
     console.log("Uploading image");
-    const formm = new FormData();
-    formm.append("file", file);
-    formm.append("upload_preset", "petcom");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "petcom");
 
     try {
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dk28itsov/image/upload",
-        formm
-      );
-      console.log(response.data.secure_url);
-      const upload_preset = await response.data.secure_url;
-      setImage(upload_preset);
-      console.log(response.data.secure_url);
+      const response = await axios.post('https://api.cloudinary.com/v1_1/dk28itsov/image/upload', formData);
+      const { secure_url } = response.data;
+      return secure_url; 
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error('Error uploading image:', error);
+      throw error; // Re-throw the error to be caught by the parent try-catch block
     }
+
   };
+
   return (
     <>
       {/* <button onClick={handleOpen}>Add Product</button> */}

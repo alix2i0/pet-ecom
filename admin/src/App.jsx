@@ -16,8 +16,11 @@ import UserForm from "./components/User/UserForm";
 import ForgotPassword from "./pages/ForgotPassword";
 import PasswordReset from "./pages/PasswordReset";
 
+
 import UserDetail from "./components/User/UserDetail";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import CategoryList from "./components/Category/CategoryList";
+import CategoryForm from "./components/Category/CategoryForm";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,7 +33,7 @@ function App() {
 
   return (
     <div>
-      {!isLoginPage && !isRegisterPage && <Sidebar />}
+      {!isLoginPage && !isRegisterPage && <Sidebar />}  
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -45,6 +48,10 @@ function App() {
           <Route path="/orders/:id" element={<OrderDetail />} />
 
           <Route path="/users/:id" element={<UserDetail />} />
+
+          <Route path="/categories" element={<CategoryList />} />
+          <Route path="/categories/new" element={<CategoryForm />} />
+          <Route path="/categories/:id/edit" element={<CategoryForm />} />
 
         </Route>
     
