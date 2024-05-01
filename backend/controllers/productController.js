@@ -2,16 +2,24 @@ const Productmd = require('../models/Product.js');
 const Category = require('../models/category.js');
 // Fetch all products (accessible to both admin and normal user)
 exports.getAllProducts = async (req, res) => {
+  // try {
+  //   const products = await Productmd.find();
+  //   for (const product of products) {
+  //     // Utilisez findById pour trouver la catégorie à partir de l'ID
+  //     const categoryObj = await Category.findById(product.category);
+  //     if (categoryObj) {
+  //       // Mettez à jour le nom de la catégorie dans le produit
+  //       product.category = categoryObj.name;
+  //     }
+  //   }
+  //   console.log(products);
+  //   res.json(products);
+  // } catch (error) {
+  //   res.status(500).json({ message: error.message });
+  // }
   try {
-    const products = await Productmd.find();
-    for (const product of products) {
-      // Utilisez findById pour trouver la catégorie à partir de l'ID
-      const categoryObj = await Category.findById(product.category);
-      if (categoryObj) {
-        // Mettez à jour le nom de la catégorie dans le produit
-        product.category = categoryObj.name;
-      }
-    }
+    const products = await Productmd.find().populate('category', 'name');
+ // Populate the category field with just the name
     console.log(products);
     res.json(products);
   } catch (error) {
@@ -40,24 +48,34 @@ exports.searchProducts = async (req, res) => {
   };
 // Fetch a specific product by ID (accessible to both admin and normal user)
 exports.getProductById = async (req, res) => {
+  // try {
+  //   const product = await Productmd.findById(req.params.id);
+  //   if (!product) {
+  //     return res.status(404).json({ message: 'Product not found' });
+  //   }
+  //   let categoryObj = await Category.findOne(product.category);
+
+  //   product.category = categoryObj.name;
+    
+  //   res.json(product);
+  // } catch (error) {
+  //   res.status(500).json({ message: error.message });
+  // }
   try {
-    const product = await Productmd.findById(req.params.id);
+    const product = await Productmd.findById(req.params.id).populate('category', 'name');
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    let categoryObj = await Category.findOne(product.category);
-
-    product.category = categoryObj.name;
-    
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+  
 };
 
 // Create a new product (accessible only to admin)
 exports.createProduct = async (req, res) => {
-    const { name, description, price, category, quantity } = req.body;
+    const { name, description, price, category, quantity ,image} = req.body;
   
     try {
       // Check if the category exists
@@ -74,7 +92,8 @@ exports.createProduct = async (req, res) => {
         description,
         price,
         category: categoryObj._id, // Assign category object ID
-        quantity
+        quantity,
+        image
       });
   
       const newProduct = await product.save();
@@ -111,3 +130,13 @@ exports.deleteProductById = async (req, res) => {
   }
 };
 //add a function for filter the products by category
+exports.getAllCategories = async (req, res) => {
+  try {
+    // Retrieve all categories
+    const categories = await Category.find();
+    res.json(categories); // Send the categories as a JSON response
+  } catch (error) {
+    // Handle errors
+    res.status(500).json({ message: error.message });
+  }
+};
