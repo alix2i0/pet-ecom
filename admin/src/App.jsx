@@ -13,8 +13,11 @@ import UserPage from "./pages/UserPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetail from "./components/Orders/OrderDetail";
 import UserForm from "./components/User/UserForm";
-import EditOrder from "./components/Orders/EditOrder";
+import ForgotPassword from "./pages/ForgotPassword";
+import PasswordReset from "./pages/PasswordReset";
+
 import UserDetail from "./components/User/UserDetail";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -22,22 +25,31 @@ function App() {
   const location = useLocation();
 
   // Check if the current route is the login page
-  const isLoginPage = location.pathname === "/";
+  const isLoginPage = location.pathname === "/login";
+  const isRegisterPage = location.pathname === "/register";
+
   return (
     <div>
-      {!isLoginPage && <Sidebar />}
+      {!isLoginPage && !isRegisterPage && <Sidebar />}
       <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/" element={<Login />} />
-        <Route path="/products" element={<ProductPage />} />
-        <Route path="/users" element={<UserPage />} />
-        <Route path="/users/new" element={<UserForm />} />
-        <Route path="/users/:userId/edit" element={<UserForm />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/orders/:id" element={<OrderDetail />} />
-        <Route path="/orders/:id/edit" element={<EditOrder />} />
-        <Route path="/users/:id" element={<UserDetail />} />
+            
+        <Route element={<ProtectedRoute/>}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/products" element={<ProductPage />} />
+          <Route path="/users" element={<UserPage />} />
+          <Route path="/users/new" element={<UserForm />} />
+          <Route path="/users/:userId/edit" element={<UserForm />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/orders/:id" element={<OrderDetail />} />
+
+          <Route path="/users/:id" element={<UserDetail />} />
+
+        </Route>
+    
+        <Route path="/reset-password/:token" element={<PasswordReset />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </div>
   );

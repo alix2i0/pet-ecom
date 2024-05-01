@@ -70,9 +70,10 @@ exports.forgotPassword = async (req, res, next) => {
 
   const resetUrl = `${req.protocol}://${req.get(
     "host"
-  )}/auth/passwordReset/${resetToken}`;
+  )}/api/auth/passwordReset/${resetToken}`;
 
-  const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.\n TOKEN : ${resetToken}`;
+  const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.\n TOKEN : ${resetToken}\n
+  http://localhost:5173/auth/reset-password/${resetToken} `;
 
   try {
     sendEmail({
@@ -127,6 +128,7 @@ exports.logout = (req, res) => {
   try {
     // Clearing token cookie and sending success response
     res.clearCookie("token");
+    res.cookie("token", "", { maxAge: 1 });
     res.status(200).json({
       message: "Logged out Successfully",
       error: false,

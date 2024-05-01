@@ -1,11 +1,18 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate,Link } from "react-router-dom";
 import { login } from "../services/reducer/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const error = useSelector ((state) => state.auth.isError);
+
+    if (error) {
+        console.log(error);
+    }
 
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -13,52 +20,125 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(login({ username, password }));
-        navigate("/dashboard");
+        // navigate("/dashboard");
     };
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/dashboard");
+        }
+    }, [isAuthenticated, navigate]);
 
-    return (
-        <div className="max-w-lg mx-auto my-16">
-            <h1 className="text-2xl font-semibold text-center text-gray-700 dark:text-white">Login</h1>
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-                <div>
-                    <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
-                    <input
-                        type="text"
-                        name="username"
-                        id="username"
-                        autoComplete="username"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring focus:ring-teal-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-teal-500"
-                        placeholder="Enter your username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        autoComplete="current-password"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring focus:ring-teal-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-teal-500"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <button
-                        type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                    >
-                        Login
-                    </button>
-                </div>
-            </form>
+  return (
+    <div className="bg-gray-100 flex items-center justify-center shadow-md ">
+      <div
+        className="max-w-screen-lg w-full h-screen my-5 grid md:grid-cols-2 md:gap-6 object-cover"
+        style={{
+          backgroundImage: "url('bgg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          
+        }}
+      >
+        <div></div>
+        <div className="p-12 text-white ">
+          <h2 className="text-4xl font-bold mb-6 text-center" style={{fontFamily:"Dynapuff"}}>Login</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div class="flex flex-col gap-6">
+              <div class="relative z-0 w-full mb-3 ">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  className="block py-2.5 px-0 w-full text-sm bg-transparent
+                   border-0 border-b-[1px] border-gray-400 appearance-none dark:text-white
+                    dark:border-gray-400 dark:focus:border-teal-500 focus:outline-none 
+                    focus:ring-0 focus:border-teal-600 peer"
+                  placeholder=" "
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+
+                  required
+                />
+                <label
+                  for="username"
+                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Username
+                </label>
+              </div>
+              <div class="relative z-0 w-full mb-3 ">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  className="block py-2.5 px-0 w-full text-sm bg-transparent
+                   border-0 border-b-[1px] border-gray-400  dark:text-white
+                    dark:border-gray-400 dark:focus:border-teal-500 focus:outline-none 
+                    focus:ring-0 focus:border-teal-600 peer "
+                  placeholder=" "
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+
+                  required
+                />
+                <label
+                  for="password"
+                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Password
+                </label>
+              </div>
+            </div>
+            <div className="flex flex-col gap-6">
+              <Link to="/forgot-password"
+                className="text-sm text-gray-300 underline flex justify-end hover:text-teal-400"
+              >
+                Forgot password?
+              </Link>
+              <button
+                type="submit"
+                className="w-full  bg-teal-400 text-white py-2 px-4 rounded-md hover:bg-teal-500 transition-colors"
+              >
+                Login
+              </button>{" "}
+            </div>
+          </form>
+          <div className="flex flex-col gap-2 mt-2">
+            <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 dark:before:border-neutral-500 dark:after:border-neutral-500">
+              <p class="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">
+                OR
+              </p>
+            </div>
+
+            <a
+              className=" flex w-full text-black items-center justify-center gap-2 
+              rounded-lg bg-primary px-7 pb-2.5 pt-3 text-center text-md"
+              style={{ backgroundColor: "#fff" }}
+              href="#!"
+              role="button"
+              data-twe-ripple-init
+              data-twe-ripple-color="light"
+            >
+              <span>
+                <img src="google.png" alt="google" className="h-[25px]" />
+              </span>
+              Continue with Google
+            </a>
+
+            <div class="mt-3 text-sm text-center text-gray-300">
+              No account yet?&nbsp;
+              <Link
+                to="/register"
+                class="underline hover:text-teal-400"
+              >
+                Sign up now
+              </Link>
+            </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Login;

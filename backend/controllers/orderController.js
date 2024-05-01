@@ -37,13 +37,22 @@ exports.getAllOrders = async (req, res) => {
       select: 'name', // Select only the name field of the product
     }).skip(skip).limit(limit);
 
-    // Check if sorting query parameter exists
-    const { sortBy } = req.query;
-    if (sortBy === 'dateAsc') {
-      ordersQuery = ordersQuery.sort({ orderDate: 1 }); // Sorting by orderDate in ascending order
-    } else if (sortBy === 'dateDesc') {
-      ordersQuery = ordersQuery.sort({ orderDate: -1 }); // Sorting by orderDate in descending order
-    }
+// Check if sorting query parameter exists
+const { sortBy } = req.query;
+if (sortBy === 'dateAsc') {
+  ordersQuery = ordersQuery.sort({ orderDate: 1 }); // Sorting by orderDate in ascending order
+} else if (sortBy === 'dateDesc') {
+  ordersQuery = ordersQuery.sort({ orderDate: -1 }); // Sorting by orderDate in descending order
+} else if (sortBy === 'totalAmountAsc') {
+  ordersQuery = ordersQuery.sort({ totalAmount: 1 }); // Sorting by totalAmount in ascending order
+} else if (sortBy === 'totalAmountDesc') {
+  ordersQuery = ordersQuery.sort({ totalAmount: -1 }); // Sorting by totalAmount in descending order
+} else if (sortBy === 'customerAsc') {
+  ordersQuery = ordersQuery.sort({ 'customer.username': 1 }); // Sorting by customer username in ascending order
+} else if (sortBy === 'customerDesc') {
+  ordersQuery = ordersQuery.sort({ 'customer.username': -1 }); // Sorting by customer username in descending order
+}
+
 
     let orders = await ordersQuery.exec();
 
