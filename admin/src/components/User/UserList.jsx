@@ -229,7 +229,9 @@ const UserList = () => {
         </div>
       )}
     </div>
+    </div>
   );
 };
+
 
 export default UserList;
