@@ -100,7 +100,10 @@ const handleSubmit = async (event) => {
     <>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="max-w-sm w-full bg-white shadow-md rounded-lg p-6">
+          <div className="bg-teal-400 shadow p-3">
+            <div className="bg-white p-5 rounded-lg w-[350px] flex flex-col gap-3">
+            <h2 className="text-xl text-gray-800 mb-3">Edit product</h2>
+
             <button
               onClick={handleClose}
               className="absolute top-14 right-14 text-gray-600 hover:text-gray-800 focus:outline-none bg-white rounded-full p-2"
@@ -124,7 +127,7 @@ const handleSubmit = async (event) => {
               <div className="mb-5">
                 <label
                   htmlFor="name"
-                  className="block mb-2 text-sm font-medium text-gray-900"
+                  className="block mb-2 text-sm text-gray-900"
                 >
                   Name
                 </label>
@@ -133,14 +136,14 @@ const handleSubmit = async (event) => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
                   required
                 />
               </div>
               <div className="mb-5">
                 <label
                   htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900"
+                  className="block mb-2 text-sm text-gray-900"
                 >
                   Price
                 </label>
@@ -149,14 +152,14 @@ const handleSubmit = async (event) => {
                   id="price"
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
                   required
                 />
               </div>
               <div className="mb-5">
                 <label
                   htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900"
+                  className="block mb-2 text-sm text-gray-900"
                 >
                   Description
                 </label>
@@ -165,13 +168,13 @@ const handleSubmit = async (event) => {
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
                 />
               </div>
               <div className="mb-5">
                 <label
                   htmlFor="category"
-                  className="block mb-2 text-sm font-medium text-gray-900"
+                  className="block mb-2 text-sm text-gray-900"
                 >
                   Category
                 </label>
@@ -186,7 +189,7 @@ const handleSubmit = async (event) => {
                   id="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full p-1 text-gray-900 border-none border-gray-300 rounded-lg bg-gray-50  "
                 >
                   <option value=""></option>
                   {/* {categories.map((cat) => (
@@ -206,7 +209,7 @@ const handleSubmit = async (event) => {
               <div className="mb-5">
                 <label
                   htmlFor="quantity"
-                  className="block mb-2 text-sm font-medium text-gray-900"
+                  className="block mb-2 text-sm  text-gray-900"
                 >
                   Quantity
                 </label>
@@ -215,17 +218,17 @@ const handleSubmit = async (event) => {
                   id="quantity"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
                 />
               </div>
               <button
                 type="submit"
-                className="block w-full p-4 text-white bg-blue-500 border border-transparent rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
+                className="block w-full p-1 text-white bg-teal-400 hover:bg-teal-500 border border-transparent rounded-lg shadow-sm   "
+                >
                 Save Product
               </button>
             </form>
-          </div>
+          </div></div>
         </div>
       )}
     </>

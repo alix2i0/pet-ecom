@@ -91,7 +91,7 @@ const Orders = () => {
       <div className="p-3 bg-teal-400 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h3 className="text-xl">All Orders</h3>
-          <div className="flex justify-end items-center mb-4">
+          <div className="flex justify-end items-center mb-8">
             <div className="flex items-center">
               <div className="mr-5">
                 <span>Items per page:&nbsp;</span>

@@ -8,7 +8,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center justify-center gap-4">
       <button
         onClick={() => paginate(currentPage - 1)}
         disabled={currentPage === 1}
@@ -38,7 +38,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
             key={number}
             onClick={() => paginate(number)}
             className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
-              currentPage === number ? "bg-gray-900 text-white" : ""
+              currentPage === number ? "bg-teal-400 hover:bg-teal-500 text-white" : ""
             }`}
             type="button"
           >
