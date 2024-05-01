@@ -1,7 +1,7 @@
     import React, { useEffect, useState } from 'react'
     import { createUser,updateUser } from '../../services/reducer/userSlice'
     import{useDispatch,useSelector} from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+    import { useNavigate, useParams } from 'react-router-dom'
 
 
     const UserForm = () => {
