@@ -133,6 +133,8 @@ const Orders = () => {
               </div>
             </div>
           </div>
+
+
           <div className="overflow-x-auto">
             <table className="text-center w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-100">
@@ -208,6 +210,8 @@ const Orders = () => {
               </tbody>
             </table>
           </div>
+
+
           {/* Pagination */}
           <div className="flex justify-center mt-4">
             {Array.from({ length: totalPages }, (_, index) => (
@@ -224,6 +228,7 @@ const Orders = () => {
               </button>
             ))}
           </div>
+          
         </div>
       </div>
     </div>
