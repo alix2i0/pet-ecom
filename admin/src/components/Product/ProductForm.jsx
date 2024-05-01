@@ -1,82 +1,76 @@
-import axios from 'axios';
-import React, { useState , useEffect} from 'react';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 // petcom
 
 // const ProductForm = ({ onSubmit }) => {
 const ProductForm = ({ isOpen, onClose, onSubmit }) => {
-
-//   const [isOpen, setIsOpen] = useState(open);
-  const [name, setName] = useState('');
+  //   const [isOpen, setIsOpen] = useState(open);
+  const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState(''); 
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [file, setFile] = useState(null);
-  const [image, setImage] = useState(""); // Store image data (e.g., URL or file object)
+  // const [image, setImage] = useState("");
+  // const [URL, setURL] = useState("");
 
-//   const handleOpen = () => setIsOpen(true);
-//   const handleClose = () => setIsOpen(false);
+  //   const handleOpen = () => setIsOpen(true);
+  //   const handleClose = () => setIsOpen(false);
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await uploadImage();
-      console.log('----------------------------------------------------------------')
-      console.log(name);
-      console.log(price);
-      console.log(description);
-      console.log(category);
-      console.log(file);
-      console.log(quantity);
-      console.log(image);
-      console.log("------------------------------------------------");
+      const image = await uploadImage();
+      console.log("image uploaded successfully", image);
       onSubmit({ name, price, description, category, quantity, image });
-    }
-    catch (error) {
+      handleClose(); 
+    } catch (error) {
       console.error(error);
     }
-    handleClose(); // Close modal after submit
   };
+
   const handleClose = () => {
     onClose();
-    setName('');
+    setName("");
     setPrice(0);
-    setDescription('');
+    setDescription("");
     setCategory(null);
     setFile(null);
     setQuantity(0);
-    setImage("");
+    // setImage("");
   };
+
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (isOpen && !e.target.closest('.max-w-sm')) {
+      if (isOpen && !e.target.closest(".max-w-sm")) {
         onClose();
       }
     };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isOpen, onClose]);
 
   const uploadImage = async () => {
     console.log("Uploading image");
-    const formm = new FormData();
-    formm.append('file', file);
-    formm.append('upload_preset', 'petcom');
-  
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "petcom");
+
     try {
-      const response = await axios.post('https://api.cloudinary.com/v1_1/dk28itsov/image/upload', formm);
-      console.log(response.data.secure_url);
-      const upload_preset = await response.data.secure_url;
-      setImage(upload_preset);
-      console.log(response.data.secure_url);
+      const response = await axios.post('https://api.cloudinary.com/v1_1/dk28itsov/image/upload', formData);
+      const { secure_url } = response.data;
+      return secure_url; 
     } catch (error) {
       console.error('Error uploading image:', error);
-    };
+      throw error; // Re-throw the error to be caught by the parent try-catch block
+    }
+
   };
+
   return (
     <>
       {/* <button onClick={handleOpen}>Add Product</button> */}
@@ -106,8 +100,13 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
               </svg>
             </button>
             <form onSubmit={handleSubmit}>
-            <div className="mb-5">
-                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Name</label>
+              <div className="mb-5">
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                >
+                  Name
+                </label>
                 <input
                   type="text"
                   id="name"
@@ -118,18 +117,28 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
               <div className="mb-5">
-                <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Price</label>
+                <label
+                  htmlFor="price"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                >
+                  Price
+                </label>
                 <input
                   type="number"
                   id="price"
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
                   className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                //   required
+                  //   required
                 />
               </div>
               <div className="mb-5">
-                <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Description</label>
+                <label
+                  htmlFor="description"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                >
+                  Description
+                </label>
                 <input
                   type="text"
                   id="description"
@@ -139,18 +148,27 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
               <div className="mb-5">
-                <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Category</label>
+                <label
+                  htmlFor="category"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                >
+                  Category
+                </label>
                 <input
                   type="text"
                   id="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  
                 />
               </div>
               <div className="mb-5">
-                <label htmlFor="quantity" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Quantity</label>
+                <label
+                  htmlFor="quantity"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                >
+                  Quantity
+                </label>
                 <input
                   type="number"
                   id="quantity"
@@ -160,15 +178,25 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                 />
               </div>
               <div className="mb-5">
-                <label htmlFor="productImage" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Product Image (optional)</label>
+                <label
+                  htmlFor="productImage"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
+                >
+                  Product Image (optional)
+                </label>
                 <input
                   type="file"
                   id="productImage"
-                  onChange={(event) => setFile(event.target.files[0])}
+                  onChange={(e) => setFile(e.target.files[0])}
                   className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
-              <button type="submit" className="block w-full p-4 text-black bg-blue-500 border border-transparent rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900">Save Product</button>
+              <button
+                type="submit"
+                className="block w-full p-4 text-black bg-blue-500 border border-transparent rounded-lg shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-offset-gray-900"
+              >
+                Save Product
+              </button>
             </form>
           </div>
         </div>
