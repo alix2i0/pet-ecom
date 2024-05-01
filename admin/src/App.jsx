@@ -25,7 +25,7 @@ function App() {
   const location = useLocation();
 
   // Check if the current route is the login page
-  const isLoginPage = location.pathname === "/";
+  const isLoginPage = location.pathname === "/login";
   const isRegisterPage = location.pathname === "/register";
 
   return (

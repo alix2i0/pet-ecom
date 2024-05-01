@@ -188,7 +188,7 @@ export default function Register({ onSignUp }) {
           <div className="flex flex-col gap-2 mt-2">
             <div class="mt-3 text-sm text-center text-gray-300">
               Already registered?&nbsp;
-              <Link to="/" class="underline hover:text-teal-400">
+              <Link to="/login" class="underline hover:text-teal-400">
                 Login now
               </Link>
             </div>
