@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getAllUsers } from "../../services/reducer/userSlice";
 import { Link, useNavigate } from "react-router-dom";
+import UserForm from "./UserForm";
+
 
 const UserList = () => {
   const [limit, setLimit] = useState(5);
@@ -10,11 +12,12 @@ const UserList = () => {
   const [sortOrder, setSortOrder] = useState(1);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState(null);
+  const [showAddUserForm, setShowAddUserForm] = useState(false); // Add state for showing add user form
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user.allUsers);
   const totalPages = useSelector((state) => state.user.totalPages);
   const currentPage = useSelector((state) => state.user.currentPage);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllUsers({ limit, searchTerm, sortBy, sortOrder }));
@@ -61,6 +64,17 @@ const UserList = () => {
   const closeModal = () => {
     setDeleteUserId(null);
     setDeleteModalOpen(false);
+  };
+
+  const handleAddUserClick = () => {
+    setShowAddUserForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowAddUserForm(false);
+  };
+  const handleOpenForm = () => {
+    setShowAddUserForm(true);
   };
 
   return (
@@ -110,12 +124,19 @@ const UserList = () => {
               </div>
             </div>
               <button
-                onClick={() => navigate("/users/new")}
+                onClick={handleAddUserClick} // Call handleAddUserClick on button click
                 className="p-2 hover:bg-teal-500 rounded-lg  bg-teal-400 text-white"
               >
                 Add Users
               </button>
           </div>
+          {showAddUserForm && ( // Conditionally render the form
+            <div className="p-3 bg-gray-200 rounded-lg">
+              {/* Your form JSX goes here */}
+              <UserForm isOpen={handleOpenForm} closeForm={handleCloseForm} />
+              <button onClick={handleCloseForm}>Close Form</button>
+            </div>
+          )}
           <div className="overflow-x-auto">
             <table className="text-center w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-gray-100 ">

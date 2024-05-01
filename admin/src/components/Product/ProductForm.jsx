@@ -21,15 +21,15 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
     event.preventDefault();
     try {
       await uploadImage();
-      // console.log('----------------------------------------------------------------')
-      // console.log(name);
-      // console.log(price);
-      // console.log(description);
-      // console.log(category);
-      // console.log(file);
-      // console.log(quantity);
-      // console.log(image);
-      // console.log("------------------------------------------------");
+      console.log('----------------------------------------------------------------')
+      console.log(name);
+      console.log(price);
+      console.log(description);
+      console.log(category);
+      console.log(file);
+      console.log(quantity);
+      console.log(image);
+      console.log("------------------------------------------------");
       onSubmit({ name, price, description, category, quantity, image });
     }
     catch (error) {
@@ -68,8 +68,10 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
     formm.append('upload_preset', 'petcom');
   
     try {
-      const response = await axios.post('https://api.cloudinary.com/v1_1/dk28itsov/image/upload', formData);
-      setImage(response.data.secure_url);
+      const response = await axios.post('https://api.cloudinary.com/v1_1/dk28itsov/image/upload', formm);
+      console.log(response.data.secure_url);
+      const upload_preset = await response.data.secure_url;
+      setImage(upload_preset);
       console.log(response.data.secure_url);
     } catch (error) {
       console.error('Error uploading image:', error);

@@ -4,7 +4,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 
 
-    const UserForm = () => {
+    const UserForm = ({isOpen,onClose}) => {
         const dispatch = useDispatch();
     const navigate = useNavigate();
     const { userId } = useParams(); // Assuming you're using React Router for navigation
@@ -51,9 +51,10 @@ import { useNavigate, useParams } from 'react-router-dom'
         } else {
             // If in add mode, dispatch create user action
             dispatch(createUser(formData));
+            handelClose();
         }
 
-        navigate('/users');
+        // navigate('/users');
     };
 
     const handlePasswordInput = (e) => {
@@ -64,13 +65,40 @@ import { useNavigate, useParams } from 'react-router-dom'
         setIsAdmin(e.target.value === 'true');
     };
 
+    const handelClose = () => {
+        onClose();
+        setFirstName('');
+        setLastName('');
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setIsAdmin(false);
+    };
+
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+          if (isOpen && !e.target.closest('.max-w-sm')) {
+            onClose();
+          }
+        };
+    
+        document.addEventListener('mousedown', handleOutsideClick);
+    
+        return () => {
+          document.removeEventListener('mousedown', handleOutsideClick);
+        };
+      }, [isOpen, onClose]);
+
     return (
-        <div>
-            <>
-                {/* Card Section */}
-                <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto">
+  
+            <>{isOpen && 
+               ( 
+                // {/* Card Section */}
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    {/* <div className="max-w-sm w-full bg-white shadow-md rounded-lg p-6"> */}
+                 {/* <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto"> */}
                     {/* Card */}
-                    <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-neutral-800">
+                    <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-neutral-800"> 
                         <div className="mb-8">
                             <h2 className="text-xl font-bold text-gray-800 dark:text-neutral-200">
                                 {isEditMode ? 'Edit User' : 'Add User'}
@@ -253,7 +281,7 @@ import { useNavigate, useParams } from 'react-router-dom'
                             <div className="mt-5 flex justify-end gap-x-2">
                                 <button
                                     type="button"
-                                    onClick={() => navigate(-1)}
+                                    onClick={() => onClose()}
                                     className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
                                 >
                                     Cancel
@@ -270,11 +298,11 @@ import { useNavigate, useParams } from 'react-router-dom'
                     </div>
                     {/* End Card */}
                 </div>
-                {/* End Card Section */}
+                // {/* End Card Section */}
+                )}
             </>
-        </div>
     );
     
-    }
+    };
 
     export default UserForm

@@ -81,6 +81,7 @@ const ProductList = () => {
 
   const handleProductSubmit = async (formData) => {
     try {
+      console.log(formData);
       const response = await axios.post(
         "http://localhost:3300/api/products",
         formData,
@@ -116,11 +117,19 @@ const ProductList = () => {
 
   return (
     <div className="bg-teal-400 h-screen">
-      <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
+      <div className=" p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
+          <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl">All Products</h3>
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="border border-gray-400 p-1 rounded-md"
+            />
             <button
-              className="p-2 hover:bg-teal-500 rounded-lg  bg-teal-400 text-white"
+              className="p-1 text-teal-400 rounded-lg bg-white border-solid border border-teal-400 hover:bg-teal-400 hover:text-white"
               onClick={handleOpenProductForm}
             >
               Add product
@@ -150,7 +159,7 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
+                {currentProducts.map((product) => (
                   <tr key={product._id} className="text-gray-900">
                     <td className="px-6 py-3">{product.name}</td>
                     <td className="px-6 py-3">${product.price}</td>
@@ -158,21 +167,22 @@ const ProductList = () => {
                     <td className="px-6 py-3">{product.category.name}</td>
                     <td className="px-6 py-3">{product.quantity}</td>
                     <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-1 ">
-                      <button
+                      {/* <button
                         href="#"
+                        className="rounded-lg font-medium bg-blue-400 hover:bg-blue-500 text-white p-0.5 w-[70px]"
                       >
                         View
-                      </button>
+                      </button> */}
                       <button
-                        href="#"
                         className="rounded-lg font-medium bg-yellow-400 hover:bg-yellow-500 text-white p-0.5 w-[70px]"
+                        onClick={ () => handleOpenEditForm(product._id)}
                       >
-                        <img src="edit.png" alt="edit" className="h-[20px]"/>
+                        Edit
                       </button>
-                      <button
+                      <button className="rounded-lg font-medium bg-red-500 hover:bg-red-600 text-white p-0.5 w-[70px]"
                       onClick={() => handleDeleteProduct(product._id)}
                       >
-                        <img src="delete.png" alt="delete" className="h-[20px]"/>
+                        Delete
                       </button>
                     </td>
                   </tr>
