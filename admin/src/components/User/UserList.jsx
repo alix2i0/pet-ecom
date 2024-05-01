@@ -78,6 +78,7 @@ const UserList = () => {
   };
 
   return (
+ 
     <div className="bg-teal-400 h-screen">
       <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
@@ -228,6 +229,7 @@ const UserList = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };
