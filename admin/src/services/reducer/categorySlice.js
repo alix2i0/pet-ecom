@@ -7,12 +7,13 @@ const initialState ={
     categories: []
 }
 
-export const fetchCategories = createAsyncThunk ("category/fetchCategories", async () => {
+export const fetchCategories = createAsyncThunk ("category/fetchCategories", async (params) => {
     const response = await axios.get("http://localhost:3300/api/categories/",{
         withCredentials: true,
         headers : {
             'Content-Type' : 'application/json',
-        }
+        },
+        params
     });
     return response.data;
 })
@@ -40,7 +41,11 @@ export const categorySlice = createSlice({
             })
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.categories = action.payload;
+                state.categories = action.payload.categories;
+                state.currentPage = action.payload.currentPage;
+                state.totalPages = action.payload.totalPages;
+                console.log("action.payload",action.payload)
+
             })
             .addCase(fetchCategories.rejected, (state, action) => {
                 state.isLoading = false;
@@ -67,5 +72,7 @@ export const categorySlice = createSlice({
 export const selectError = (state) => state.error
 export const selectIsLoading = (state) => state.loading
 export const selectCategories = (state) => state.category
+export const selectCurrentPage = (state) => state.category.currentPage
+export const selectTotalPages = (state) => state.category.totalPages
 
 export default categorySlice.reducer

@@ -2,25 +2,8 @@ const Productmd = require('../models/Product.js');
 const Category = require('../models/category.js');
 // Fetch all products (accessible to both admin and normal user)
 exports.getAllProducts = async (req, res) => {
-  // try {
-  //   const products = await Productmd.find();
-  //   for (const product of products) {
-  //     // Utilisez findById pour trouver la catégorie à partir de l'ID
-  //     const categoryObj = await Category.findById(product.category);
-  //     if (categoryObj) {
-  //       // Mettez à jour le nom de la catégorie dans le produit
-  //       product.category = categoryObj.name;
-  //     }
-  //   }
-  //   console.log(products);
-  //   res.json(products);
-  // } catch (error) {
-  //   res.status(500).json({ message: error.message });
-  // }
   try {
     const products = await Productmd.find().populate('category', 'name');
- // Populate the category field with just the name
-    console.log(products);
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -129,21 +112,49 @@ exports.deleteProductById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-//add a function for filter the products by category
 exports.getAllCategories = async (req, res) => {
   try {
-    // Retrieve all categories
-    const categories = await Category.find();
-    res.json(categories); // Send the categories as a JSON response
+    let query = {};
+    const { search, sortBy, sortOrder } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    let sortOptions = {};
+    if (sortBy === "name" || sortBy === "description") {
+      sortOptions[sortBy] = sortOrder === "desc" ? -1 : 1;
+    }
+
+    const categories = await Category.find(query)
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(limit)
+      .exec();
+
+    const totalCategoriesCount = await Category.countDocuments(query);
+    const totalPages = Math.ceil(totalCategoriesCount / limit);
+
+    res.json({
+      categories,
+      currentPage: page,
+      totalPages,
+    });
   } catch (error) {
-    // Handle errors
     res.status(500).json({ message: error.message });
   }
 };
 
+
 exports.createCategories = async (req,res) => {
   try {
-    const { name } = req.body;
+    const { name, description } = req.body;
     if(!name) {
       return res.status(400).json({ message: 'Name is required' });}
     
@@ -151,7 +162,7 @@ exports.createCategories = async (req,res) => {
     if(cat) {
       return res.status(400).json({ message: 'Category already exists' });}
 
-    const category = new Category({ name });
+    const category = new Category({ name, description });
     const newCategory = await category.save();
     res.status(201).json(newCategory);
   } catch (error) {
