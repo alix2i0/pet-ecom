@@ -13,6 +13,8 @@ const ProductList = () => {
   const [productsPerPage, setProductsPerPage] = useState(5);
   const [sortBy, setSortBy] = useState(null);
   const [filters, setFilters] = useState({});
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteUserId, setDeleteUserId] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -96,6 +98,11 @@ const ProductList = () => {
     fetchProducts();
   }, []);
 
+  const handleDeleteClick = (id) => {
+    setDeleteUserId(id);
+    setDeleteModalOpen(true);
+  };
+
   const handleDeleteProduct = async (productId) => {
     try {
       await axios.delete(`http://localhost:3300/api/products/${productId}`, {
@@ -106,6 +113,19 @@ const ProductList = () => {
       console.log("Product deleted successfully.");
     } catch (error) {
       console.error("Error deleting product:", error);
+    }
+  };
+
+  const closeModal = () => {
+    setDeleteUserId(null);
+    setDeleteModalOpen(false);
+  };
+  const confirmDelete = () => {
+    if (deleteUserId) {
+      // dispatch(deleteUser(deleteUserId));
+      handleDeleteProduct(deleteUserId);
+      setDeleteUserId(null);
+      setDeleteModalOpen(false);
     }
   };
 
@@ -204,7 +224,7 @@ const ProductList = () => {
                           <img src="edit.png" alt="edit" className="h-[20px]" />
                         </button>
                         <button
-                          onClick={() => handleDeleteProduct(product._id)}
+                          onClick={() => handleDeleteClick(product._id)}
                         >
                           <img
                             src="delete.png"
@@ -212,6 +232,7 @@ const ProductList = () => {
                             className="h-[20px]"
                           />
                         </button>
+                 
                       </td>
                     </tr>
                   ))}
@@ -225,6 +246,27 @@ const ProductList = () => {
               currentPage={currentPage}
               paginate={paginate}
             />
+          {deleteModalOpen && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-5 rounded-lg">
+              <p>Are you sure you want to delete this user?</p>
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={confirmDelete}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg mr-2"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={closeModal}
+                  className="bg-gray-400 text-white px-4 py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
           </div>
         </div>
       </div>
