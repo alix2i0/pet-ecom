@@ -76,26 +76,31 @@ const UserForm = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (isOpen && !e.target.closest(".max-w-sm")) {
-        onClose();
+      const userFormElements = document.getElementsByClassName("bg-teal-400 shadow p-3");
+      if (userFormElements.length > 0) {
+        const userFormElement = userFormElements[0]; // Assuming there's only one element with this class
+        if (!userFormElement.contains(e.target)) {
+          onClose();
+        }
       }
     };
-
+  
     document.addEventListener("mousedown", handleOutsideClick);
-
+  
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isOpen, onClose]);
+  
 
   return (
     <>
       {isOpen && (
         // {/* Card Section */}
+          // <div className="max-w-sm w-full bg-white shadow-md rounded-lg p-6">
+          // {/* <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto"> */}
+          // {/* Card */}
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          {/* <div className="max-w-sm w-full bg-white shadow-md rounded-lg p-6"> */}
-          {/* <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto"> */}
-          {/* Card */}
           <div className="bg-teal-400 shadow p-3">
             <div className="bg-white p-5 rounded-lg">
               <div className="mb-8">

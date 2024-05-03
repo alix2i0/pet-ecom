@@ -143,7 +143,7 @@ const UserList = () => {
             {showAddUserForm && ( // Conditionally render the form
               <div className="p-3 bg-gray-200 rounded-lg">
                 {/* Your form JSX goes here */}
-                <UserForm isOpen={handleOpenForm} closeForm={handleCloseForm} />
+                <UserForm isOpen={handleOpenForm} onClose={handleCloseForm} />
                 <button onClick={handleCloseForm}>Close Form</button>
               </div>
             )}
