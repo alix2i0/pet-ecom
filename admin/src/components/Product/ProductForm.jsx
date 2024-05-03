@@ -42,13 +42,17 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (isOpen && !e.target.closest(".max-w-sm")) {
-        onClose();
+      const userFormElements = document.getElementsByClassName("bg-teal-400 shadow p-3");
+      if (userFormElements.length > 0) {
+        const userFormElement = userFormElements[0]; // Assuming there's only one element with this class
+        if (!userFormElement.contains(e.target)) {
+          onClose();
+        }
       }
     };
-
+  
     document.addEventListener("mousedown", handleOutsideClick);
-
+  
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
@@ -70,7 +74,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
     }
 
   };
-
+  
   return (
     <>
       {/* <button onClick={handleOpen}>Add Product</button> */}
@@ -80,7 +84,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
         //     <span className="text-gray-700 text-2xl cursor-pointer absolute top-0 right-0" onClick={handleClose}>&times;</span>
         <div className="fixed  inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-teal-400 shadow p-3">
-            <div className="bg-white p-5 rounded-lg w-[350px] flex flex-col gap-3">
+            <div className="bg-white p-5 rounded-lg w-[550px] h-[700px] flex flex-col gap-3">
             <h2 className="text-xl text-gray-800 mb-3 ">Add new product</h2>
             <button
               onClick={handleClose}
@@ -142,12 +146,13 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                   >
                     Description
                   </label>
-                  <input
+                  <textarea
                     type="text"
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                    className="block px-0 w-full h-32 text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                    style={{ resize: "none" }}
                   />
                 </div>
                 <div className="mb-5">
