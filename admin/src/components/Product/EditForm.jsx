@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../../services/reducer/categorySlice";
 const ProductEditForm = ({ isOpen, onClose, productId }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState('');
   const [quantity, setQuantity] = useState(0);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get('http://localhost:3300/api/products/category',{
-            withCredentials: true,
-          });
-        console.log(response);
-        setCategories(response.data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
+  const categories = useSelector((state) => state.category.categories);
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3300/api/products/category',{
+  //           withCredentials: true,
+  //         });
+  //       console.log(response);
+  //       setCategories(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching categories:', error);
+  //     }
+  //   };
 
-    fetchCategories();
-  }, []);
+  //   fetchCategories();
+  // }, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      fetchCategories({})
+    );
+  }, [dispatch]);
 
   useEffect(() => {
     if (productId) {
@@ -60,18 +68,22 @@ const ProductEditForm = ({ isOpen, onClose, productId }) => {
 //     }
 //   };
 useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (isOpen && !e.target.closest('.max-w-sm')) {
+  const handleOutsideClick = (e) => {
+    const userFormElements = document.getElementsByClassName("bg-teal-400 shadow p-3");
+    if (userFormElements.length > 0) {
+      const userFormElement = userFormElements[0]; // Assuming there's only one element with this class
+      if (!userFormElement.contains(e.target)) {
         onClose();
       }
-    };
+    }
+  };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+  document.addEventListener("mousedown", handleOutsideClick);
 
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, [isOpen, onClose]);
+  return () => {
+    document.removeEventListener("mousedown", handleOutsideClick);
+  };
+}, [isOpen, onClose]);
 
 const handleSubmit = async (event) => {
     event.preventDefault();
