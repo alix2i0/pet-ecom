@@ -98,6 +98,7 @@ const handleSubmit = async (event) => {
         }
       );
       console.log("Product edited successfully:", response.data);
+      // onSubmit(Data,productId);
       onClose();
     } catch (error) {
       console.error("Error editing product:", error);
@@ -240,7 +241,8 @@ const handleSubmit = async (event) => {
                 Save Product
               </button>
             </form>
-          </div></div>
+          </div>
+          </div>
         </div>
       )}
     </>

@@ -3,6 +3,8 @@ import axios from "axios";
 import ProductForm from "./ProductForm";
 import ProductEditForm from "./EditForm";
 import Pagination from "./Pagination.jsx";
+import ProductView from "./ProductView.jsx";
+// import { set } from "mongoose";
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
@@ -15,6 +17,8 @@ const ProductList = () => {
   const [filters, setFilters] = useState({});
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState(null);
+  const [isViewFormOpen, setIsViewFormOpen] = useState(false);
+  const [viewProductId, setViewProductId] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -66,8 +70,12 @@ const ProductList = () => {
     setIsProductFormOpen(true);
     console.log("Product form opened");
   };
-
-  const handleCloseProductForm = () => setIsProductFormOpen(false);
+  const handleOpenViewForm = (productId) => {
+    console.log("View form started");
+    setViewProductId(productId);
+    setIsViewFormOpen(true);
+    console.log("View form opened");
+  };
 
   const handleOpenEditForm = (productId) => {
     console.log("Edit form started");
@@ -75,9 +83,10 @@ const ProductList = () => {
     setIsEditFormOpen(true);
     console.log("Edit form opened");
   };
-
+  
+  const handleCloseProductForm = () => setIsProductFormOpen(false);
+  const handleCloseViewForm = () => setIsViewFormOpen(false);
   const handleCloseEditForm = () => setIsEditFormOpen(false);
-
   const handleProductSubmit = async (formData) => {
     try {
       const response = await axios.post(
@@ -93,11 +102,18 @@ const ProductList = () => {
       console.error("Error creating product:", error);
     }
   };
-
+  
   useEffect(() => {
     fetchProducts();
   }, []);
-
+  
+  // const handleEditSubmit = (data, id) => {
+  //   setProducts(prevProducts => 
+  //     prevProducts.map(product => 
+  //       product.id === id ? { ...product, ...data } : product
+  //     )
+  //   );
+  // };
   const handleDeleteClick = (id) => {
     setDeleteUserId(id);
     setDeleteModalOpen(true);
@@ -215,7 +231,11 @@ const ProductList = () => {
                       <td className="px-6 py-3">{product.category.name}</td>
                       <td className="px-6 py-3">{product.quantity}</td>
                       <td className="px-6 py-3 flex h-[100px] items-center justify-around gap-1 ">
-                        <button href="#">
+                        <button 
+                        onClick={() =>
+                          handleOpenViewForm(product._id)
+                        }
+                        >
                           <img src="view.png" alt="view" className="h-[20px]" />
                         </button>
                         <button
@@ -272,10 +292,15 @@ const ProductList = () => {
       </div>
       <ProductEditForm
         isOpen={isEditFormOpen}
-        // onSubmit={handleEditSubmit}
         onClose={handleCloseEditForm}
         productId={editProductId}
+        // onSubmit={(data, productId) => handleEditSubmit(data, productId)}
       />
+      <ProductView
+      isOpen={isViewFormOpen}
+      onClose={handleCloseViewForm}
+      productId={viewProductId} 
+        />
       {/* {isProductFormOpen && (
         <ProductForm
           onSubmit={handleProductSubmit}
