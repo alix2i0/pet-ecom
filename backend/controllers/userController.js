@@ -289,3 +289,8 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message }); // Handling errors
   }
 };
+
+exports.CountUsers = async(req,res) => {
+  const count=await User.countDocuments();
+  res.json(count);
+}

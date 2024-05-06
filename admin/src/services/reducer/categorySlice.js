@@ -39,7 +39,8 @@ export const updateCategories   = createAsyncThunk ("category/updateCategories",
 })
 
 export const deleteCategories   = createAsyncThunk ("category/deleteCategories", async (data) => {
-    const response = await axios.delete(`http://localhost:3300/api/categories/${data.id}`,{
+    console.log(data);
+    const response = await axios.delete(`http://localhost:3300/api/categories/${data}`,{
         withCredentials: true,
         headers : {
             'Content-Type' : 'application/json',
@@ -101,6 +102,20 @@ export const categorySlice = createSlice({
                 });
             })
             .addCase(updateCategories.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
+            // add case for deleting a new Category
+            .addCase(deleteCategories.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(deleteCategories.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = null;
+                state.categories = state.categories.filter((category) => category._id !== action.payload.id);
+            })
+            .addCase(deleteCategories.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = action.payload;
             })

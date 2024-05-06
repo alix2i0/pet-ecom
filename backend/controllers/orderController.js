@@ -246,3 +246,21 @@ exports.deleteOrder = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+//Get total amount of all orders in USD
+exports.getTotalAmount = async (req, res) => {
+  try {
+    const totalAmount = await Order.aggregate([
+      { $group: { _id: null, totalAmount: { $sum: "$totalAmount" } } },
+    ]);
+    res.json(totalAmount[0].totalAmount);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+exports.countOrder = async(req,res)=>{
+
+  const count = await Order.countDocuments();
+  res.json(count);
+}

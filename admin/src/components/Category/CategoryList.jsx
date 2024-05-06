@@ -1,7 +1,7 @@
 // CategoryList.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories } from "../../services/reducer/categorySlice";
+import { fetchCategories,deleteCategories } from "../../services/reducer/categorySlice";
 import CategoryForm from "./CategoryForm";
 
 const CategoryList = () => {
@@ -21,6 +21,10 @@ const CategoryList = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [formMode, setFormMode] = useState("add");
   const [editCategoryData, setEditCategoryData] = useState(null);
+
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteCategoryId, setDeleteCategoryId] = useState(null);
+
 
   useEffect(() => {
     dispatch(
@@ -59,6 +63,24 @@ const CategoryList = () => {
     setFormMode("edit");
     setIsFormVisible(true);
     setEditCategoryData(category);
+  };
+
+  const handleDeleteClick = (id) => {
+    setDeleteCategoryId(id);
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteCategoryId) {
+      dispatch(deleteCategories(deleteCategoryId));
+      setDeleteCategoryId(null);
+      setDeleteModalOpen(false);
+    }
+  };
+
+  const closeModal = () => {
+    setDeleteCategoryId(null);
+    setDeleteModalOpen(false);
   };
 
   const handleCloseForm = () => {
@@ -129,7 +151,7 @@ const CategoryList = () => {
                       <button onClick={() => handleEditCategory(category)}>
                         <img src="edit.png" alt="edit" className="h-[20px]" />
                       </button>
-                      <button>
+                      <button onClick={()=>handleDeleteClick(category._id)}>
                         <img
                           src="delete.png"
                           alt="delete"
@@ -158,6 +180,28 @@ const CategoryList = () => {
             ))}
           </div>
         </div>
+        
+        {deleteModalOpen && (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-5 rounded-lg">
+              <p>Are you sure you want to delete this category?</p>
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={confirmDelete}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg mr-2"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={closeModal}
+                  className="bg-gray-400 text-white px-4 py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       {isFormVisible && (
         <CategoryForm

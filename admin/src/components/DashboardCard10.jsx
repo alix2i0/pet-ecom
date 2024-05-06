@@ -15,7 +15,7 @@ function DashboardCard10() {
       name: 'Alex Shatov',
       email: 'alexshatov@gmail.com',
       location: '🇺🇸',
-      spent: '$2,890.66',
+      spent: '$2,890.66', 
     },
     {
       id: '1',

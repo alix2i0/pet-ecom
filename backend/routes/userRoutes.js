@@ -9,6 +9,9 @@ router.post('/', isAdmin, userController.createUser);
 // Get all users (only accessible to admin)
 router.get('/', isAdmin, userController.getAllUsers);
 
+// Get Count users
+router.get('/count',isAdmin,userController.CountUsers);
+
 // Get a specific user by ID
 router.get('/:userId',isAdmin, userController.getUserById);
 
