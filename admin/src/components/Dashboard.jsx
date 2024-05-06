@@ -4,7 +4,7 @@ import UserList from "./User/UserList";
 import Orders from "./Orders/Orders";
 import { getAllUsers } from "../services/reducer/userSlice";
 import { useDispatch } from "react-redux";
-
+import Card10 from "./DashboardCard10";
 const Dashboard = () => {
   const dispatch = useDispatch();
  
@@ -119,7 +119,9 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+
         </div>
+        <Card10 />
       </div>
     </div>
   );
