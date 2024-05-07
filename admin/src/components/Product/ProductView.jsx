@@ -66,7 +66,7 @@ const ProductView = ({ isOpen, onClose, productId }) => {
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-teal-400 shadow p-3">
-            <div className="bg-white p-5 rounded-lg w-[350px] flex flex-col gap-3">
+            <div className="bg-white p-5 rounded-lg w-[550px] flex flex-col gap-3">
               <h2 className="text-xl text-gray-800 mb-3">Edit product</h2>
               <div className="card lg:card-side bg-base-100 shadow-xl">
                 <figure>
@@ -79,22 +79,31 @@ const ProductView = ({ isOpen, onClose, productId }) => {
                   />
                 </figure>
                 <div className="card-body">
-                  <div className="grid grid-cols-2 gap-4 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                    <div className="col-span-1">
-                      <h2 className="text-xl text-gray-900 mb-2">Name:</h2>
-                      <p className="text-gray-900 mb-2">Description:</p>
-                      <p className="text-gray-900 mb-2">Price:</p>
-                      <p className="text-gray-900 mb-2">Category:</p>
-                      <p className="text-gray-900 mb-2">Quantity:</p>
-                    </div>
-                    <div className="col-span-1">
-                      <h2 className="text-xl font-bold mb-2">{name}</h2>
-                      <p className="text-gray-700 mb-2">{description}</p>
-                      <p className="text-gray-800 mb-2">${price}</p>
-                      <p className=" text-gray-600 mb-2">{category}</p>
-                      <p className="font-bold">{quantity}</p>
-                    </div>
-                  </div>
+                <div className="grid gap-4 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <div className="col-span-1 flex flex-col justify-between">
+    <div className="flex justify-between mb-2">
+      <h2 className="text-xl text-gray-900">Name:</h2>
+      <h2 className="text-xl font-bold">{name}</h2>
+    </div>
+    <div className="flex justify-between mb-2">
+      <p className="text-gray-900 mr-5">Description:</p>
+      <p className="text-gray-700">{description}</p>
+    </div>
+    <div className="flex justify-between mb-2">
+      <p className="text-gray-900">Price:</p>
+      <p className="text-gray-800">${price}</p>
+    </div>
+    <div className="flex justify-between mb-2">
+      <p className="text-gray-900">Category:</p>
+      <p className="text-gray-600">{category}</p>
+    </div>
+    <div className="flex justify-between mb-2">
+      <p className="text-gray-900">Quantity:</p>
+      <p className="font-bold">{quantity}</p>
+    </div>
+  </div>
+</div>
+
 
                   <div className="card-actions justify-between">
                     {images.length > 1 && (

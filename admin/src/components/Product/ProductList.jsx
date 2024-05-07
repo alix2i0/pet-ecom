@@ -65,24 +65,26 @@ const ProductList = () => {
   //     return 0;
   //   });
   // }
-// Inside the sorting logic
-if (sortBy === "category") {
-  filteredProducts.sort((a, b) => {
-    const categoryNameA = a.category.name.toLowerCase();
-    const categoryNameB = b.category.name.toLowerCase();
-    if (categoryNameA < categoryNameB) return sortOrder === "asc" ? -1 : 1;
-    if (categoryNameA > categoryNameB) return sortOrder === "asc" ? 1 : -1;
-    return 0;
-  });
-} else {
-  filteredProducts.sort((a, b) => {
-    const aValue = typeof a[sortBy] === 'string' ? a[sortBy].toLowerCase() : a[sortBy];
-    const bValue = typeof b[sortBy] === 'string' ? b[sortBy].toLowerCase() : b[sortBy];
-    if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-    if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-    return 0;
-  });
-}
+  // Inside the sorting logic
+  if (sortBy === "category") {
+    filteredProducts.sort((a, b) => {
+      const categoryNameA = a.category.name.toLowerCase();
+      const categoryNameB = b.category.name.toLowerCase();
+      if (categoryNameA < categoryNameB) return sortOrder === "asc" ? -1 : 1;
+      if (categoryNameA > categoryNameB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  } else {
+    filteredProducts.sort((a, b) => {
+      const aValue =
+        typeof a[sortBy] === "string" ? a[sortBy].toLowerCase() : a[sortBy];
+      const bValue =
+        typeof b[sortBy] === "string" ? b[sortBy].toLowerCase() : b[sortBy];
+      if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  }
 
   // Get current products for the current page
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -181,14 +183,14 @@ if (sortBy === "category") {
             <div className="flex flex-col gap-8">
               <div className="flex justify-end items-center gap-8">
                 <div className="flex justify-center items-center">
-                  <div className="mr-5">
+                  {/* <div className="mr-5">
                     <span>Items per page:&nbsp;</span>
                     <select className="border border-gray-300 text-gray-500 rounded px-3 py-1">
                       <option>3</option>
                       <option>5</option>
                       <option>7</option>
                     </select>
-                  </div>
+                  </div> */}
                   <div className="relative">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                       <svg
@@ -294,7 +296,7 @@ if (sortBy === "category") {
                           {product.quantity}
                         </td>
                         {/* i changed the color to read maybe black instead just remove the color */}
-                        <td className="px-6 py-3 flex h-[100px] items-center justify-around gap-1 ">
+                        <td className="px-6 py-3 flex h-[100px] w-[200px] items-center justify-around gap-1 ">
                           <button
                             onClick={() => handleOpenViewForm(product._id)}
                           >
@@ -337,11 +339,11 @@ if (sortBy === "category") {
               paginate={paginate}
             /> */}
             <Pagination
-  productsPerPage={productsPerPage}
-  totalProducts={filteredProducts.length} // Update totalProducts with the length of filteredProducts
-  currentPage={currentPage}
-  paginate={paginate}
-/>
+              productsPerPage={productsPerPage}
+              totalProducts={filteredProducts.length} // Update totalProducts with the length of filteredProducts
+              currentPage={currentPage}
+              paginate={paginate}
+            />
 
             {deleteModalOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
