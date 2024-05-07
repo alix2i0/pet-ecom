@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductList from "./Product/ProductList";
 import UserList from "./User/UserList";
 import Orders from "./Orders/Orders";
-import { getAllUsers } from "../services/reducer/userSlice";
-import { useDispatch } from "react-redux";
+import { CountUsers  } from "../services/reducer/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import Card10 from "./DashboardCard10";
+
+import { fetchCategories } from "../services/reducer/categorySlice";
+import { CountProducts,CountOrders,CountTotalAmount } from "../services/reducer/productSlice";
+
 const Dashboard = () => {
   const dispatch = useDispatch();
- 
+  const users = useSelector((state) => state.user.CountUsers);
+  const products = useSelector((state) => state.product.count);
+  const orders =  useSelector((state) => state.product.ordersCount);
+  const totalAmount =  useSelector((state) => state.product.totalAmount);
+  
+
+  useEffect(() => {
+    dispatch(CountUsers());
+    dispatch(CountProducts())
+    dispatch(CountOrders())
+    dispatch(CountTotalAmount())
+    
+  },[]) 
+  console.log(orders,totalAmount);
+  //count users
+  const countUsers = users ? users : 0;
+
+  //count orders
+  const CountOrder = orders ? orders : 0;
+
+  //count total amount
+  const CountAmount = totalAmount ? totalAmount : 0;
+
+  //count products
+  const CountProduct = products.count ? products.count : 0;
   return (
     <div className="bg-teal-400 min-h-screen">
       <div className="p-4 sm:ml-64">
@@ -49,7 +77,7 @@ const Dashboard = () => {
               </div>
               <div class="px-4 text-gray-700">
                 <h3 class="text-sm tracking-wider">Users</h3>
-                <p class="text-3xl">12,768</p>
+                <p class="text-3xl">{countUsers}</p>
               </div>
             </div>
             <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
@@ -71,7 +99,7 @@ const Dashboard = () => {
               </div>
               <div class="px-4 text-gray-700">
                 <h3 class="text-sm tracking-wider">Products</h3>
-                <p class="text-3xl">39,265</p>
+                <p class="text-3xl">{CountProduct}</p>
               </div>
             </div>
             <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
@@ -93,7 +121,7 @@ const Dashboard = () => {
               </div>
               <div class="px-4 text-gray-700">
                 <h3 class="text-sm tracking-wider">Orders</h3>
-                <p class="text-3xl">142,334</p>
+                <p class="text-3xl">{CountOrder}</p>
               </div>
             </div>
             <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
@@ -114,8 +142,8 @@ const Dashboard = () => {
                 </svg>
               </div>
               <div class="px-4 text-gray-700">
-                <h3 class="text-sm tracking-wider">Server Load</h3>
-                <p class="text-3xl">34.12%</p>
+                <h3 class="text-sm tracking-wider">Total Amount</h3>
+                <p class="text-3xl">{CountAmount} $</p>
               </div>
             </div>
           </div>

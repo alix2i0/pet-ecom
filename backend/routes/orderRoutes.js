@@ -6,8 +6,16 @@ const orderController = require("../controllers/orderController");
 
 // GET all commandes
 router.get("/", orderController.getAllOrders);
+
+router.get('/count',orderController.countOrder)
+router.get('/totalAmount',orderController.getTotalAmount)
+
 //Add new order
 router.post("/", orderController.postOrder);
+
+
+
+
 //UPDATE an existing order
 router.put("/:id", orderController.updateOrder);
 // DELETE an existing order

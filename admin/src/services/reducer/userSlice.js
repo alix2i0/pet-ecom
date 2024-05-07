@@ -12,6 +12,7 @@ const initialState = {
     allUsers: [],
     isLoading: false,
     isError: null,
+    CountUsers:0
 }
 
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
@@ -74,6 +75,17 @@ export const deleteUser = createAsyncThunk("user/deleteUser", async (data) => {
     });
     console.log("response",response.data);
     return response.data.data;
+
+})
+export const CountUsers = createAsyncThunk("user/CountUsers", async () => {
+    const response = await axios.get(`http://localhost:3300/api/users/count`,{
+        withCredentials: true,
+        headers : {
+            'Content-Type' : 'application/json',
+        }
+    });
+    console.log("response",response.data);
+    return response.data;
 
 })
 
@@ -139,6 +151,20 @@ export const userSlice = createSlice({
                 state.isLoading = false;
                 state.isError = action.payload;
             })
+            //Count users
+            .addCase(CountUsers.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(CountUsers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.CountUsers = action.payload;
+            })
+            .addCase(CountUsers.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
+
 
     },
 })
@@ -148,7 +174,8 @@ export const authActions = {
     getAllUsers,
     createUser,
     deleteUser,
-    updateUser
+    updateUser,
+    CountUsers
 
 }
 
@@ -156,6 +183,8 @@ export const selectUser = (state) => state.user.user;
 
 export const selectAllUsers = (state) => state.user.allUsers;
 export const selectCurrentPage  = (state) => state.user.currentPage ;
+
+export const selectCountUsers = (state) => state.user.CountUsers;
 
 export const selectLoading = (state) => state.loading;
 export const selectError = (state) => state.error;

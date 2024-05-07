@@ -187,7 +187,7 @@ exports.deleteCategoryById = async (req, res) => {
     if (!category) {
       return res.status(404).json({ message: 'Category not found' });
     }
-    res.json({ message: 'Category deleted' });
+    res.json({ message: 'Category deleted',id:category._id});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -201,6 +201,16 @@ exports.getCategoryById = async (req, res) => {
       return res.status(404).json({ message: 'Category not found' });
     }
     res.json(category);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+// Count Product 
+exports.countProduct = async (req, res) => {
+  try {
+    const count = await Productmd.countDocuments();
+    res.json({ count });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
