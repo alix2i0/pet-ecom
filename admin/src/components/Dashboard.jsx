@@ -8,6 +8,8 @@ import Card10 from "./DashboardCard10";
 
 import { fetchCategories } from "../services/reducer/categorySlice";
 import { CountProducts,CountOrders,CountTotalAmount } from "../services/reducer/productSlice";
+import ChartComponent from "../services/ChartComponent";
+import { useState } from "react";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,25 @@ const Dashboard = () => {
 
   //count products
   const CountProduct = products.count ? products.count : 0;
+
+
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3300/api/products/products-per-category')
+      .then(response => response.json())
+      .then(data => {
+        const transformedData = data.map(item => ({
+          _id: item._id,
+          totalProducts: item.totalProducts,
+          name: item.name
+        }));
+        setChartData(transformedData);
+      })
+      .catch(error => console.error('Error fetching dashboard data:', error));
+  }, []);
+  console.log("chart",chartData)
+
   return (
     <div className="bg-teal-400 min-h-screen">
       <div className="p-4 sm:ml-64">
@@ -149,7 +170,8 @@ const Dashboard = () => {
           </div>
 
         </div>
-        <Card10 />
+        
+          <ChartComponent className='mt-5' data={chartData} />
       </div>
     </div>
   );

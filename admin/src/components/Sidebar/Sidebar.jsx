@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom"; // Import de Link depuis r
 import { logout } from "../../services/reducer/authSlice";
 
 import { useDispatch } from "react-redux";
-import ThemeToggle from "./ThemeToggle";
 const Sidebar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -207,7 +206,6 @@ const Sidebar = () => {
             </form>
           </div>
           <div className="w-1/2 flex justify-end p-2">
-          <ThemeToggle />
             <div className="relative">
               <button
                 onClick={toggleSettingsMenu}

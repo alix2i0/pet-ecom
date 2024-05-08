@@ -1,22 +1,28 @@
-import React from 'react';
-import Dashboard from './components/Dashboard';
-import { Routes, Route } from "react-router-dom";
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ProductList from './components/Product/ProductList';
+import React,{ useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import Component from './components/component/component';
+import { BrowserRouter as Router } from 'react-router-dom';
 
+// Créez un contexte pour le basename
+const BasenameContext = React.createContext();
 
 function App() {
+  const [count, setCount] = useState(0);
+
+  // Initialisez la valeur du basename
+  const basename = '/';
+
   return (
-    <div>
-      {/* <Dashboard/> */}
-      <Routes>
-        <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/' element={<Login/>} />
-        <Route path='/products' element={<ProductList/>} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </div>
+    // Fournissez le contexte du basename à l'intérieur du Router
+    <BasenameContext.Provider value={basename}>
+      <Router>
+        <div>
+          <Component />
+        </div>
+      </Router>
+    </BasenameContext.Provider>
   );
 }
 

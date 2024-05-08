@@ -13,6 +13,7 @@ import UserPage from "./pages/UserPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetail from "./components/Orders/OrderDetail";
 import UserForm from "./components/User/UserForm";
+
 import ForgotPassword from "./pages/ForgotPassword";
 import PasswordReset from "./pages/PasswordReset";
 
@@ -22,6 +23,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import CategoryList from "./components/Category/CategoryList";
 import CategoryForm from "./components/Category/CategoryForm";
 
+
 function App() {
   const [count, setCount] = useState(0);
 
@@ -30,10 +32,14 @@ function App() {
   // Check if the current route is the login page
   const isLoginPage = location.pathname === "/login";
   const isRegisterPage = location.pathname === "/register";
+  const isforgotpassword = location.pathname === "/forgot-password"
+  const isresetpassword = location.pathname === "/reset-password"
+  
 
   return (
     <div>
-      {!isLoginPage && !isRegisterPage && <Sidebar />}  
+
+      {!isLoginPage && !isRegisterPage && !isforgotpassword && !isresetpassword && <Sidebar />}  
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

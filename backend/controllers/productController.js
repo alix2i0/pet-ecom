@@ -1,5 +1,5 @@
 const Productmd = require('../models/Product.js');
-const Category = require('../models/category.js');
+const category = require('../models/category.js');
 // Fetch all products (accessible to both admin and normal user)
 exports.getAllProducts = async (req, res) => {
   try {
@@ -215,3 +215,16 @@ exports.countProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+
+exports.getProductsPerCategory = async (req, res) => {
+  try {
+    const productsPerCategory = await Productmd.aggregate([
+      { $lookup: { from: 'categories', localField: 'category', foreignField: '_id', as: 'category' } },
+      { $unwind: '$category' },
+      { $group: { _id: '$category._id', totalProducts: { $sum: 1 }, name: { $first: '$category.name' } } }
+    ]);
+    res.json(productsPerCategory);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
