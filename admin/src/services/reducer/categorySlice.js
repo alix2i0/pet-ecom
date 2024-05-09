@@ -4,7 +4,8 @@ import axios from "axios";
 const initialState ={
     isLoading: false,
     isError: null,
-    categories: []
+    categories: [],
+    productscat:[]
 }
 
 export const fetchCategories = createAsyncThunk ("category/fetchCategories", async (params) => {
@@ -39,8 +40,18 @@ export const updateCategories   = createAsyncThunk ("category/updateCategories",
 })
 
 export const deleteCategories   = createAsyncThunk ("category/deleteCategories", async (data) => {
-    console.log(data);
     const response = await axios.delete(`http://localhost:3300/api/categories/${data}`,{
+        withCredentials: true,
+        headers : {
+            'Content-Type' : 'application/json',
+        }
+    });
+    return response.data;
+})
+
+// get category Details
+export const getCategoryById = createAsyncThunk ("category/getCategoryById", async (id) => {
+    const response = await axios.get(`http://localhost:3300/api/categories/${id}`,{
         withCredentials: true,
         headers : {
             'Content-Type' : 'application/json',
@@ -65,7 +76,6 @@ export const categorySlice = createSlice({
                 state.categories = action.payload.categories;
                 state.currentPage = action.payload.currentPage;
                 state.totalPages = action.payload.totalPages;
-                console.log("action.payload",action.payload)
 
             })
             .addCase(fetchCategories.rejected, (state, action) => {
@@ -120,6 +130,24 @@ export const categorySlice = createSlice({
                 state.isError = action.payload;
             })
 
+            // Category details 
+            .addCase(getCategoryById.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(getCategoryById.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = null;
+                console.log(action.payload);
+                state.category = action.payload.category;
+                state.products = action.payload.products;
+            })
+            .addCase(getCategoryById.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
+
+
     }
 
 })
@@ -127,7 +155,9 @@ export const categorySlice = createSlice({
 export const selectError = (state) => state.error
 export const selectIsLoading = (state) => state.loading
 export const selectCategories = (state) => state.category
+export const selectProductperCatgory = (state) => state.category.productscat
 export const selectCurrentPage = (state) => state.category.currentPage
 export const selectTotalPages = (state) => state.category.totalPages
+
 
 export default categorySlice.reducer

@@ -22,6 +22,7 @@ import UserDetail from "./components/User/UserDetail";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import CategoryList from "./components/Category/CategoryList";
 import CategoryForm from "./components/Category/CategoryForm";
+import { CategoryDetails } from "./components/component/CategoryDetails";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <div>
+      
 
       {!isLoginPage && !isRegisterPage && !isforgotpassword && !isresetpassword && <Sidebar />}  
       <Routes>
@@ -58,12 +60,14 @@ function App() {
           <Route path="/categories" element={<CategoryList />} />
           <Route path="/categories/new" element={<CategoryForm />} />
           <Route path="/categories/:id/edit" element={<CategoryForm />} />
+          <Route path="/categories/:id" element={<CategoryDetails />} />
           <Route path="/*"></Route>
 
         </Route>
     
         <Route path="/reset-password/:token" element={<PasswordReset />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        
       </Routes>
     </div>
   );

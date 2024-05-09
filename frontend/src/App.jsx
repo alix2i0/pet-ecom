@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg';
 import './App.css';
 import Component from './components/component/component';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ProductDetails } from './components/component/product-details';
 
 // Créez un contexte pour le basename
 const BasenameContext = React.createContext();
@@ -19,7 +20,8 @@ function App() {
     <BasenameContext.Provider value={basename}>
       <Router>
         <div>
-          <Component />
+          <ProductDetails />
+
         </div>
       </Router>
     </BasenameContext.Provider>

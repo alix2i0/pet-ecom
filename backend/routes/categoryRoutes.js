@@ -5,7 +5,7 @@ const {isAdmin} = require('../middleware/authMiddleware')
 
 router.get('/', categoryController.getAllCategories);
 router.post('/',isAdmin, categoryController.createCategories);
-router.get('/:id',isAdmin, categoryController.getCategoryById);
+router.get('/:id',isAdmin, categoryController.getCategoryDetailsById);
 router.put('/:id',isAdmin, categoryController.updateCategory);
 router.delete('/:id',isAdmin, categoryController.deleteCategoryById);
 
