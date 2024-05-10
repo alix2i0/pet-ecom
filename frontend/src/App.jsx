@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ProductList from './components/Product/ProductList';
+import LandingPage from './components/Landing/LandingPage';
 
 
 function App() {
@@ -12,8 +13,9 @@ function App() {
       {/* <Dashboard/> */}
       <Routes>
         <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/' element={<Login/>} />
+        <Route path='/login' element={<Login/>} />
         <Route path='/products' element={<ProductList/>} />
+        <Route path='/' element={<LandingPage/>} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </div>
