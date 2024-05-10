@@ -1,4 +1,5 @@
 const Productmd = require('../models/Product.js');
+const category = require('../models/category.js');
 const Category = require('../models/category.js');
 // Fetch all products (accessible to both admin and normal user)
 exports.getAllProducts = async (req, res) => {
@@ -215,3 +216,31 @@ exports.countProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
+
+exports.getProductsPerCategory = async (req, res) => {
+  try {
+    const productsPerCategory = await Productmd.aggregate([
+      { $lookup: { from: 'categories', localField: 'category', foreignField: '_id', as: 'category' } },
+      { $unwind: '$category' },
+      { $group: { _id: '$category._id', totalProducts: { $sum: 1 }, name: { $first: '$category.name' } } }
+    ]);
+    res.json(productsPerCategory);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// Gatt all details about categorie and all product in this category
+exports.getCategoryDetailsById = async(req,res)=>{
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({ message: 'Category not found' });
+    }
+    const products = await Productmd.find({ category: category._id });
+  
+    console.log(category);
+    res.json({category,products});
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+} 

@@ -13,6 +13,7 @@ import UserPage from "./pages/UserPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderDetail from "./components/Orders/OrderDetail";
 import UserForm from "./components/User/UserForm";
+
 import ForgotPassword from "./pages/ForgotPassword";
 import PasswordReset from "./pages/PasswordReset";
 
@@ -21,6 +22,8 @@ import UserDetail from "./components/User/UserDetail";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import CategoryList from "./components/Category/CategoryList";
 import CategoryForm from "./components/Category/CategoryForm";
+import { CategoryDetails } from "./components/component/CategoryDetails";
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,10 +33,15 @@ function App() {
   // Check if the current route is the login page
   const isLoginPage = location.pathname === "/login";
   const isRegisterPage = location.pathname === "/register";
+  const isforgotpassword = location.pathname === "/forgot-password"
+  const isresetpassword = location.pathname === "/reset-password"
+  
 
   return (
     <div>
-      {!isLoginPage && !isRegisterPage && <Sidebar />}  
+      
+
+      {!isLoginPage && !isRegisterPage && !isforgotpassword && !isresetpassword && <Sidebar />}  
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -52,12 +60,14 @@ function App() {
           <Route path="/categories" element={<CategoryList />} />
           <Route path="/categories/new" element={<CategoryForm />} />
           <Route path="/categories/:id/edit" element={<CategoryForm />} />
+          <Route path="/categories/:id" element={<CategoryDetails />} />
           <Route path="/*"></Route>
 
         </Route>
     
         <Route path="/reset-password/:token" element={<PasswordReset />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        
       </Routes>
     </div>
   );

@@ -10,8 +10,8 @@ router.get('/search', productController.searchProducts);
 
 router.get('/', productController.getAllProducts);
 router.get('/count',isAdmin, productController.countProduct);
+router.get('/products-per-category', productController.getProductsPerCategory);
 router.post('/',isAdmin, productController.createProduct);
-// router.get('/category/',isAdmin, productController.);
 router.get('/category',isAdmin, productController.getAllCategories);
 router.get('/:id',isAdmin, productController.getProductById);
 router.put('/:id',isAdmin, productController.updateProductById);
