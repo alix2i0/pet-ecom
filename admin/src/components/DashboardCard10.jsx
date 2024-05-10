@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Image01 from '../../public/profiles/image01.jpg';
-import Image02 from '../../public/profiles/image02.jpg';
-import Image03 from '../../public/profiles/image03.jpg';
-import Image04 from '../../public/profiles/image04.jpg';
-import Image05 from '../../public/profiles/image05.jpg';
+import Image02 from '../assets/profiles/image02.jpg';
+import Image01 from '../assets/profiles/image01.jpg';
+import Image03 from '../assets/profiles/image03.jpg';
+import Image04 from '../assets/profiles/image04.jpg';
+import Image05 from '../assets/profiles/image05.jpg';
 
 function DashboardCard10() {
 
