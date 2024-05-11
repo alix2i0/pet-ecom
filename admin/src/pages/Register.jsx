@@ -75,8 +75,8 @@ export default function Register({ onSignUp }) {
             Sign up
           </h2>
           <form onSubmit={handleSubmit}>
-            <div class="grid md:grid-cols-2 md:gap-6">
-              <div class="relative z-0 w-full mb-5 group">
+            <div className="grid md:grid-cols-2 md:gap-6">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
                   name="floating_first_name"
@@ -89,12 +89,12 @@ export default function Register({ onSignUp }) {
                 />
                 <label
                   for="floating_first_name"
-                  class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   First name
                 </label>
               </div>
-              <div class="relative z-0 w-full mb-5 group">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
                   name="floating_last_name"
@@ -107,7 +107,7 @@ export default function Register({ onSignUp }) {
                 />
                 <label
                   for="floating_last_name"
-                  class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Last name
                 </label>
@@ -186,9 +186,9 @@ export default function Register({ onSignUp }) {
             </div>
           </form>
           <div className="flex flex-col gap-2 mt-2">
-            <div class="mt-3 text-sm text-center text-gray-300">
+            <div className="mt-3 text-sm text-center text-gray-300">
               Already registered?&nbsp;
-              <Link to="/login" class="underline hover:text-teal-400">
+              <Link to="/login" className="underline hover:text-teal-400">
                 Login now
               </Link>
             </div>

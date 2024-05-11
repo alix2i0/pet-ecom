@@ -72,7 +72,7 @@ const OrderDetail = () => {
           <div className="flex justify-end">
             
           <Link
-            class="p-2.5 ms-2 text-center w-[70px] text-sm font-medium text-white bg-teal-400 rounded-lg border border-teal-400 hover:bg-teal-500 focus:ring-4 focus:outline-none"
+            className="p-2.5 ms-2 text-center w-[70px] text-sm font-medium text-white bg-teal-400 rounded-lg border border-teal-400 hover:bg-teal-500 focus:ring-4 focus:outline-none"
             to="/orders"
           >
             Back

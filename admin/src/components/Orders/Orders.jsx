@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -78,7 +86,9 @@ const Orders = () => {
   const updateOrderStatus = async (orderId) => {
     try {
       const newStatus = selectedStatus[orderId];
-      await axios.put(`http://localhost:3300/api/orders/${orderId}`, { status: newStatus });
+      await axios.put(`http://localhost:3300/api/orders/${orderId}`, {
+        status: newStatus,
+      });
       // Optionally, you can fetch orders again to refresh the data after updating status
       fetchOrders();
     } catch (error) {
@@ -134,50 +144,39 @@ const Orders = () => {
             </div>
           </div>
 
-
-          <div className="overflow-x-auto">
-            <table className="text-center w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-100">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Customer
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Products
-                  </th>
-                  <th scope="col" className="px-6 py-3 truncate">
-                    Total Amount
-                  </th>
-                  <th>Status</th>
-                  <th onClick={() => handleSort("orderDate")}>
+          <div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead scope="col">Customer</TableHead>
+                  <TableHead scope="col">Products</TableHead>
+                  <TableHead scope="col">Total Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead onClick={() => handleSort("orderDate")}>
                     Date{" "}
                     {sortBy === "orderDate" && (sortOrder === 1 ? "▲" : "▼")}
-                  </th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
+                  </TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {orders.map((order) => (
-                  <tr
-                    key={order._id}
-                    className="text-gray-900 bg-gray-50 hover:bg-gray-100"
-                  >
-                    <td className="px-6 py-3">{order.customer.username}</td>
-                    <td className="px-6 py-3">
-                      {/* Display product details here */}
-                      <ul>
-                        {order.products.map((product) => (
-                          <li key={product._id}>
-                            <span>{product.product?.name}</span>{" "}
-                            <b>
-                              x<span>{product.quantity}</span>
-                            </b>
-                          </li>
-                        ))}
-                      </ul>
-                    </td>
-                    <td className="px-6 py-3">{order.totalAmount}</td>
-                    <td className="px-6 py-3 flex items-center justify-center">
+                  <TableRow key={order._id}>
+                    <TableCell>{order.customer.username}</TableCell>
+                    {/* Display product details here */}
+                    <ul>
+                      {order.products.map((product) => (
+                        <li key={product._id}>
+                          <span>{product.product?.name}</span>{" "}
+                          <b>
+                            x<span>{product.quantity}</span>
+                          </b>
+                        </li>
+                      ))}
+                    </ul>
+                    <TableCell />
+                    <TableCell>{order.totalAmount}</TableCell>
+                    <TableCell className="flex items-center justify-center">
                       <select
                         value={selectedStatus[order._id] || order.status}
                         onChange={(e) => handleStatusChange(order._id, e)}
@@ -186,13 +185,13 @@ const Orders = () => {
                         <option value="Completed">Completed</option>
                         <option value="Rejected">Rejected</option>
                       </select>
-                       
+
                       <button onClick={() => updateOrderStatus(order._id)}>
-                        <img src="save.png" className="h-[20px]" alt="#"/>
+                        <img src="save.png" className="h-[20px]" alt="#" />
                       </button>
-                    </td>
-                    <td className="px-6 py-3">{formatDate(order.orderDate)}</td>
-                    <td className="px-6 py-3 flex h-[100px] items-center justify-around gap-1">
+                    </TableCell>
+                    <TableCell>{formatDate(order.orderDate)}</TableCell>
+                    <TableCell className="flex h-[100px] items-center justify-around gap-1">
                       <Link to={`/orders/${order._id}`}>
                         <img src="view.png" alt="view" className="h-[20px]" />
                       </Link>
@@ -203,14 +202,12 @@ const Orders = () => {
                           className="h-[20px]"
                         />
                       </button>
-                      
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
-
 
           {/* Pagination */}
           <div className="flex justify-center mt-4">
@@ -228,7 +225,6 @@ const Orders = () => {
               </button>
             ))}
           </div>
-          
         </div>
       </div>
     </div>
