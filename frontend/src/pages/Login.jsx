@@ -53,9 +53,16 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
-        <h1 className="text-3xl text-center mb-8">Login</h1>
+        <div className="flex flex-col justify-center items-center mb-8">
+          <img
+            src="public/Logo.png"
+            alt="Pet Store Logo"
+            className="h-12 mr-2 mb-6 "
+          />
+          <h1 className="text-3xl font-light">LOGIN</h1>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">
@@ -80,14 +87,14 @@ const Login = () => {
               required
               className="mt-1 px-4 py-2 w-full border rounded-md"
             />
-            <a href="#" className="text-gray-500 text-sm">
+            <a href="/forgetPassword" className="text-gray-500 text-sm">
               Forget password?
             </a>
           </div>
           <div className="flex justify-center gap-2">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+              className="bg-amber-500 text-white font-semibold px-4 py-2 w-full rounded-md hover:bg-amber-600"
             >
               Login
             </button>
@@ -99,6 +106,14 @@ const Login = () => {
             </button> */}
           </div>
         </form>
+        <div className="mt-6 text-center">
+          <span className="text-gray-700">
+            Don&apos;t have an account?{" "}
+            <Link to="/register" className="text-blue-500 font-medium">
+              Sign up now
+            </Link>
+          </span>
+        </div>
       </div>
       {/* <div className="mt-4 text-gray-600">
         <span>
