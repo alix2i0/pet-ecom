@@ -112,6 +112,23 @@ const Sidebar = () => {
             </li>
             <li>
               <Link
+                to="/pets"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
+                <svg
+                  className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 18 20"
+                >
+                    <path d="M16.417 9.579A7.917 7.917 0 1 1 8.5 1.662a7.917 7.917 0 0 1 7.917 7.917zm-11.293.252A1.31 1.31 0 0 0 5.648 8.1c-.267-.76-.934-1.22-1.49-1.024a1.31 1.31 0 0 0-.524 1.73c.267.761.934 1.22 1.49 1.025zm6.664.747a4.606 4.606 0 0 0-6.518 0 1.945 1.945 0 0 0 2.75 2.75.72.72 0 0 1 1.017 0 1.945 1.945 0 0 0 2.75-2.75zM5.84 6.986c.087.918.7 1.61 1.372 1.547.67-.064 1.143-.86 1.057-1.777-.087-.917-.701-1.61-1.372-1.546-.67.063-1.144.859-1.057 1.776zm4.003 1.547c.671.063 1.285-.63 1.372-1.547.087-.917-.386-1.713-1.057-1.776-.67-.064-1.285.629-1.372 1.546-.086.918.387 1.713 1.057 1.777zM12.9 7.076c-.556-.195-1.223.263-1.49 1.024a1.31 1.31 0 0 0 .524 1.73c.556.196 1.223-.263 1.49-1.024a1.31 1.31 0 0 0-.524-1.73z"></path>
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">Pets</span>
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/orders"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
@@ -146,7 +163,7 @@ const Sidebar = () => {
             </li>
             <li>
               <Link
-              onClick={handleLogout}
+                onClick={handleLogout}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -165,7 +182,7 @@ const Sidebar = () => {
                   />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
-              </Link >
+              </Link>
             </li>
           </ul>
         </div>
@@ -240,9 +257,10 @@ const Sidebar = () => {
                     </a>
                   </li>
                   <li>
-                    <a 
+                    <a
                       onClick={handleLogout}
-                     className="block py-2 px-4 hover:bg-gray-100">
+                      className="block py-2 px-4 hover:bg-gray-100"
+                    >
                       Logout
                     </a>
                   </li>
