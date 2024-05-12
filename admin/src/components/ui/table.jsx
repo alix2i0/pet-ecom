@@ -54,7 +54,7 @@ TableHead.displayName = "TableHead"
 const TableCell = React.forwardRef(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("px-6 py-3 flex items-center justify-center", className)}
+    className={cn("px-6 py-3", className)}
     {...props}
   />
 ));

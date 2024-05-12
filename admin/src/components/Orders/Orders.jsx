@@ -164,17 +164,18 @@ const Orders = () => {
                   <TableRow key={order._id}>
                     <TableCell>{order.customer.username}</TableCell>
                     {/* Display product details here */}
-                    <ul>
-                      {order.products.map((product) => (
-                        <li key={product._id}>
-                          <span>{product.product?.name}</span>{" "}
-                          <b>
-                            x<span>{product.quantity}</span>
-                          </b>
-                        </li>
-                      ))}
-                    </ul>
-                    <TableCell />
+                    <TableCell>
+                      <ul>
+                        {order.products.map((product) => (
+                          <li key={product._id}>
+                            <span>{product.product?.name}</span>{" "}
+                            <b>
+                              x<span>{product.quantity}</span>
+                            </b>
+                          </li>
+                        ))}
+                      </ul>
+                    </TableCell>
                     <TableCell>{order.totalAmount}</TableCell>
                     <TableCell className="flex items-center justify-center">
                       <select
