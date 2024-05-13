@@ -166,9 +166,9 @@ const Navbar = () => {
           </a>
           <a
             className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
-              "/services"
+              "/products"
             )}`}
-            href="services"
+            href="products"
           >
             Products
           </a>
