@@ -65,11 +65,13 @@ const Register = () => {
       <div className="lg:flex-1 flex items-center justify-center">
         <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
           <div className="flex flex-col justify-center items-center mb-8">
-            <img
-              src="public/Logo.png"
-              alt="Pet Store Logo"
-              className="h-12 mr-2 mb-6 "
-            />
+            <a href="/home">
+              <img
+                src="public/Logo.png"
+                alt="Pet Store Logo"
+                className="h-12 mr-2 mb-6 "
+              />
+            </a>
             <h1 className="text-3xl font-light">REGISTER</h1>
           </div>
           <form action="POST" onSubmit={handleSubmit}>
@@ -84,7 +86,7 @@ const Register = () => {
                 type="text"
                 id="petStoreName"
                 onChange={handleUsernameChange}
-                className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none focus:border-amber-600"
                 placeholder="Enter your username"
               />
             </div>
@@ -96,7 +98,7 @@ const Register = () => {
                 type="email"
                 id="email"
                 onChange={handleEmailChange}
-                className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none focus:border-amber-600"
                 placeholder="your_email@example.com"
               />
             </div>
@@ -108,13 +110,13 @@ const Register = () => {
                 type="password"
                 id="password"
                 onChange={handlePasswordChange}
-                className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                className="mt-1 px-4 py-2 w-full border rounded-md focus:outline-none focus:border-amber-600"
                 placeholder="Enter your password"
               />
             </div>
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
+              className="bg-amber-500 text-white px-4 py-2 rounded-md hover:bg-amber-600 w-full"
             >
               Register
             </button>
@@ -122,18 +124,18 @@ const Register = () => {
           <div className="mt-4 text-gray-600">
             <span>
               Already have an account?{" "}
-              <Link to="/login" className="text-blue-500">
+              <Link to="/login" className="text-amber-600">
                 Login
               </Link>
             </span>
           </div>
           <div className="mt-4 text-gray-600 text-sm">
             By registering, you agree to our{" "}
-            <Link to="/terms" className="text-blue-500">
+            <Link to="/terms" className="text-amber-600">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link to="/privacy" className="text-blue-500">
+            <Link to="/privacy" className="text-amber-600">
               Privacy Policy
             </Link>
             .

@@ -128,7 +128,7 @@ const PetComponent = () => {
   };
 
   return (
-    <div className="bg-teal-400 px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1">
+    <div className="bg-teal-400 h-screen rounded-sm border border-gray-200 flex-1">
       <div className="p-3 bg-teal-400 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <div className="flex justify-between items-center p-2">
@@ -176,12 +176,12 @@ const PetComponent = () => {
           </div>
 
           <div className="overflow-x-auto mt-3">
-            <Table className="w-full text-gray-700">
+            <Table className="">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/5 md:w-auto">Pet Name</TableHead>
-                  <TableHead className="w-1/5 md:w-auto">Age</TableHead>
-                  <TableHead className="w-1/5 md:w-auto">
+                  <TableHead className="w-1/5 md:w-auto col">Pet Name</TableHead>
+                  <TableHead className="w-1/5 md:w-auto col">Age</TableHead>
+                  <TableHead className="w-1/5 md:w-auto col">
                     Availability
                   </TableHead>
                   <TableHead className="w-1/5 md:w-auto">Actions</TableHead>
@@ -205,18 +205,22 @@ const PetComponent = () => {
                         {pet.availability ? "Available" : "Not Available"}
                       </span>
                     </TableCell>
-                    <TableCell className="w-1/5 md:w-auto flex gap-1 justify-center">
+                    <TableCell className="w-1/5 md:w-auto flex gap-2 justify-center">
                       <button
                         className="text-blue-500 hover:text-blue-700 font-bold"
                         onClick={() => handleEditPet(pet)}
                       >
-                        <FontAwesomeIcon icon={faPencilAlt} />
+                        <img src="edit.png" alt="edit" className="h-[20px]" />
                       </button>
                       <button
                         className="text-red-500 hover:text-red-700 font-bold"
                         onClick={() => handleDeletePet(pet._id)}
                       >
-                        <FontAwesomeIcon icon={faTrashAlt} />
+                        <img
+                          src="delete.png"
+                          alt="delete"
+                          className="h-[20px]"
+                        />
                       </button>
                     </TableCell>
                   </TableRow>

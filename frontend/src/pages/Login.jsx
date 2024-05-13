@@ -1,79 +1,60 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { login } from "../../../admin/src/services/reducer/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const error = useSelector((state) => state.auth.isError);
+
+  if (error) {
+    console.log(error);
+  }
+
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Using useNavigate instead of useHistory
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/admin/login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("response ========>", response.data);
-      if (response.status === 200) {
-        const admin = response.data.admin;
-        localStorage.setItem("adminAuthenticated", JSON.stringify(admin));
-        navigate("/");
-      } else {
-        // Handle authentication error
-        console.error("Login failed: ", response.data.message);
-      }
-    } catch (error) {
-      console.error("Error while logging in: ", error);
+    dispatch(login({ username, password }));
+    // navigate("/dashboard");
+  };
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home");
     }
-  };
-  const handleLogout = () => {
-    const navigate = useNavigate();
-    // Clear token from local storage
-    localStorage.removeItem("adminAuthenticated");
-    navigate("/login");
-  };
+  }, [isAuthenticated, navigate]);
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
         <div className="flex flex-col justify-center items-center mb-8">
-          <img
-            src="public/Logo.png"
-            alt="Pet Store Logo"
-            className="h-12 mr-2 mb-6 "
-          />
+          <a href="/home">
+            <img
+              src="public/Logo.png"
+              alt="Pet Store Logo"
+              className="h-12 mr-2 mb-6 "
+            />
+          </a>
           <h1 className="text-3xl font-light">LOGIN</h1>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">
               Your Email
             </label>
             <input
-              type="email"
+              type="text"
               required
-              id="email"
-              onChange={handleEmailChange}
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="mt-1 px-4 py-2 w-full border rounded-md"
+              placeholder="Enter your email"
             />
           </div>
           <div className="mb-4">
@@ -83,9 +64,11 @@ const Login = () => {
             <input
               type="password"
               id="password"
-              onChange={handlePasswordChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               className="mt-1 px-4 py-2 w-full border rounded-md"
+              placeholder="Enter your password"
             />
             <a href="/forgetPassword" className="text-gray-500 text-sm">
               Forget password?
@@ -109,7 +92,7 @@ const Login = () => {
         <div className="mt-6 text-center">
           <span className="text-gray-700">
             Don&apos;t have an account?{" "}
-            <Link to="/register" className="text-blue-500 font-medium">
+            <Link to="/register" className="text-amber-600 font-medium">
               Sign up now
             </Link>
           </span>

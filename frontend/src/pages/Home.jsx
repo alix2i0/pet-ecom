@@ -1,4 +1,5 @@
 // Home.jsx
+import Services from "@/components/Services";
 import FeaturedProducts from "../components/FeaturedProducts";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -53,12 +54,12 @@ const Home = () => {
       {/* Featured Products section */}
       <section className="bg-gray-50 h-screen py-12 w-full">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl text-center font-bold text-gray-800 mb-6">
+          <h2 className="text-3xl font-bold tracking-tighter text-center text-gray-800 sm:text-4xl md:text-5xl">
             Our Best Sellers
           </h2>
           <div className="text-right">
             <a
-              href="#"
+              href="/products"
               className="text-lg font-semibold text-orange-500 hover:text-orange-600 transition-colors"
             >
               See All
@@ -66,6 +67,16 @@ const Home = () => {
           </div>
           <div className="flex justify-center">
             <FeaturedProducts />
+          </div>
+        </div>
+      </section>
+      <section className="bg-gray-50 h-screen py-12 w-full">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold tracking-tighter text-center text-gray-800 sm:text-4xl md:text-5xl">
+            Our Services
+          </h2>
+          <div className="flex justify-center">
+            <Services />
           </div>
         </div>
       </section>
