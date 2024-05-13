@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
         <div className="flex flex-col justify-center items-center mb-8">
-          <a href="/home">
+          <a href="/">
             <img
               src="public/Logo.png"
               alt="Pet Store Logo"

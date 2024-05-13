@@ -1,32 +1,65 @@
 // components/Navbar/Navbar.jsx
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { logout } from "../../../admin/src/services/reducer/authSlice";
 
 const Navbar = () => {
   const location = useLocation(); // Get current location
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
+  console.log("isAuthenticated", isAuthenticated);
   const checkActive = (path) => {
     // Function to check if the path is the current location
     return location.pathname === path ? "active" : "";
   };
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       // Set the state based on scroll position
       const position = window.pageYOffset;
-      setIsScrolled(position > 50); // Change background if scrolled more than 50px
+      setIsScrolled(position > 30); // Change background if scrolled more than 50px
+    };
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
     };
 
     // Add scroll event listener
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("mousedown", handleClickOutside);
 
     // Clean up the event listener
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout()) // Dispatch logout action
+      .unwrap() // Unwrap the Promise returned by dispatch
+      .then(() => {
+        navigate("/login"); // Navigate to login only after logout is successful
+      })
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      });
+  };
+
   return (
     <nav
       className={`fixed w-full flex flex-wrap py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
@@ -37,7 +70,7 @@ const Navbar = () => {
       <div className="md:col-span-3">
         <a
           className="flex-none rounded-xl text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
-          href="#"
+          href="/"
           aria-label="Petopia"
         >
           <img
@@ -48,7 +81,38 @@ const Navbar = () => {
         </a>
       </div>
       {isAuthenticated ? (
-        <div>Profile</div>
+        <div
+          ref={dropdownRef}
+          className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
+        >
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="py-2 px-3 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
+            >
+              Pf
+            </button>
+            {dropdownOpen && (
+              <div
+                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
+                <Link
+                  to="/profile"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  My Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       ) : (
         <div className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
           <button
@@ -93,10 +157,10 @@ const Navbar = () => {
         <div className="flex flex-col font-serif gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
           <a
             className={`relative inline-block dark:text-white ${checkActive(
-              "/home"
+              "/"
             )}`}
-            href="./home"
-            aria-current={location.pathname === "/home" ? "page" : undefined}
+            href="./"
+            aria-current={location.pathname === "/" ? "page" : undefined}
           >
             Home
           </a>

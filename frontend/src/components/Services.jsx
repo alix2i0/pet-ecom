@@ -50,7 +50,7 @@ const Services = () => {
             </div>
             <h3 className="text-lg font-semibold">Pet Boarding</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Safe and comfortable boarding services for your pets while you're
+              Safe and comfortable boarding services for your pets while you&apos;re
               away.
             </p>
           </div>
