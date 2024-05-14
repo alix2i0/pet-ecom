@@ -28,7 +28,7 @@ const ForgotPassword = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         autoComplete="email"
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-600 focus:ring focus:ring-teal-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-teal-500"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-secondary focus:ring focus:ring-primary dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-secondary"
                         placeholder="Enter your email"
                         required
 
@@ -38,13 +38,13 @@ const ForgotPassword = () => {
                 <div>
                     <button
                         type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
                     >
                         Login
                     </button>
                 </div>
             </form>
-            <p>Don't have an account? <a href="/register" className="text-teal-500">Register</a></p>
+            <p>Don't have an account? <a href="/register" className="text-secondary">Register</a></p>
         </div>
   )
 }

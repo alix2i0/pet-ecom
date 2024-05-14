@@ -16,7 +16,7 @@ const AddProduct = () => {
     addProducts();
   }, []);
   return (
-    <div className="h-screen flex justify-center bg-teal-300 bg-opacity-50">
+    <div className="h-screen flex justify-center bg-primary bg-opacity-50">
       <div className="m-5 p-5 w-[75%] text-center bg-white">
         <h1 className="text-xl">Add Product</h1>
       </div>
