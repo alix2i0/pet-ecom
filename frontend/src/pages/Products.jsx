@@ -27,7 +27,7 @@ const Products = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-6 mt-10 lg:mt-16 lg:gap-4 lg:grid-cols-4">
-          {product.slice(10, 14).map((product) => (
+          {product.map((product) => (
             <div className="relative group" key={product._id}>
               <div className="overflow-hidden aspect-w-1 aspect-h-1">
                 <img

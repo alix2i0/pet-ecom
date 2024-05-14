@@ -40,6 +40,7 @@ const Dashboard = () => {
 
   //count products
   const CountProduct = products.count ? products.count : 0;
+  console.log('Count product ', CountProduct);
 
   const [chartData, setChartData] = useState([]);
 
