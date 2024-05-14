@@ -1,6 +1,6 @@
 const Productmd = require('../models/Product.js');
-const category = require('../models/category.js');
 const Category = require('../models/category.js');
+const Order = require('../models/Order.js')
 // Fetch all products (accessible to both admin and normal user)
 exports.getAllProducts = async (req, res) => {
   try {
@@ -194,6 +194,31 @@ exports.deleteCategoryById = async (req, res) => {
   }
 }
 
+exports.getMostPopularProduct = async (req, res) => {
+  try {
+    const popularProduct = await Order.aggregate([
+      { $unwind: "$products" },
+      {
+        $group: {
+          _id: "$products.product",
+          totalQuantitySold: { $sum: "$products.quantity" }
+        }
+      },
+      { $sort: { totalQuantitySold: -1 } },
+      { $limit: 1 }
+    ]);
+    if (popularProduct.length === 0) {
+      return res.status(404).json({ message: 'No orders found' });
+    }
+
+    const mostPopularProduct = await Productmd.findById(popularProduct[0]._id);
+
+    res.status(200).json(mostPopularProduct);
+  } catch (error) {
+    console.error('Error retrieving most popular product:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 exports.getCategoryById = async (req, res) => {
   try {
