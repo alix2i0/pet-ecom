@@ -73,7 +73,23 @@ if (sortBy === 'dateAsc') {
 };
 
 
-// Get a commande by ID
+exports.getRecentOrders = async (req, res) => {
+  try {
+   
+    const recentOrders = await Order.find()
+      .sort({ orderDate: -1 }) 
+      .limit(6)
+      .populate('customer')
+    
+    res.status(200).json(recentOrders);
+  } catch (error) {
+    console.log("erroroororor");
+    console.error('Error retrieving recent orders:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+
 exports.getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('customer', 'username').populate({

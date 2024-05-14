@@ -34,4 +34,4 @@ app.use(express.urlencoded({ extended: true })); // Middleware for parsing URL-e
 
 
 
-module.exports = app; // Exporting the Express application
+module.exports = app;
