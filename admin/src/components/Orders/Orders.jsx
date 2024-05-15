@@ -87,8 +87,8 @@ const Orders = () => {
   };
 
   return (
-    <div className="bg-teal-400 h-screen">
-      <div className="p-3 bg-teal-400 sm:ml-64 overflow-hidden">
+    <div className="bg-gray-100 h-screen">
+      <div className="p-3 bg-gray-100 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h3 className="text-xl">All Orders</h3>
           <div className="flex justify-end items-center mb-8">
@@ -182,9 +182,10 @@ const Orders = () => {
                         value={selectedStatus[order._id] || order.status}
                         onChange={(e) => handleStatusChange(order._id, e)}
                       >
-                        <option value="pending">Pending</option>
+                        <option value="Pending">Pending</option>
                         <option value="Completed">Completed</option>
                         <option value="Rejected">Rejected</option>
+                        <option value="Stock Not Available">Stock Not Available</option>
                       </select>
                        
                       <button onClick={() => updateOrderStatus(order._id)}>

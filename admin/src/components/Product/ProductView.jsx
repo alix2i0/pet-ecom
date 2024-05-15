@@ -65,7 +65,7 @@ const ProductView = ({ isOpen, onClose, productId }) => {
     <>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-teal-400 shadow p-3">
+          <div className="bg-gray-100 shadow p-3">
             <div className="bg-white p-5 rounded-lg w-[550px] flex flex-col gap-3">
               <h2 className="text-xl text-gray-800 mb-3">Edit product</h2>
               <div className="card lg:card-side bg-base-100 shadow-xl">

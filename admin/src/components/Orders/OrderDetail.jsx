@@ -25,7 +25,7 @@ const OrderDetail = () => {
   }
 
   return (
-    <div className="bg-teal-400 h-screen">
+    <div className="bg-gray-100 h-screen">
       <div className="p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h2 className="text-xl mb-5">Order Details</h2>

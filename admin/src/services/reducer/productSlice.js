@@ -34,8 +34,8 @@ export const CountProducts = createAsyncThunk("product/CountProducts", async () 
         headers : {
             'Content-Type' : 'application/json',
         }});
-        console.log(response.data);
-    return response.data;
+        console.log("slice",response.data);
+    return response.data.count;
 
 })
 // Count Order
@@ -132,7 +132,7 @@ export const productSlice = createSlice({
 export const selectError = (state) => state.error;
 export const selectIsLoading = (state) => state.loading;
 export const selectProduct = (state) => state.product;
-export const selectCountProduct = (state) => state.count
+export const selectCountProduct = (state) => state.product.count
 export const selectCountOrders = (state) => state.ordersCount
 export const selectTotalAmount = (state) => state.totalAmount
 

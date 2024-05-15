@@ -10,6 +10,7 @@ const initialState = {
     totalPages: 0,
     currentPage: 1,
     allUsers: [],
+    Users : [],
     isLoading: false,
     isError: null,
     CountUsers:0
@@ -37,6 +38,8 @@ export const getAllUsers = createAsyncThunk("user/getALLUsers", async (data) => 
 
     return response.data;
 })
+
+
 
 
 export const createUser = createAsyncThunk("user/createUser", async (data) => {
@@ -88,6 +91,14 @@ export const CountUsers = createAsyncThunk("user/CountUsers", async () => {
     return response.data;
 
 })
+export const GetAllUsers = createAsyncThunk("auth/users",async () =>{
+    try {
+      const response = await axios.get("http://localhost:3300/api/users/users")
+      return response.data
+    } catch (error) {
+      console.error("slice errors",error)
+    }
+  })
 
 export const userSlice = createSlice({
     name: "user",
@@ -107,10 +118,24 @@ export const userSlice = createSlice({
                 state.currentPage = action.payload.currentPage;
 
             })
+            // Get users without the pagination
+            .addCase(GetAllUsers.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.payload;
+            })
+            .addCase(GetAllUsers.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(GetAllUsers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.Users = action.payload;
+            })
             .addCase(getAllUsers.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = action.payload;
             })
+
             //Create user
             .addCase(createUser.pending, (state) => {
                 state.isLoading = true;

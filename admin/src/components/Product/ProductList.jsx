@@ -176,8 +176,8 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="bg-teal-400 h-screen">
-        <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
+      <div className="bg-gray-100 h-screen">
+        <div className="bg-gray-100 p-3 sm:ml-64 overflow-hidden">
           <div className="bg-white p-3 shadow-md sm:rounded-lg">
             <h3 className="text-xl">All Products</h3>
             <div className="flex flex-col gap-8">
