@@ -1,6 +1,5 @@
 import "./App.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { ProductDetails } from "./components/component/product-details";
 import { toast, ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -8,6 +7,7 @@ import Register from "./pages/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import Contact from "./pages/Contact";
 import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/services" element={<ProductDetails />} />
+        <Route path="/:id" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgetPassword" element={<ForgotPassword />} />

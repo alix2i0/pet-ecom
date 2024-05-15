@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProduct, setSearch } from "../../../admin/src/services/reducer/productSlice";
+import {
+  fetchProduct,
+  fetchProductById,
+  setSearch,
+} from "../../../admin/src/services/reducer/productSlice";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import { FaSearch } from "react-icons/fa";
 
 const Products = () => {
-  const dispatch = useDispatch();
   const { product, loading, error, totalPages, search } = useSelector(
     (state) => state.product
   );
   const [currentPage, setCurrentPage] = useState(1);
-   const [searchTerm, setSearchTerm] = useState(search);
+  const [searchTerm, setSearchTerm] = useState(search);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProduct({ page: currentPage, search: searchTerm }));
@@ -42,6 +47,10 @@ const Products = () => {
     dispatch(fetchProduct({ page: 1, search: searchTerm }));
   };
 
+  const handleProductClick = (productId) => {
+    dispatch(fetchProductById(productId));
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -63,28 +72,31 @@ const Products = () => {
             onSubmit={handleSearchSubmit}
             className="flex items-center justify-center mb-6 gap-2"
           >
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              placeholder="Search products..."
-              className="px-4 py-2 border rounded-l-md shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
-            />
-            <Button
-              type="submit"
-              className="rounded-r-md rounded-l-none bg-gray-800 hover:bg-amber-600"
-            >
-              Search
-            </Button>
+            <div className="flex">
+              <input
+                type="search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Search products..."
+                className="px-4 py-2 border hover:border-amber-500 rounded-l-md shadow-sm sm:text-sm flex-grow"
+              />
+              <div className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600 cursor-pointer">
+                <FaSearch className="text-white" />
+              </div>
+            </div>
           </form>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {product &&
               product.map((item) => (
                 <div
                   key={item._id}
+                  onClick={() => handleProductClick(item._id)}
                   className="relative group overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeInUp"
                 >
-                  <Link className="absolute inset-0 z-10" to="#">
+                  <Link
+                    className="absolute inset-0 z-10"
+                    to={`/${item._id}`}
+                  >
                     <span className="sr-only">View Product</span>
                   </Link>
                   <img
