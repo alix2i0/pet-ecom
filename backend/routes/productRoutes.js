@@ -16,6 +16,6 @@ router.post('/',isAdmin, productController.createProduct);
 router.get('/category',isAdmin, productController.getAllCategories);
 router.get('/:id',isAdmin, productController.getProductById);
 router.put('/:id',isAdmin, productController.updateProductById);
-router.delete('/:id',isAdmin, productController.deleteProductById);
+router.delete('/:id', productController.deleteProductById);
 
 module.exports = router;

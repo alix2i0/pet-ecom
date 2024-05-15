@@ -18,7 +18,7 @@ function PopularProducts() {
       <strong className="text-gray-700 font-medium">Popular Products</strong>
       <div className="mt-4 flex flex-col gap-3">
 
-        {[popularProducts].map((product) => (
+        {popularProducts ? [popularProducts].map((product) => (
         <Link
             key={product._id} // Assuming _id is unique for each product
             to={`/product/${product._id}`}
@@ -48,7 +48,7 @@ function PopularProducts() {
             </div>
             <div className="text-xs text-gray-400 pl-1.5">{product.price}$</div>
           </Link>
-        ))}
+        )) : <div>null</div>}
       </div>
     </div>
   );

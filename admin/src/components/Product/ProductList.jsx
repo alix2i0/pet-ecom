@@ -150,6 +150,7 @@ const ProductList = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
+      console.log('id product:', productId);
       await axios.delete(`http://localhost:3300/api/products/${productId}`, {
         withCredentials: true,
       });

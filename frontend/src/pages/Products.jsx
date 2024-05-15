@@ -31,6 +31,9 @@ const Products = () => {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    dispatch(setSearch(e.target.value));
+    dispatch(fetchProduct({ page: 1, search: e.target.value }));
+    setCurrentPage(1);
   };
 
   const handleSearchSubmit = (e) => {

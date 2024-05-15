@@ -1,11 +1,30 @@
 const Productmd = require("../models/Product.js");
 const Category = require("../models/category.js");
+const petCategory = require("../models/PetCategory.js")
 const Order = require("../models/Order.js");
 // Fetch all products (accessible to both admin and normal user)
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Productmd.find().populate("category", "name");
-    res.json(products);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const search = req.query.search || "";
+    const query = search ? { name: new RegExp(search, "i") } : {};
+
+    const products = await Productmd.find(query)
+      .populate("category", "name")
+      .populate("petCategory", "name")
+      .skip(skip)
+      .limit(limit);
+
+      const total = await Productmd.countDocuments(query);
+
+    res.json({
+      success: true,
+      data: products,
+      page,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
