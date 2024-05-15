@@ -12,10 +12,20 @@ const initialState = {
 
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
-  async ({page, search}) => {
+  async ({ page, search }) => {
     const response = await axios.get(
       `http://localhost:3300/api/products?page=${page}&limit=4&search=${search}`
     );
+    return response.data;
+  }
+);
+export const fetchProductById = createAsyncThunk(
+  "product/fetchProductById",
+  async ({ productId }) => {
+    const response = await axios.get(
+      `http://localhost:3300/api/products/${productId}`
+    );
+    console.log('response : ', response.data);
     return response.data;
   }
 );
@@ -73,6 +83,7 @@ export const productSlice = createSlice({
   name: "product",
   initialState: {
     product: [],
+    productDetails: null,
     loading: false,
     error: null,
     totalPages: 1,
@@ -98,7 +109,17 @@ export const productSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload;
       })
-
+      .addCase(fetchProductById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.productDetails = action.payload;
+      })
+      .addCase(fetchProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
       // Count Product
       .addCase(CountProducts.pending, (state) => {
         state.isLoading = true;
@@ -147,9 +168,11 @@ export const productSlice = createSlice({
 export const selectError = (state) => state.error;
 export const selectIsLoading = (state) => state.loading;
 export const selectProduct = (state) => state.product;
+export const selectProductDetails = (state) => state.products.productDetails;
 export const selectCountProduct = (state) => state.count;
 export const selectCountOrders = (state) => state.ordersCount;
 export const selectTotalAmount = (state) => state.totalAmount;
+export const selectTotalPages = (state) => state.product.totalPages;
 
 export const { setSearch } = productSlice.actions;
 
