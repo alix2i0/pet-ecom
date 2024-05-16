@@ -229,7 +229,8 @@ exports.getMostPopularProduct = async (req, res) => {
         },
       },
       { $sort: { totalQuantitySold: -1 } },
-      { $limit: 1 },
+      { $limit: 5 }
+
     ]);
     if (popularProduct.length === 0) {
       return res.status(404).json({ message: "No orders found" });

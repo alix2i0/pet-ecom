@@ -1,7 +1,10 @@
 // CategoryList.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories,deleteCategories } from "../../services/reducer/categorySlice";
+import {
+  fetchCategories,
+  deleteCategories,
+} from "../../services/reducer/categorySlice";
 import CategoryForm from "./CategoryForm";
 
 const CategoryList = () => {
@@ -24,7 +27,6 @@ const CategoryList = () => {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState(null);
-
 
   useEffect(() => {
     dispatch(
@@ -98,8 +100,8 @@ const CategoryList = () => {
   };
 
   return (
-    <div className="bg-primary h-screen">
-      <div className="p-3 bg-primary sm:ml-64 overflow-hidden">
+    <div className="bg-gray-100 h-screen">
+      <div className="p-3 bg-gray-100 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h3 className="text-xl">All Categories</h3>
 
@@ -151,7 +153,7 @@ const CategoryList = () => {
                       <button onClick={() => handleEditCategory(category)}>
                         <img src="edit.png" alt="edit" className="h-[20px]" />
                       </button>
-                      <button onClick={()=>handleDeleteClick(category._id)}>
+                      <button onClick={() => handleDeleteClick(category._id)}>
                         <img
                           src="delete.png"
                           alt="delete"
@@ -180,7 +182,7 @@ const CategoryList = () => {
             ))}
           </div>
         </div>
-        
+
         {deleteModalOpen && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-5 rounded-lg">

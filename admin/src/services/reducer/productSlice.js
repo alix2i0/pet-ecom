@@ -39,15 +39,15 @@ export const CountProducts = createAsyncThunk(
       "http://localhost:3300/api/products/count",
       {
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log(response.data);
-    return response.data;
-  }
-);
+
+        headers : {
+            'Content-Type' : 'application/json',
+        }});
+        console.log("slice",response.data);
+    return response.data.count;
+
+})
+
 // Count Order
 
 export const CountOrders = createAsyncThunk("product/CountOrders", async () => {
@@ -174,6 +174,7 @@ export const selectCountProduct = (state) => state.count;
 export const selectCountOrders = (state) => state.ordersCount;
 export const selectTotalAmount = (state) => state.totalAmount;
 export const selectTotalPages = (state) => state.product.totalPages;
+
 
 export const { setSearch } = productSlice.actions;
 

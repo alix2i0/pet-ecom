@@ -3,14 +3,13 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts'
 
 const COLORS = ['#00C49F', '#FFBB28', '#FF8042', '#0088FE'];
 
-export default function OrderChart({ delivered, pending, shipped, confirmed }) {
+export default function OrderChart({ Completed, Pending, Rejected, Stock_Not_Available }) {
     const data = [
-        { name: 'Delivered', value: delivered },
-        { name: 'Pending', value: pending },
-        { name: 'Shipped', value: shipped },
-        { name: 'Confirmed', value: confirmed }
+        { name: 'Completed', value: Completed },
+        { name: 'Stock Not Available', value: Stock_Not_Available },
+        { name: 'Rejected', value: Rejected },
+        { name: 'Pending', value: Pending },
     ];
-    console.log("dataa",data);
     const RADIAN = Math.PI / 180;
 
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {

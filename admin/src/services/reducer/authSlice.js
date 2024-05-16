@@ -82,6 +82,8 @@ export const register = createAsyncThunk("auth/register", async (data) => {
   }
 });
 
+
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,

@@ -8,8 +8,9 @@ const apiRoutes = require('./routes/api'); // Import
 const cors = require("cors");
 app.use(
   cors({
-    origin: ["http://localhost:5173","http://localhost:5174", "https://api.cloudinary.com"],
-    credentials: true, 
+    origin: ["http://localhost:5174" , "http://localhost:5173" , "https://api.cloudinary.com"],
+    credentials: true,
+
     optionSuccessStatus: 200,
     methods: ["GET", "HEAD", "PUT", "POST", "DELETE"],
     allowedHeaders: ['Content-Type', 'Authorization']

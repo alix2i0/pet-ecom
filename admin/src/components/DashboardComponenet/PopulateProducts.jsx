@@ -12,7 +12,6 @@ function PopularProducts() {
     dispatch(mostPopularProduct());
   }, [dispatch]);
 
-  console.log("Populare",popularProducts);
   return (
     <div className="w-full bg-white p-4 rounded-sm border border-gray-200">
       <strong className="text-gray-700 font-medium">Popular Products</strong>
@@ -48,7 +47,9 @@ function PopularProducts() {
             </div>
             <div className="text-xs text-gray-400 pl-1.5">{product.price}$</div>
           </Link>
-        )) : <div>null</div>}
+        ))
+      :<div>null</div>}
+
       </div>
     </div>
   );
