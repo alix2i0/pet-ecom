@@ -4,6 +4,7 @@ import userSlice from './userSlice'
 import categorySlice from './categorySlice'
 import productSlice from './productSlice'
 import petSlice from './petSlice'
+import petCategorySlice from './petCategorySlice';
 
 
 
@@ -14,7 +15,8 @@ export const store = configureStore({
         user: userSlice,
         category: categorySlice,
         product : productSlice,
-        pets: petSlice
+        pets: petSlice,
+        petCategory : petCategorySlice
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })

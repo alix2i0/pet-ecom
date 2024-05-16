@@ -1,10 +1,20 @@
 const Productmd = require('../models/Product.js');
-const category = require('../models/category.js');
+// const category = require('../models/category.js');
 const Category = require('../models/category.js');
+const PetCategory = require('../models/PetCategory.js');
 // Fetch all products (accessible to both admin and normal user)
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Productmd.find().populate('category', 'name');
+    const page = parseInt(req.query.page) || 1 ;
+    const limit = parseInt(req.query.limit) || 10 ; 
+    const skip = (page - 1) * limit;
+
+    const products = await Productmd.find()
+    .populate('category', 'name')
+    .populate('petCategory', 'name')
+    .skip(skip)
+    .limit(limit);
+    
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -46,7 +56,9 @@ exports.getProductById = async (req, res) => {
   //   res.status(500).json({ message: error.message });
   // }
   try {
-    const product = await Productmd.findById(req.params.id).populate('category', 'name');
+    const product = await Productmd.findById(req.params.id)
+    .populate('category', 'name')
+    .populate('petCategory', 'name');
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
@@ -59,15 +71,17 @@ exports.getProductById = async (req, res) => {
 
 // Create a new product (accessible only to admin)
 exports.createProduct = async (req, res) => {
-    const { name, description, price, category, quantity ,image} = req.body;
+    const { name, description, price, category, petCategory, quantity ,image} = req.body;
   
     try {
       // Check if the category exists
       let categoryObj = await Category.findOne({ name: category });
+      let petCategoryobj = await PetCategory.findOne({ name: petCategory });
   
       // If category doesn't exist, create it
-      if (!categoryObj) {
+      if (!categoryObj || !petCategoryObj) {
         categoryObj = await Category.create({ name: category });
+        petCategoryobj = await PetCategory.create({ name: petCategory });
       }
   
       // Create the product
@@ -76,6 +90,7 @@ exports.createProduct = async (req, res) => {
         description,
         price,
         category: categoryObj._id, // Assign category object ID
+        petCategory: petCategoryobj._id,
         quantity,
         image
       });

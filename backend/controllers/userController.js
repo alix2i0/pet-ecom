@@ -6,6 +6,7 @@ const crypto = require("crypto");
 
 // Controller function for user registration
 exports.register = async (req, res) => {
+  console.log('it get into the function ');
   try {
     const { username, email, password } = req.body; // Extracting username, email, and password from request body
     console.log("Attempting to register with username:", username, "email:", email, "password:", password);

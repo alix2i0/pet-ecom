@@ -40,6 +40,10 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category' // Reference to the Category model
   },
+  petCategory: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'PetCategory' // Reference to the PetCategory model
+  },
   quantity: {
     type: Number,
     default: 0
@@ -50,3 +54,4 @@ const productSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Product', productSchema);
+

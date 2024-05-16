@@ -4,6 +4,10 @@ import ProductForm from "./ProductForm";
 import ProductEditForm from "./EditForm";
 import Pagination from "./Pagination.jsx";
 import ProductView from "./ProductView.jsx";
+import PetCategory from "./PetCategory.jsx";
+
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProduct, createProduct, deleteProductById} from "../../services/reducer/productSlice"
 // import { set } from "mongoose";
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -20,6 +24,18 @@ const ProductList = () => {
   const [deleteUserId, setDeleteUserId] = useState(null);
   const [isViewFormOpen, setIsViewFormOpen] = useState(false);
   const [viewProductId, setViewProductId] = useState(null);
+
+  //trying redux ###########################################################
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchProduct());
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
+  
+  //########################################################################
 
   const fetchProducts = async () => {
     try {
@@ -156,23 +172,23 @@ const ProductList = () => {
       // Filter out the deleted product from the products state
       setProducts(products.filter((product) => product._id !== productId));
       console.log("Product deleted successfully.");
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  };
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+    };
 
-  const closeModal = () => {
-    setDeleteUserId(null);
-    setDeleteModalOpen(false);
-  };
-  const confirmDelete = () => {
-    if (deleteUserId) {
-      // dispatch(deleteUser(deleteUserId));
-      handleDeleteProduct(deleteUserId);
+    const closeModal = () => {
       setDeleteUserId(null);
       setDeleteModalOpen(false);
-    }
-  };
+    };
+    const confirmDelete = () => {
+      if (deleteUserId) {
+        // dispatch(deleteUser(deleteUserId));
+        handleDeleteProduct(deleteUserId);
+        setDeleteUserId(null);
+        setDeleteModalOpen(false);
+      }
+    };
 
   return (
     <>
@@ -218,6 +234,7 @@ const ProductList = () => {
                     />
                   </div>
                 </div>
+                <PetCategory/>
                 <button
                   className="p-2 hover:bg-teal-500 rounded-lg bg-teal-400 text-white"
                   onClick={handleOpenProductForm}

@@ -5,8 +5,8 @@ const petCategoryController = require('../controllers/petCategoryController');
 
 
 // Routes for pet categories
-router.post('/', petCategoryController.addCategory);
 router.get('/', petCategoryController.getCategories);
+router.post('/', petCategoryController.addCategory);
 router.get('/:category', petCategoryController.getCategoryByName);
 router.put('/:category', petCategoryController.updateCategoryByName);
 router.delete('/:category', petCategoryController.deleteCategoryByName);
