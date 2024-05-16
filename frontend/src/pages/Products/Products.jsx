@@ -4,7 +4,7 @@ import {
   fetchProduct,
   fetchProductById,
   setSearch,
-} from "../../../admin/src/services/reducer/productSlice";
+} from "../../../../admin/src/services/reducer/productSlice";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -53,7 +53,7 @@ const Products = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  console.log('Products :: ', product);
+  console.log("Products :: ", product);
   return (
     <div className="bg-gray-50">
       <Navbar />
@@ -85,18 +85,15 @@ const Products = () => {
               </div>
             </div>
           </form>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {product &&
               product.map((item) => (
                 <div
                   key={item._id}
                   onClick={() => handleProductClick(item._id)}
-                  className="relative group overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeInUp"
+                  className="relative  flex flex-col justify-between group overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeInUp"
                 >
-                  <Link
-                    className="absolute inset-0 z-10"
-                    to={`/${item._id}`}
-                  >
+                  <Link className="absolute inset-0 z-10" to={`/${item._id}`}>
                     <span className="sr-only">View Product</span>
                   </Link>
                   <img
@@ -110,11 +107,11 @@ const Products = () => {
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {item.description}
                     </p>
-                    <div className="mt-4 flex items-center justify-between">
+                    <div className="mt-4 flex items-end justify-between">
                       <span className="text-lg font-semibold">
                         ${item.price}
                       </span>
-                      <Button size="sm">
+                      <Button size="sm" className="text-white bg-amber-600">
                         <ShoppingCartIcon className="mr-2 h-4 w-4" />
                         Add to Cart
                       </Button>

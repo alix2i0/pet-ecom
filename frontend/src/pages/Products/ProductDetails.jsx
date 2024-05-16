@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { fetchProductById } from "../../../admin/src/services/reducer/productSlice";
+import { fetchProductById } from "../../../../admin/src/services/reducer/productSlice";
 import { CopyIcon, HeartIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -93,7 +93,10 @@ export default function ProductDetails() {
               >
                 <h2 className="text-2xl font-bold">{product.name}</h2>
                 <div className="mt-1 flex items-center text-white">
-                  <Badge variant="secondary" className="bg-gray-900">
+                  <Badge
+                    variant="secondary"
+                    className="bg-gray-700 hover:bg-gray-700"
+                  >
                     {product.stockStatus || "In Stock"}
                   </Badge>
                   <span className="ml-2 text-sm">
@@ -113,7 +116,9 @@ export default function ProductDetails() {
                   )}
                 </div>
                 <div className="flex mt-6 ">
-                  <Button className="bg-amber-500 text-white">Add to Cart</Button>
+                  <Button className="bg-amber-600 hover:bg-amber-700 text-white">
+                    Add to Cart
+                  </Button>
                   <Button className="ml-2" variant="ghost">
                     <HeartIcon className="w-6 h-6" />
                   </Button>
