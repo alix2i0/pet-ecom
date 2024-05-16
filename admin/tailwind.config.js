@@ -25,7 +25,6 @@ module.exports = {
         foreground: "hsl(var(--foreground))",
         primary: "#2dd4bf",
         secondary: "#14b8a6",
-        complementary: "#d97706",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

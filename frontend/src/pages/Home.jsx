@@ -20,9 +20,9 @@ const Home = () => {
           <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
             <div className="flex relative flex-col self-stretch mx-4 mt-52 max-md:mt-10 max-md:max-w-full">
               <div className="text-6xl tracking-tighter font-serif text-indigo-950 max-md:max-w-full max-md:text-4xl max-md:leading-10">
-                Welcome to{" "}
+                Welcome to
                 <strong className="font-semibold text-amber-600">
-                  Petopia
+                  &nbsp;Meowtopia
                 </strong>
                 <br />
                 Where Every Pet&apos;s
