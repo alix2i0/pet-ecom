@@ -1,30 +1,28 @@
-import React,{ useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
-import Component from './components/component/component';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { ProductDetails } from './components/component/product-details';
-
-// Créez un contexte pour le basename
-const BasenameContext = React.createContext();
+import "./App.css";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./components/ForgotPassword";
+import Contact from "./pages/Contact";
+import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  // Initialisez la valeur du basename
-  const basename = '/';
-
   return (
-    // Fournissez le contexte du basename à l'intérieur du Router
-    <BasenameContext.Provider value={basename}>
-      <Router>
-        <div>
-          <ProductDetails />
-
-        </div>
-      </Router>
-    </BasenameContext.Provider>
+    <div>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/:id" element={<ProductDetails />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgetPassword" element={<ForgotPassword />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </div>
   );
 }
 

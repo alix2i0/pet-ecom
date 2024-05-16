@@ -35,7 +35,7 @@ export const getAllUsers = createAsyncThunk("user/getALLUsers", async (data) => 
             'Content-Type': 'application/json',
         }
     });
-
+    console.log("user slice ",response.data);
     return response.data;
 })
 

@@ -9,6 +9,7 @@ const { errorMonitor } = require("events");
 exports.register = async (req, res) => {
   try {
     const { username, email, password } = req.body; // Extracting username, email, and password from request body
+    console.log("Attempting to register with username:", username, "email:", email, "password:", password);
     const hashedPassword = await bcrypt.hash(password, 10); // Hashing the password
     const user = await User.create({
       username,

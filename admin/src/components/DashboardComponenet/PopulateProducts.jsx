@@ -49,6 +49,7 @@ function PopularProducts() {
           </Link>
         ))
       :<div>null</div>}
+
       </div>
     </div>
   );

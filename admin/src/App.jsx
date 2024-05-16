@@ -23,6 +23,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import CategoryList from "./components/Category/CategoryList";
 import CategoryForm from "./components/Category/CategoryForm";
 import { CategoryDetails } from "./components/component/CategoryDetails";
+import PetComponent from "./components/Pet/PetComponent";
 
 
 function App() {
@@ -54,9 +55,8 @@ function App() {
           <Route path="/users/:userId/edit" element={<UserForm />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/orders/:id" element={<OrderDetail />} />
-
+          <Route path="/pets" element={<PetComponent />} />
           <Route path="/users/:id" element={<UserDetail />} />
-
           <Route path="/categories" element={<CategoryList />} />
           <Route path="/categories/new" element={<CategoryForm />} />
           <Route path="/categories/:id/edit" element={<CategoryForm />} />

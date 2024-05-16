@@ -14,8 +14,8 @@ router.get('/products-per-category', productController.getProductsPerCategory);
 router.get('/count',isAdmin, productController.countProduct);
 router.post('/',isAdmin, productController.createProduct);
 router.get('/category',isAdmin, productController.getAllCategories);
-router.get('/:id',isAdmin, productController.getProductById);
+router.get('/:id', productController.getProductById);
 router.put('/:id',isAdmin, productController.updateProductById);
-router.delete('/:id',isAdmin, productController.deleteProductById);
+router.delete('/:id', productController.deleteProductById);
 
 module.exports = router;
