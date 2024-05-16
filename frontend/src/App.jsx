@@ -2,7 +2,6 @@ import "./App.css";
 import React from "react";
 import Component from "./components/component/component";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { ProductDetails } from "./components/component/product-details";
 import { toast, ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -11,14 +10,17 @@ import ForgotPassword from "./components/ForgotPassword";
 import Contact from "./pages/Contact";
 import PetsDetails from "./pages/Pets/PetsDetails";
 import Pets from "./pages/Pets/Pets";
+import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
     <div>
       <ToastContainer />
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/services" element={<ProductDetails />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/:id" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgetPassword" element={<ForgotPassword />} />

@@ -1,41 +1,56 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProduct,
+  selectIsLoading,
+  selectTotalPages,
+  setSearch,
+  selectError,
+  selectProduct,
+} from "../../services/reducer/productSlice";
 import ProductForm from "./ProductForm";
 import ProductEditForm from "./EditForm";
-import Pagination from "./Pagination.jsx";
-import ProductView from "./ProductView.jsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-// import { set } from "mongoose";
+import Pagination from "./Pagination";
+import ProductView from "./ProductView";
+import axios from "axios";
+
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector(selectProduct);
+  const isLoading = useSelector(selectIsLoading);
+  const isError = useSelector(selectError);
+  const totalPages = useSelector(selectTotalPages);
+
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(5);
+  const [productsPerPage] = useState(5); // Fixed products per page
   const [sortBy, setSortBy] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
+  const [sortOrder, setSortOrder] = useState("asc");
   const [filters, setFilters] = useState({});
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteUserId, setDeleteUserId] = useState(null);
   const [isViewFormOpen, setIsViewFormOpen] = useState(false);
   const [viewProductId, setViewProductId] = useState(null);
 
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get("http://localhost:3300/api/products");
-      setProducts(response.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
+  useEffect(() => {
+    dispatch(
+      fetchProduct({
+        page: currentPage,
+        limit: productsPerPage,
+        search: searchQuery,
+      })
+    );
+  }, [dispatch, currentPage, searchQuery]);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1); // Reset pagination to first page
+    dispatch(setSearch(e.target.value));
   };
+
   const handleSort = (column) => {
     if (sortBy === column) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -44,30 +59,21 @@ const ProductList = () => {
       setSortOrder("asc");
     }
   };
-  // Function to handle pagination change
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Filtered and sorted products based on current state
-  let filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  let filteredProducts = Array.isArray(products.product)
+    ? products.product.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
-  // Apply filters
   Object.keys(filters).forEach((key) => {
     filteredProducts = filteredProducts.filter(
       (product) => product[key] === filters[key]
     );
   });
 
-  // Apply sorting
-  // if (sortBy) {
-  //   filteredProducts.sort((a, b) => {
-  //     if (a[sortBy] < b[sortBy]) return -1;
-  //     if (a[sortBy] > b[sortBy]) return 1;
-  //     return 0;
-  //   });
-  // }
-  // Inside the sorting logic
   if (sortBy === "category") {
     filteredProducts.sort((a, b) => {
       const categoryNameA = a.category.name.toLowerCase();
@@ -88,63 +94,24 @@ const ProductList = () => {
     });
   }
 
-  // Get current products for the current page
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-
   const handleOpenProductForm = () => {
-    console.log("Product form started");
     setIsProductFormOpen(true);
-    console.log("Product form opened");
   };
+
   const handleOpenViewForm = (productId) => {
-    console.log("View form started");
     setViewProductId(productId);
     setIsViewFormOpen(true);
-    console.log("View form opened");
   };
 
   const handleOpenEditForm = (productId) => {
-    console.log("Edit form started");
     setEditProductId(productId);
     setIsEditFormOpen(true);
-    console.log("Edit form opened");
   };
 
   const handleCloseProductForm = () => setIsProductFormOpen(false);
   const handleCloseViewForm = () => setIsViewFormOpen(false);
   const handleCloseEditForm = () => setIsEditFormOpen(false);
-  const handleProductSubmit = async (formData) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3300/api/products",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("Product created successfully:", response.data);
-      fetchProducts();
-    } catch (error) {
-      console.error("Error creating product:", error);
-    }
-  };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  // const handleEditSubmit = (data, id) => {
-  //   setProducts(prevProducts =>
-  //     prevProducts.map(product =>
-  //       product.id === id ? { ...product, ...data } : product
-  //     )
-  //   );
-  // };
   const handleDeleteClick = (id) => {
     setDeleteUserId(id);
     setDeleteModalOpen(true);
@@ -155,8 +122,13 @@ const ProductList = () => {
       await axios.delete(`http://localhost:3300/api/products/${productId}`, {
         withCredentials: true,
       });
-      // Filter out the deleted product from the products state
-      setProducts(products.filter((product) => product._id !== productId));
+      dispatch(
+        fetchProduct({
+          page: currentPage,
+          limit: productsPerPage,
+          search: searchQuery,
+        })
+      );
       console.log("Product deleted successfully.");
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -167,14 +139,35 @@ const ProductList = () => {
     setDeleteUserId(null);
     setDeleteModalOpen(false);
   };
+
   const confirmDelete = () => {
     if (deleteUserId) {
-      // dispatch(deleteUser(deleteUserId));
       handleDeleteProduct(deleteUserId);
       setDeleteUserId(null);
       setDeleteModalOpen(false);
     }
   };
+
+  const handleProductSubmit = async (formData) => {
+    try {
+      await axios.post("http://localhost:3300/api/products", formData, {
+        withCredentials: true,
+      });
+      console.log("Product created successfully.");
+      dispatch(
+        fetchProduct({
+          page: currentPage,
+          limit: productsPerPage,
+          search: searchQuery,
+        })
+      );
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {isError}</div>;
 
   return (
     <>
@@ -185,14 +178,6 @@ const ProductList = () => {
             <div className="flex flex-col gap-8">
               <div className="flex justify-end items-center gap-8">
                 <div className="flex justify-center items-center">
-                  {/* <div className="mr-5">
-                    <span>Items per page:&nbsp;</span>
-                    <select className="border border-gray-300 text-gray-500 rounded px-3 py-1">
-                      <option>3</option>
-                      <option>5</option>
-                      <option>7</option>
-                    </select>
-                  </div> */}
                   <div className="relative">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                       <svg
@@ -283,7 +268,7 @@ const ProductList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentProducts.map((product) => (
+                    {filteredProducts.map((product) => (
                       <tr
                         key={product._id}
                         className="text-gray-900 hover:bg-gray-100 bg-gray-50 text-sm font-medium "
@@ -297,7 +282,6 @@ const ProductList = () => {
                         <td className="px-6 py-3 text-red-500">
                           {product.quantity}
                         </td>
-                        {/* i changed the color to read maybe black instead just remove the color */}
                         <td className="px-6 py-3 flex h-[100px] w-[200px] items-center justify-around gap-1 ">
                           <button
                             onClick={() => handleOpenViewForm(product._id)}
@@ -332,21 +316,12 @@ const ProductList = () => {
                   </tbody>
                 </table>
               </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={paginate}
+              />
             </div>
-            {/* Pagination component */}
-            {/* <Pagination
-              productsPerPage={productsPerPage}
-              totalProducts={filteredProducts.length}
-              currentPage={currentPage}
-              paginate={paginate}
-            /> */}
-            <Pagination
-              productsPerPage={productsPerPage}
-              totalProducts={filteredProducts.length} // Update totalProducts with the length of filteredProducts
-              currentPage={currentPage}
-              paginate={paginate}
-            />
-
             {deleteModalOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
                 <div className="bg-white p-5 rounded-lg">
@@ -375,19 +350,12 @@ const ProductList = () => {
         isOpen={isEditFormOpen}
         onClose={handleCloseEditForm}
         productId={editProductId}
-        // onSubmit={(data, productId) => handleEditSubmit(data, productId)}
       />
       <ProductView
         isOpen={isViewFormOpen}
         onClose={handleCloseViewForm}
         productId={viewProductId}
       />
-      {/* {isProductFormOpen && (
-        <ProductForm
-          onSubmit={handleProductSubmit}
-          onClose={handleCloseProductForm}
-        />
-      )} */}
     </>
   );
 };

@@ -9,6 +9,7 @@ router.get("/", orderController.getAllOrders);
 
 router.get('/count',orderController.countOrder)
 router.get('/totalAmount',orderController.getTotalAmount)
+router.get('/RO',orderController.getRecentOrders)
 
 //Add new order
 router.post("/", orderController.postOrder);
