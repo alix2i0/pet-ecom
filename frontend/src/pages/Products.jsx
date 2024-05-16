@@ -48,12 +48,12 @@ const Products = () => {
   };
 
   const handleProductClick = (productId) => {
-    dispatch(fetchProductById(productId));
+    fetchProductById(productId);
   };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-
+  console.log('Products :: ', product);
   return (
     <div className="bg-gray-50">
       <Navbar />

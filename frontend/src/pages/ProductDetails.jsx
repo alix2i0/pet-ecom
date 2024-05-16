@@ -20,7 +20,7 @@ export default function ProductDetails() {
     if (id) {
       dispatch(fetchProductById({ productId: id }));
     }
-  }, [dispatch, id]);
+  }, [dispatch]);
 
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;
@@ -92,8 +92,8 @@ export default function ProductDetails() {
                 className="flex-1 mt-6 lg:mt-0 lg:ml-8"
               >
                 <h2 className="text-2xl font-bold">{product.name}</h2>
-                <div className="mt-1 flex items-center">
-                  <Badge variant="secondary">
+                <div className="mt-1 flex items-center text-white">
+                  <Badge variant="secondary" className="bg-gray-900">
                     {product.stockStatus || "In Stock"}
                   </Badge>
                   <span className="ml-2 text-sm">
@@ -112,8 +112,8 @@ export default function ProductDetails() {
                     </span>
                   )}
                 </div>
-                <div className="flex mt-6">
-                  <Button className="bg-amber-600">Add to Cart</Button>
+                <div className="flex mt-6 ">
+                  <Button className="bg-amber-500 text-white">Add to Cart</Button>
                   <Button className="ml-2" variant="ghost">
                     <HeartIcon className="w-6 h-6" />
                   </Button>
