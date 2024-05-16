@@ -69,7 +69,7 @@ const ProductEditForm = ({ isOpen, onClose, productId }) => {
 //   };
 useEffect(() => {
   const handleOutsideClick = (e) => {
-    const userFormElements = document.getElementsByClassName("bg-teal-400 shadow p-3");
+    const userFormElements = document.getElementsByClassName("bg-primary shadow p-3");
     if (userFormElements.length > 0) {
       const userFormElement = userFormElements[0]; // Assuming there's only one element with this class
       if (!userFormElement.contains(e.target)) {
@@ -113,7 +113,7 @@ const handleSubmit = async (event) => {
     <>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-teal-400 shadow p-3">
+          <div className="bg-primary shadow p-3">
             <div className="bg-white p-5 rounded-lg w-[350px] flex flex-col gap-3">
             <h2 className="text-xl text-gray-800 mb-3">Edit product</h2>
 
@@ -149,7 +149,7 @@ const handleSubmit = async (event) => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                   required
                 />
               </div>
@@ -165,7 +165,7 @@ const handleSubmit = async (event) => {
                   id="price"
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                   required
                 />
               </div>
@@ -181,7 +181,7 @@ const handleSubmit = async (event) => {
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                 />
               </div>
               <div className="mb-5">
@@ -231,12 +231,12 @@ const handleSubmit = async (event) => {
                   id="quantity"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                 />
               </div>
               <button
                 type="submit"
-                className="block w-full p-1 text-white bg-teal-400 hover:bg-teal-500 border border-transparent rounded-lg shadow-sm   "
+                className="block w-full p-1 text-white bg-primary hover:bg-secondary border border-transparent rounded-lg shadow-sm"
                 >
                 Save Product
               </button>

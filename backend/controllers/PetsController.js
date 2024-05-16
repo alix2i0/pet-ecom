@@ -142,7 +142,7 @@ const searchPets = async (req, res) => {
     if (criteria === 'name') {
       searchQuery = { name: { $regex: new RegExp(query, 'i') } };
     } else if (criteria === 'age') {
-      searchQuery = { age: { $regex: new RegExp(query, 'i') } };
+      searchQuery = { age: parseInt(query) };
     } else if (criteria === 'location') {
       searchQuery = { location: { $regex: new RegExp(query, 'i') } };
     }

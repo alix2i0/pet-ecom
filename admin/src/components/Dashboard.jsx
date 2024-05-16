@@ -60,7 +60,7 @@ const Dashboard = () => {
   console.log("chart", chartData);
 
   return (
-    <div className="bg-teal-400 min-h-screen">
+    <div className="bg-primary min-h-screen">
       <div className="p-4 sm:ml-64">
         <div className="bg-white p-4 shadow-md sm:rounded-lg mb-4">
           <h1 className="text-3xl">Dashboard</h1>

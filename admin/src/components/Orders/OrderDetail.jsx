@@ -25,7 +25,7 @@ const OrderDetail = () => {
   }
 
   return (
-    <div className="bg-teal-400 h-screen">
+    <div className="bg-primary h-screen">
       <div className="p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h2 className="text-xl mb-5">Order Details</h2>
@@ -72,7 +72,7 @@ const OrderDetail = () => {
           <div className="flex justify-end">
             
           <Link
-            className="p-2.5 ms-2 text-center w-[70px] text-sm font-medium text-white bg-teal-400 rounded-lg border border-teal-400 hover:bg-teal-500 focus:ring-4 focus:outline-none"
+            className="p-2.5 ms-2 text-center w-[70px] text-sm font-medium text-white bg-primary rounded-lg border border-primary hover:bg-secondary focus:ring-4 focus:outline-none"
             to="/orders"
           >
             Back

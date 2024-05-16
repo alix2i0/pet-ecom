@@ -7,6 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CardContent, Card } from "@/components/ui/card"
 
+import {Link} from "react-router-dom"
+import { Input } from "../ui/input"
+
 export function Component() {
   return (
     (<Card className="w-full max-w-2xl bg-white">

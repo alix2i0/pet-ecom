@@ -75,7 +75,7 @@ const Navbar = () => {
             aria-label="Petopia"
           >
             <img
-              src="../../public/logo.png"
+              src="../../public/logoo.png"
               alt="Pet Store"
               className="w-40 ml-8"
             />
@@ -164,6 +164,14 @@ const Navbar = () => {
               aria-current={location.pathname === "/" ? "page" : undefined}
             >
               Home
+            </a>
+            <a
+              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+                "/pets"
+              )}`}
+              href="pets"
+            >
+              Pets
             </a>
             <a
               className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(

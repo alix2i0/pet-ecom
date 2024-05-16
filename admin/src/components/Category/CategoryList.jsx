@@ -98,8 +98,8 @@ const CategoryList = () => {
   };
 
   return (
-    <div className="bg-teal-400 h-screen">
-      <div className="p-3 bg-teal-400 sm:ml-64 overflow-hidden">
+    <div className="bg-primary h-screen">
+      <div className="p-3 bg-primary sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h3 className="text-xl">All Categories</h3>
 
@@ -127,7 +127,7 @@ const CategoryList = () => {
             </div>
             <button
               onClick={handleAddCategory}
-              className="p-2 hover:bg-teal-500 rounded-lg bg-teal-400 text-white"
+              className="p-2 hover:bg-secondary rounded-lg bg-primary text-white"
             >
               Add Category
             </button>
@@ -170,7 +170,7 @@ const CategoryList = () => {
                 key={index}
                 className={`mx-1 px-3 py-1 rounded-lg ${
                   currentPage === index + 1
-                    ? "bg-teal-400 hover:bg-teal-500 text-white"
+                    ? "bg-primary hover:bg-secondary text-white"
                     : "bg-gray-200 hover:bg-gray-300 text-gray-600"
                 }`}
                 onClick={() => handlePageChange(index + 1)}

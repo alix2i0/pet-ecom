@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { fetchProductById } from "../../../admin/src/services/reducer/productSlice";
-import { CopyIcon, HeartIcon, ShareIcon } from "lucide-react";
+import { CopyIcon, HeartIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Breadcrumb from "@/components/Breadcrumb";
 
@@ -41,9 +41,9 @@ export default function ProductDetails() {
         className="fixed inset-0 pt-16 z-30 flex items-center justify-center bg-gray-50 bg-opacity-75"
       >
         <Card className="max-w-4xl bg-white p-4">
-      <div className=" z-40">
-        <Breadcrumb paths={breadcrumbPaths} />
-      </div>
+          <div className=" z-40">
+            <Breadcrumb paths={breadcrumbPaths} />
+          </div>
           <CardContent className="p-2 ">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
