@@ -1,10 +1,12 @@
 // Home.jsx
-import Services from "@/components/Services";
+import Services from "../components/Services";
 import FeaturedProducts from "../components/FeaturedProducts";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Sponsor from "../components/Sponsor";
 import Testimonials from "../components/Testimonials";
+
+
 
 const Home = () => {
   return (

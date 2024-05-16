@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import PetCards from "./PetCards";
+import Navbar from "../../components/Navbar";
 
+import Footer from "../../components/Footer";
 const Pets = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);

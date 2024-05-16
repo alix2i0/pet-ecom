@@ -1,4 +1,5 @@
 import "./App.css";
+import React from "react";
 import Component from "./components/component/component";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ProductDetails } from "./components/component/product-details";
