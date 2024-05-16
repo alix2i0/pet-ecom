@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { CardContent, Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { fetchProductById } from "../../../admin/src/services/reducer/productSlice";
-import { HeartIcon, ShareIcon } from "lucide-react";
+import { CopyIcon, HeartIcon, ShareIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -22,8 +23,13 @@ export default function ProductDetails() {
   }, [dispatch, id]);
 
   if (loading) return <div>Loading...</div>;
-
   if (!product) return <div>Product not found</div>;
+
+  const breadcrumbPaths = [
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/products" },
+    { name: "Product Details", href: "#" },
+  ];
 
   return (
     <>
@@ -34,8 +40,11 @@ export default function ProductDetails() {
         exit={{ opacity: 0 }}
         className="fixed inset-0 pt-16 z-30 flex items-center justify-center bg-gray-50 bg-opacity-75"
       >
-        <Card className="w-full max-w-4xl h-min bg-white p-4">
-          <CardContent>
+        <Card className="max-w-4xl bg-white p-4">
+      <div className=" z-40">
+        <Breadcrumb paths={breadcrumbPaths} />
+      </div>
+          <CardContent className="p-2 ">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -103,13 +112,13 @@ export default function ProductDetails() {
                     </span>
                   )}
                 </div>
-                <div className="mt-6">
-                  <Button>Add to Cart</Button>
+                <div className="flex mt-6">
+                  <Button className="bg-amber-600">Add to Cart</Button>
                   <Button className="ml-2" variant="ghost">
                     <HeartIcon className="w-6 h-6" />
                   </Button>
                   <Button className="ml-2" variant="ghost">
-                    <ShareIcon className="w-6 h-6" />
+                    <CopyIcon className="w-6 h-6" />
                   </Button>
                 </div>
               </motion.div>
