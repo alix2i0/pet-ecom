@@ -1,87 +1,185 @@
-import Navbar from "@/components/Navbar";
-import { useState } from "react";
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import './style.css';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const [disabled, setDisabled] = useState(false);
+  const [alertInfo, setAlertInfo] = useState({
+    display: false,
+    message: '',
+    type: '',
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const toggleAlert = (message, type) => {
+    setAlertInfo({ display: true, message, type });
+
+    setTimeout(() => {
+      setAlertInfo({ display: false, message: '', type: '' });
+    }, 5000);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Logic to handle form submission, like sending data to a server
-    alert("Your message has been sent!");
+  const onSubmit = async (data) => {
+    const { name, email, subject, message } = data;
+    try {
+      setDisabled(true);
+
+      const response = await axios.post('http://localhost:3300/api/contact/send-email', {
+        name,
+        email,
+        subject,
+        message,
+      });
+
+      if (response.data.success) {
+        toggleAlert('Form submission was successful!', 'success');
+      } else {
+        throw new Error(response.data.message);
+      }
+    } catch (e) {
+      console.error(e);
+      toggleAlert('Uh oh. Something went wrong.', 'danger');
+    } finally {
+      setDisabled(false);
+      reset();
+    }
   };
 
   return (
-    <>
-        <Navbar />
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-        <div className="max-w-lg w-full px-6 py-8 mt-14 bg-white shadow-md rounded-lg">
-          <div className="flex flex-col justify-center items-center mb-8">
-            <h1 className="text-3xl font-light text-gray-700">Contact Us</h1>
-            <p className="mt-2 text-gray-600">We&apos;d love to hear from you!</p>
+    <div className='container'>
+      <div className='Contact'>
+        <form id='contact-form' onSubmit={handleSubmit(onSubmit)} noValidate>
+          <div className='row formRow'>
+            <div className='col-6'>
+              <div className='formGroup'>
+                <label htmlFor='name' className='form-label'>Name:</label>
+                <input
+                  type='text'
+                  name='name'
+                  {...register('name', {
+                    required: {
+                      value: true,
+                      message: 'Please enter your name',
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: 'Please use 30 characters or less',
+                    },
+                  })}
+                  className='form-control formInput'
+                  placeholder='Name'
+                ></input>
+              </div>
+              {errors.name && (
+                <span className='errorMessage'>
+                  {errors.name.message}
+                </span>
+              )}
+            </div>
+            <div className='col-6'>
+              <div className='formGroup'>
+                <label htmlFor='email' className='form-label'>Email address:</label>
+                <input
+                  type='email'
+                  name='email'
+                  {...register('email', {
+                    required: true,
+                    pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  })}
+                  className='form-control formInput'
+                  placeholder='Email address'
+                ></input>
+              </div>
+              {errors.email && (
+                <span className='errorMessage'>
+                  Please enter a valid email address
+                </span>
+              )}
+            </div>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="mt-1 px-4 py-2 w-full border rounded-md"
-                onChange={handleChange}
-                value={formData.name}
-              />
+          <div className='row formRow'>
+            <div className='col'>
+              <div className='formGroup'>
+                <label htmlFor='subject' className='form-label'>Subject:</label>
+                <input
+                  type='text'
+                  name='subject'
+                  {...register('subject', {
+                    required: {
+                      value: true,
+                      message: 'Please enter a subject',
+                    },
+                    maxLength: {
+                      value: 75,
+                      message: 'Subject cannot exceed 75 characters',
+                    },
+                  })}
+                  className='form-control formInput'
+                  placeholder='Subject'
+                ></input>
+              </div>
+              {errors.subject && (
+                <span className='errorMessage'>
+                  {errors.subject.message}
+                </span>
+              )}
             </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="mt-1 px-4 py-2 w-full border rounded-md"
-                onChange={handleChange}
-                value={formData.email}
-              />
+          </div>
+          <div className='row formRow'>
+            <div className='col'>
+              <div className='formGroup'>
+                <label htmlFor='message' className='form-label'>Message:</label>
+                <textarea
+                  rows={3}
+                  name='message'
+                  {...register('message', {
+                    required: true,
+                  })}
+                  className='form-control formInput'
+                  placeholder='Message'
+                ></textarea>
+              </div>
+              {errors.message && (
+                <span className='errorMessage'>
+                  Please enter a message
+                </span>
+              )}
             </div>
-            <div className="mb-4">
-              <label htmlFor="message" className="block text-gray-700">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows="4"
-                required
-                className="mt-1 px-4 py-2 w-full border rounded-md"
-                onChange={handleChange}
-                value={formData.message}
-              ></textarea>
-            </div>
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="bg-amber-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-amber-600 w-full"
-              >
-                Send Message
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+
+          <button
+            className='submit-btn btn btn-primary'
+            disabled={disabled}
+            type='submit'
+          >
+            Submit
+          </button>
+        </form>
       </div>
-    </>
+      {alertInfo.display && (
+        <div
+          className={`alert alert-${alertInfo.type} alert-dismissible mt-5`}
+          role='alert'
+        >
+          {alertInfo.message}
+          <button
+            type='button'
+            className='btn-close'
+            data-bs-dismiss='alert'
+            aria-label='Close'
+            onClick={() =>
+              setAlertInfo({ display: false, message: '', type: '' })
+            }
+          ></button>
+        </div>
+      )}
+    </div>
   );
 };
 

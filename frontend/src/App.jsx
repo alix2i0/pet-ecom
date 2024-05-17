@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./components/ForgotPassword";
+// import Contact from "./pages/Contact";
 import Contact from "./pages/Contact";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <div>
       <ToastContainer />
       <Routes>
+        <Route path="/contact" element={<Contact />} />
         <Route path="/home" element={<Home />} />
         <Route path="/services" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />

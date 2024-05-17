@@ -3,6 +3,11 @@ const app = express(); // Creating an instance of the Express application
 require('./config/database'); // Importing database configuration
 const cookieParser = require('cookie-parser'); // Importing cookie-parser for parsing cookies
 const apiRoutes = require('./routes/api'); // Import
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const emailRoutes = require('./routes/categoryRoutes');
+const sendEmail = require('./controllers/contactController')
+
 
 // Middleware to handle data parsing
 const cors = require("cors");
@@ -20,7 +25,7 @@ app.use(
 
 app.use(express.json()); // Middleware for parsing JSON bodies
 app.use(cookieParser()); // Middleware for parsing cookies
-
+app.use(cors());
 
 // Utilisez Passport middleware
 app.use(express.json());
@@ -31,6 +36,7 @@ app.use('/api', apiRoutes);
 
 
 app.use(express.urlencoded({ extended: true })); // Middleware for parsing URL-encoded bodies
+
 
 
 

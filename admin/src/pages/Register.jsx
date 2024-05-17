@@ -1,8 +1,6 @@
-import React, { useState, useRef } from "react";
-// import axios from "axios";
-import { useNavigate, NavLink, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
-// import image from "../../public/";
 export default function Register({ onSignUp }) {
   const navigate = useNavigate();
 
@@ -23,11 +21,12 @@ export default function Register({ onSignUp }) {
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
       return;
     }
 
     setLoading(true);
+    setError("");
 
     try {
       const response = await fetch("http://localhost:3300/api/auth/register", {
@@ -41,24 +40,25 @@ export default function Register({ onSignUp }) {
           "Content-Type": "application/json",
         },
       });
+      console.log(response);
+      navigate("/login", { replace: true });
       const data = await response.json();
 
-      if (!response.ok) {
+      if (!response.data.ok) {
         throw new Error(data.message || "Signup failed");
-      } else {
-        navigate("/login", { replace: true });
       }
-      // Call onSignUp callback or handle success as needed
-      onSignUp();
+
+      // onSignUp();
     } catch (error) {
-      setError("Signup failed. try again");
+      console.error("Signup error:", error);
+      setError(error.message || "Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center shadow-md ">
+    <div className="bg-gray-100 flex items-center justify-center shadow-md">
       <div
         className="max-w-screen-lg w-full h-screen my-5 grid md:grid-cols-2 md:gap-6 object-cover"
         style={{
@@ -88,7 +88,7 @@ export default function Register({ onSignUp }) {
                   required
                 />
                 <label
-                  for="floating_first_name"
+                  htmlFor="floating_first_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   First name
@@ -106,7 +106,7 @@ export default function Register({ onSignUp }) {
                   required
                 />
                 <label
-                  for="floating_last_name"
+                  htmlFor="floating_last_name"
                   className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Last name
@@ -127,7 +127,7 @@ export default function Register({ onSignUp }) {
               />
 
               <label
-                for="floating_email"
+                htmlFor="floating_email"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Email
@@ -142,12 +142,11 @@ export default function Register({ onSignUp }) {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
-                // className="form-control"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <label
-                for="floating_password"
+                htmlFor="floating_password"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Password
@@ -162,27 +161,27 @@ export default function Register({ onSignUp }) {
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-teal-500 focus:outline-none focus:ring-0 focus:border-teal-600 peer"
                 placeholder=" "
                 required
-                // className="form-control"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
-              {error && <p className="text-danger">{error}</p>}
               <label
-                // className="block mb-2 text-sm text-gray-600 dark:text-gray-200"
-                for="floating_repeat_password"
+                htmlFor="floating_repeat_password"
                 className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Confirm Password
               </label>
             </div>
 
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+
             <div className="flex flex-col">
               <button
                 type="submit"
-                className="w-full  bg-teal-400 text-white py-2 px-4 rounded-md hover:bg-teal-500 transition-colors"
+                className="w-full bg-teal-400 text-white py-2 px-4 rounded-md hover:bg-teal-500 transition-colors"
+                disabled={loading}
               >
                 {loading ? "Signing Up..." : "Sign Up"}
-              </button>{" "}
+              </button>
             </div>
           </form>
           <div className="flex flex-col gap-2 mt-2">
@@ -193,7 +192,7 @@ export default function Register({ onSignUp }) {
               </Link>
             </div>
           </div>
-        </div>{" "}
+        </div>
         <div></div>
       </div>
     </div>

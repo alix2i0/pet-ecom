@@ -19,6 +19,7 @@ const Orders = () => {
   const [sortBy, setSortBy] = useState(""); // State to hold current sorting option
   const [sortOrder, setSortOrder] = useState(1); // State to hold sorting order (1 for ascending, -1 for descending)
   const [selectedStatus, setSelectedStatus] = useState({});
+  const [editMode, setEditMode] = useState({});
 
   const fetchOrders = async () => {
     try {
@@ -96,9 +97,13 @@ const Orders = () => {
     }
   };
 
+  const handleEditMode = (orderId) => {
+    setEditMode({ ...editMode, [orderId]: true });
+  };
+
   return (
-    <div className="bg-teal-400 h-screen">
-      <div className="p-3 bg-teal-400 sm:ml-64 overflow-hidden">
+    <div className="bg-primary h-screen">
+      <div className="p-3 bg-primary sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h3 className="text-xl">All Orders</h3>
           <div className="flex justify-end items-center mb-8">
@@ -118,7 +123,7 @@ const Orders = () => {
               <div className="relative">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg
-                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    className="w-4 h-4 text-secondary dark:text-primary"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -135,7 +140,7 @@ const Orders = () => {
                 </div>
                 <input
                   type="text"
-                  className="text-sm bg-white bg-opacity-0 block ps-10 p-2.5 border-0 border-b-2 border-grey-dark placeholder-gray-400"
+                  className="text-sm bg-opacity-0 block ps-10 p-2.5 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={handleSearch}
@@ -152,6 +157,7 @@ const Orders = () => {
                   <TableHead scope="col">Products</TableHead>
                   <TableHead scope="col">Total Amount</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>delivery</TableHead>
                   <TableHead onClick={() => handleSort("orderDate")}>
                     Date{" "}
                     {sortBy === "orderDate" && (sortOrder === 1 ? "▲" : "▼")}
@@ -178,14 +184,37 @@ const Orders = () => {
                     </TableCell>
                     <TableCell>{order.totalAmount}</TableCell>
                     <TableCell className="flex items-center justify-center">
-                      <select
-                        value={selectedStatus[order._id] || order.status}
-                        onChange={(e) => handleStatusChange(order._id, e)}
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Rejected">Rejected</option>
-                      </select>
+                      {editMode[order._id] ? (
+                        <select
+                          value={selectedStatus[order._id] || order.status}
+                          onChange={(e) => handleStatusChange(order._id, e)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Rejected">Rejected</option>
+                        </select>
+                      ) : (
+                        <span>{order.status}</span>
+                      )}
+
+                      <button onClick={() => updateOrderStatus(order._id)}>
+                        <img src="save.png" className="h-[20px]" alt="#" />
+                      </button>
+                    </TableCell>
+
+                    <TableCell className="items-center justify-center">
+                      {editMode[order._id] ? (
+                        <select
+                          value={selectedStatus[order._id] || order.status}
+                          onChange={(e) => handleStatusChange(order._id, e)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Rejected">Rejected</option>
+                        </select>
+                      ) : (
+                        <span>{order.status}</span>
+                      )}
 
                       <button onClick={() => updateOrderStatus(order._id)}>
                         <img src="save.png" className="h-[20px]" alt="#" />
@@ -203,6 +232,14 @@ const Orders = () => {
                           className="h-[20px]"
                         />
                       </button>
+                      {/* Edit icon for editing status */}
+                      <button onClick={() => handleEditMode(order._id)}>
+                        <img
+                          src="edit.png"
+                          alt="edit"
+                          className="h-[20px]"
+                        />
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -217,7 +254,7 @@ const Orders = () => {
                 key={index}
                 className={`mx-1 px-3 py-1 rounded-lg ${
                   currentPage === index + 1
-                    ? "bg-teal-400 hover:bg-teal-500 text-white"
+                    ? "bg-primary hover:bg-secondary text-white"
                     : "bg-gray-200 hover:bg-gray-300 text-gray-600"
                 }`}
                 onClick={() => handlePageChange(index + 1)}

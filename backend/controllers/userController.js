@@ -15,7 +15,7 @@ exports.register = async (req, res) => {
       email,
       password: hashedPassword,
     }); // Creating a new user
-    res.status(201).json({ user }); // Sending response with the created user object
+    res.status(201).json({ user }); // Sending response with the created user object  
   } catch (err) {
     res.status(400).json({ message: err.message }); // Handling errors
   }
