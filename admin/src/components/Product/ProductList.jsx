@@ -4,6 +4,8 @@ import ProductForm from "./ProductForm";
 import ProductEditForm from "./EditForm";
 import Pagination from "./Pagination.jsx";
 import ProductView from "./ProductView.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 // import { set } from "mongoose";
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -176,9 +178,9 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="bg-teal-400 h-screen">
-        <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
-          <div className="bg-white p-3 shadow-md sm:rounded-lg">
+      <div className="bg-primary h-screen">
+        <div className="bg-primary p-3 sm:ml-64 overflow-hidden">
+          <div className="bg-white p-3 shadow-md rounded-lg">
             <h3 className="text-xl">All Products</h3>
             <div className="flex flex-col gap-8">
               <div className="flex justify-end items-center gap-8">
@@ -194,7 +196,7 @@ const ProductList = () => {
                   <div className="relative">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                       <svg
-                        className="w-4 h-4 text-teal-500 dark:text-teal-400"
+                        className="w-4 h-4 text-primary dark:text-primary"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -213,16 +215,16 @@ const ProductList = () => {
                       value={searchQuery}
                       onChange={handleSearch}
                       type="text"
-                      className="text-sm bg-opacity-0 block ps-10 p-2.5 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                      className="text-sm bg-opacity-0 block ps-10 p-2.5 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder="Search..."
                     />
                   </div>
                 </div>
                 <button
-                  className="p-2 hover:bg-teal-500 rounded-lg bg-teal-400 text-white"
+                  className="p-2 hover:bg-secondary rounded-lg bg-primary text-white"
                   onClick={handleOpenProductForm}
                 >
-                  Add product
+                  <FontAwesomeIcon icon={faPlusSquare} /> Add Product
                 </button>
               </div>
               <ProductForm

@@ -1,4 +1,5 @@
 // components/Navbar/Navbar.jsx
+import React from "react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -29,7 +30,7 @@ const Navbar = () => {
   }, []);
   return (
     <nav
-      className={`fixed w-full flex flex-wrap py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
+      className={`fixed z-50 w-full flex flex-wrap py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
         isScrolled ? "bg-gray-50" : ""
       }`}
       aria-label="Global"
@@ -38,12 +39,12 @@ const Navbar = () => {
         <a
           className="flex-none rounded-xl text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
           href="#"
-          aria-label="Petopia"
+          aria-label="Meowtopia"
         >
           <img
-            src="../../public/logo.png"
+            src="../../public/logoo.png"
             alt="Pet Store"
-            className="w-40 ml-8"
+            className="w-48 ml-8"
           />
         </a>
       </div>
@@ -107,6 +108,14 @@ const Navbar = () => {
             href="services"
           >
             Products
+          </a>
+          <a
+            className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              "/pets"
+            )}`}
+            href="pets"
+          >
+            Pets
           </a>
           <a
             className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(

@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import './style.css';
+=======
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
+import { useState } from "react";
+>>>>>>> 06f6a3200ccec85b8b7edfdb40eaefc239742dff
 
 const Contact = () => {
   const {
