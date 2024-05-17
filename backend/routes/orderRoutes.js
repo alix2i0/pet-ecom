@@ -6,9 +6,10 @@ const orderController = require("../controllers/orderController");
 
 // GET all commandes
 router.get("/", orderController.getAllOrders);
-
+router.get('/analys',orderController.getOrdersByMonth)
 router.get('/count',orderController.countOrder)
 router.get('/totalAmount',orderController.getTotalAmount)
+router.get('/RO',orderController.getRecentOrders)
 
 //Add new order
 router.post("/", orderController.postOrder);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {v4 as uuidv4 } from "uuid";
 // petcom
 
@@ -21,21 +21,35 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // const folderId = uuidv4();
-      const uploadedImageUrls = await Promise.all(files.map(async (file) => {
-        const imageUrl = await uploadImage(file);
-        return imageUrl;
-      }));
-      // const image = `https://api.cloudinary.com/v1_1/dk28itsov/image/upload/${folderId}`;
-      // const image = await uploadImage();
-      const image = uploadedImageUrls.join(',');
+      const uploadedImageUrls = await Promise.all(
+        files.map(async (file) => {
+          const imageUrl = await uploadImage(file);
+          return imageUrl;
+        })
+      );
+      const image = uploadedImageUrls.join(",");
       console.log("image uploaded successfully", image);
-      onSubmit({ name, price, description, category, quantity, image });
-      handleClose(); 
+
+      // Log request data for debugging
+      const requestData = {
+        name,
+        price,
+        description,
+        category,
+        quantity,
+        image,
+      };
+      console.log("Request Data: ", requestData);
+
+      // Attempt to submit the product
+      await onSubmit(requestData);
+      console.log("on submit : ", name, price, description, category, quantity);
+      handleClose();
     } catch (error) {
-      console.error(error);
+      console.error("Error creating product:", error);
     }
   };
+
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
     setFile([...files, ...selectedFiles]);

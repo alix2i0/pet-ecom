@@ -3,6 +3,7 @@ const { STRIPE_KEY } = require('../config/env');
 const stripe = require("stripe")(STRIPE_KEY);
 const Product = require("../models/Product")
 const User = require("../models/User");
+
 // Récupérer toutes les commandes
 exports.getAllOrders = async (req, res) => {
   try {
@@ -57,7 +58,7 @@ if (sortBy === 'dateAsc') {
     let orders = await ordersQuery.exec();
 
     const totalOrdersCount = await Order.countDocuments(query); // Count total number of orders matching the query criteria
-
+    const orderCount = await Order.countDocuments();
     // Calculating total pages
     const totalPages = Math.ceil(totalOrdersCount / limit);
 
@@ -65,6 +66,7 @@ if (sortBy === 'dateAsc') {
       orders,
       currentPage: page,
       totalPages,
+      orderCount
     });
 
   } catch (err) {
@@ -73,7 +75,36 @@ if (sortBy === 'dateAsc') {
 };
 
 
-// Get a commande by ID
+exports.getRecentOrders = async (req, res) => {
+  try {
+   
+    const recentOrders = await Order.find()
+      .sort({ orderDate: -1 }) 
+      .limit(6)
+      .populate('customer')
+    
+    res.status(200).json(recentOrders);
+  } catch (error) {
+    console.log("erroroororor");
+    console.error('Error retrieving recent orders:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+
+exports.getOrdersByMonth = async (req, res) => {
+  try {
+      // Fetch all orders from the database
+      const orders = await Order.find();
+      // Analyze the orders by month
+      const analysisResult = analysData(dataMonth, orders);
+      res.json(analysisResult);
+  } catch (error) {
+      console.error('Error fetching orders:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 exports.getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id).populate('customer', 'username').populate({
@@ -264,3 +295,40 @@ exports.countOrder = async(req,res)=>{
   const count = await Order.countDocuments();
   res.json(count);
 }
+
+
+
+
+const analysData = (dataMonth, orders) => {
+  const result = [];
+  for (let i = 0; i < dataMonth.length; i++) {
+      let accumulator = 0;
+      for (let j = 0; j < orders.length; j++) {
+          let orderDate = new Date(orders[j].orderDate);
+          if (orderDate.getMonth() === dataMonth[i].value) {
+              accumulator++;
+          }
+      }
+      let data = {
+          ...dataMonth[i],
+          Orders_In_Month : accumulator
+      };
+      result.push(data);
+  }
+  return result;
+};
+
+const dataMonth = [
+  { name: "January", value: 0 },
+  { name: "February", value: 1 },
+  { name: "March", value: 2 },
+  { name: "April", value: 3 },
+  { name: "May", value: 4 },
+  { name: "June", value: 5 },
+  { name: "July", value: 6 },
+  { name: "August", value: 7 },
+  { name: "September", value: 8 },
+  { name: "October", value: 9 },
+  { name: "November", value: 10 },
+  { name: "December", value: 11 }
+];

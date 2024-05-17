@@ -1,8 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  isRejectedWithValue,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -16,63 +12,24 @@ const initialState = {
 
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
-  async () => {
-    console.log("hello");
-    const response = await axios.get("http://localhost:3300/api/products", {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log("hello", response);
+  async ({ page, search }) => {
+    const response = await axios.get(
+      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}`
+    );
     return response.data;
   }
 );
-//create a new product
-export const createProduct = createAsyncThunk(
-  "product/createProduct",
-  async (productData) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3300/api/products",
-        productData
-      );
-      return response.data;
-    } catch (error) {
-      throw error.response.data.message;
-    }
+export const fetchProductById = createAsyncThunk(
+  "product/fetchProductById",
+  async ({ productId }) => {
+    console.log("getID",productId)
+    const response = await axios.get(
+      `http://localhost:3300/api/products/${productId}`
+    );
+    console.log('response : ', response.data);
+    return response.data;
   }
 );
-
-//update product by id
-export const updateProductById = createAsyncThunk(
-  "product/updateProductById",
-  async ({ productId, productData }) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:3300/api/products/${productId}`,
-        productData
-      );
-      return response.data;
-    } catch (error) {
-      throw error.response.data.message;
-    }
-  }
-);
-
-//delete product by id
-export const deleteProductById = createAsyncThunk(
-  "product/deleteProductById",
-  async (productId) => {
-    try {
-      await axios.delete(`http://localhost:3300/api/products/${productId}`);
-      return productId;
-    } catch (error) {
-      throw error.response.data.message;
-    }
-  }
-);
-
 // Count Product
 
 export const CountProducts = createAsyncThunk(
@@ -82,15 +39,15 @@ export const CountProducts = createAsyncThunk(
       "http://localhost:3300/api/products/count",
       {
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log(response.data);
-    return response.data;
-  }
-);
+
+        headers : {
+            'Content-Type' : 'application/json',
+        }});
+        console.log("slice",response.data);
+    return response.data.count;
+
+})
+
 // Count Order
 
 export const CountOrders = createAsyncThunk("product/CountOrders", async () => {
@@ -125,65 +82,44 @@ export const CountTotalAmount = createAsyncThunk(
 
 export const productSlice = createSlice({
   name: "product",
-  initialState,
-  reducers: {},
+  initialState: {
+    product: [],
+    productDetails: null,
+    loading: false,
+    error: null,
+    totalPages: 1,
+    search: "",
+  },
+  reducers: {
+    setSearch: (state, action) => {
+      state.search = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
-    //product fetch
       .addCase(fetchProduct.pending, (state) => {
         state.isLoading = true;
         state.isError = null;
       })
       .addCase(fetchProduct.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.product = action.payload;
+        state.product = action.payload.data || [];
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
       })
-      //create product
-      .addCase(createProduct.pending, (state) => {
-        state.isLoading = true;
-        state.isError = null;
+      .addCase(fetchProductById.pending, (state) => {
+        state.loading = true;
       })
-      .addCase(createProduct.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.products.push(action.payload);
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.productDetails = action.payload;
       })
-      .addCase(createProduct.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = action.payload;
-      })
-      //update product
-      .addCase(updateProductById.pending, (state) => {
-        state.isLoading = true;
-        state.isError = null;
-      })
-      .addCase(updateProductById.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.products = state.products.map((product) =>
-          product._id === action.payload._id ? action.payload : product
-        );
-      })
-      .addCase(updateProductById.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = action.payload;
-      })
-      //delete product
-      .addCase(deleteProductById.pending, (state) => {
-        state.isLoading = true;
-        state.isError = null;
-      })
-      .addCase(deleteProductById.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.products = state.products.filter(
-          (product) => product._id !== action.payload
-        );
-      })
-      .addCase(deleteProductById.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = action.payload;
+      .addCase(fetchProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       })
       // Count Product
       .addCase(CountProducts.pending, (state) => {
@@ -198,6 +134,8 @@ export const productSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload;
       })
+
+      // Count Orders
       // Count Orders
       .addCase(CountOrders.pending, (state) => {
         state.isLoading = true;
@@ -227,15 +165,18 @@ export const productSlice = createSlice({
       });
   },
 });
-export const selectIsLoading = (state) => state.product.isLoading;
-export const selectProducts = (state) => state.product.products;
-export const selectError = (state) => state.product.isError;
 
-// export const selectError = (state) => state.error;
-// export const selectIsLoading = (state) => state.loading;
-// export const selectProduct = (state) => state.product;
+export const selectError = (state) => state.error;
+export const selectIsLoading = (state) => state.loading;
+export const selectProduct = (state) => state.product;
+export const selectProductDetails = (state) => state.products.productDetails;
 export const selectCountProduct = (state) => state.count;
 export const selectCountOrders = (state) => state.ordersCount;
 export const selectTotalAmount = (state) => state.totalAmount;
+export const selectTotalPages = (state) => state.product.totalPages;
 
+
+export const { setSearch } = productSlice.actions;
+
+export const { setPage } = productSlice.actions;
 export default productSlice.reducer;

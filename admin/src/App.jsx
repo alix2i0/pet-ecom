@@ -5,7 +5,7 @@ import Register from "./pages/Register";
 import ProductList from "./components/Product/ProductList";
 
 import { Routes, Route, useLocation } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/DashboardComponenet/DashContainer";
 import Sidebar from "./components/Sidebar/Sidebar";
 import UserList from "./components/User/UserList";
 import ProductPage from "./pages/ProductPage";
@@ -27,7 +27,6 @@ import PetComponent from "./components/Pet/PetComponent";
 
 
 function App() {
-  const [count, setCount] = useState(0);
 
   const location = useLocation();
 
