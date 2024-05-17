@@ -45,145 +45,142 @@ const PetModal = ({ petData, handleClose, handleSubmit }) => {
   };
 
   return (
-    <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
-        <div className="relative bg-white rounded-lg overflow-hidden shadow-xl max-w-md w-full">
-          <div className="px-6 py-8">
-            <div className="">
-              <h3 className="text-2xl text-center font-bold text-gray-800 mb-4">
-                {formData._id ? "Edit Pet" : "Add New Pet"}
-              </h3>
-              <form onSubmit={handleModalSubmit}>
-                <div className="mb-4">
-                  <label
-                    htmlFor="name"
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                  >
-                    Name:
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="age"
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                  >
-                    Age:
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    name="age"
-                    min="0"
-                    step="any"
-                    value={formData.age}
-                    onChange={handleChange}
-                    required
-                    className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="availability"
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                  >
-                    Availability:
-                  </label>
-                  <select
-                    id="availability"
-                    name="availability"
-                    value={formData.availability}
-                    onChange={handleChange}
-                    className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:border-blue-500"
-                  >
-                    <option value="true">Available</option>
-                    <option value="false">Not Available</option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="location"
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                  >
-                    Location:
-                  </label>
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="location"
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                  >
-                    Description:
-                  </label>
-                  <textarea
-                    type="text"
-                    id="description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:border-blue-500"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    htmlFor="CategoryName"
-                    className="block text-gray-700 text-sm font-bold mb-2"
-                  >
-                    Category:
-                  </label>
-                  <select
-                    id="CategoryName"
-                    name="CategoryName"
-                    value={formData.CategoryName}
-                    onChange={handleChange}
-                    className="w-full bg-gray-100 border border-gray-300 rounded-lg py-2 px-3 text-gray-800 focus:outline-none focus:border-blue-500"
-                  >
-                    <option value=""></option>
-                    <option value="Dogs">Dogs</option>
-                    <option value="Cats">Cats</option>
-                  </select>
-                </div>
-                <div className="mb-4">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                  />
-                </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-y-auto">
+      <div className="max-w-sm bg-white shadow-md rounded-lg p-2 h-[90%] overflow-y-auto">
+        <div className="px-6 py-5">
+          <div className="">
+            <h3 className="text-2xl text-center font-bold text-gray-800 mb-4">
+              {formData._id ? "Edit Pet" : "Add New Pet"}
+            </h3>
+            <form onSubmit={handleModalSubmit} className="flex flex-col gap-5 ">
+              <div className="">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Name:
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
+                />
+              </div>
+              <div className="">
+                <label
+                  htmlFor="age"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Age:
+                </label>
+                <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  min="0"
+                  step="any"
+                  value={formData.age}
+                  onChange={handleChange}
+                  required
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
+                />
+              </div>
+              <div className="">
+                <label
+                  htmlFor="availability"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Availability:
+                </label>
+                <select
+                  id="availability"
+                  name="availability"
+                  value={formData.availability}
+                  onChange={handleChange}
+                  className="block px-0 w-full text-sm bg-transparent border-0 border-b-[1px] border-gray-300 dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
+                >
+                  <option value="true">Available</option>
+                  <option value="false">Not Available</option>
+                </select>
+              </div>
+              <div className="">
+                <label
+                  htmlFor="location"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Location:
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
+                />
+              </div>
+              <div className="">
+                <label
+                  htmlFor="location"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Description:
+                </label>
+                <textarea
+                  type="text"
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
+                />
+              </div>
+              <div className="">
+                <label
+                  htmlFor="CategoryName"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Category:
+                </label>
+                <select
+                  id="CategoryName"
+                  name="CategoryName"
+                  value={formData.CategoryName}
+                  onChange={handleChange}
+                  className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
+                >
+                  <option value=""></option>
+                  <option value="Dogs">Dogs</option>
+                  <option value="Cats">Cats</option>
+                </select>
+              </div>
+              <div className="">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+              </div>
 
-                <div className="flex justify-between">
-                  <button
-                    type="button"
-                    onClick={handleClose}
-                    className="px-4 py-2 bg-gray-600 text-white rounded-lg focus:outline-none hover:bg-gray-700"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-green-500 text-white rounded-lg focus:outline-none hover:bg-green-600"
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
+              <div className="flex justify-between mt-2">
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  className="px-4 py-2 bg-none border bg-gray-200 text-gray-700 rounded-lg focus:outline-none hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="block p-1 w-24 text-white bg-primary hover:bg-secondary border border-transparent rounded-lg shadow-sm"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

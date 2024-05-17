@@ -1,6 +1,11 @@
 import React from "react";
 
-const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) => {
+const Pagination = ({
+  productsPerPage,
+  totalProducts,
+  paginate,
+  currentPage,
+}) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
@@ -37,14 +42,14 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
           <button
             key={number}
             onClick={() => paginate(number)}
-            className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
-              currentPage === number ? "bg-teal-400 hover:bg-teal-500 text-white" : ""
+            className={`relative block px-3 py-1.5 text-sm transition-all duration-300 ${
+              currentPage === number
+                ? "bg-primary hover:bg-secondary text-white"
+                : "text-neutral-600 hover:bg-neutral-200"
             }`}
             type="button"
           >
-            <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-              {number}
-            </span>
+            {number}
           </button>
         ))}
       </div>

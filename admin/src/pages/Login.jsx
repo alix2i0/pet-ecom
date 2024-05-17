@@ -55,8 +55,8 @@ const Login = () => {
                   id="username"
                   className="block py-2.5 px-0 w-full text-sm bg-transparent
                    border-0 border-b-[1px] border-gray-400 appearance-none dark:text-white
-                    dark:border-gray-400 dark:focus:border-teal-500 focus:outline-none 
-                    focus:ring-0 focus:border-teal-600 peer"
+                    dark:border-gray-400 dark:focus:border-secondary focus:outline-none 
+                    focus:ring-0 focus:border-secondary peer"
                   placeholder=" "
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -64,7 +64,7 @@ const Login = () => {
                 />
                 <label
                   htmlFor="username"
-                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Username
                 </label>
@@ -76,8 +76,8 @@ const Login = () => {
                   id="password"
                   className="block py-2.5 px-0 w-full text-sm bg-transparent
                    border-0 border-b-[1px] border-gray-400  dark:text-white
-                    dark:border-gray-400 dark:focus:border-teal-500 focus:outline-none 
-                    focus:ring-0 focus:border-teal-600 peer "
+                    dark:border-gray-400 dark:focus:border-secondary focus:outline-none 
+                    focus:ring-0 focus:border-secondary peer "
                   placeholder=" "
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -85,7 +85,7 @@ const Login = () => {
                 />
                 <label
                   htmlFor="password"
-                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-teal-600 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Password
                 </label>
@@ -94,13 +94,13 @@ const Login = () => {
             <div className="flex flex-col gap-6">
               <Link
                 to="/forgot-password"
-                className="text-sm text-gray-300 underline flex justify-end hover:text-teal-400"
+                className="text-sm text-gray-300 underline flex justify-end hover:text-primary"
               >
                 Forgot password?
               </Link>
               <button
                 type="submit"
-                className="w-full  bg-teal-400 text-white py-2 px-4 rounded-md hover:bg-teal-500 transition-colors"
+                className="w-full  bg-primary text-white py-2 px-4 rounded-md hover:bg-secondary transition-colors"
               >
                 Login
               </button>{" "}
@@ -130,7 +130,7 @@ const Login = () => {
 
             <div className="mt-3 text-sm text-center text-gray-300">
               No account yet?&nbsp;
-              <Link to="/register" className="underline hover:text-teal-400">
+              <Link to="/register" className="underline hover:text-primary">
                 Sign up now
               </Link>
             </div>

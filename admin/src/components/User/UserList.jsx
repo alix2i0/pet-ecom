@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getAllUsers } from "../../services/reducer/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import UserForm from "./UserForm";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UserList = () => {
   const [limit, setLimit] = useState(5);
@@ -88,8 +90,8 @@ const UserList = () => {
 
   return (
  
-    <div className="bg-teal-400 h-screen">
-      <div className="bg-teal-400 p-3 sm:ml-64 overflow-hidden">
+    <div className="bg-primary h-screen">
+      <div className="bg-primary p-3 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg ">
           <h3 className="text-xl">All Users</h3>
           <div className="flex flex-col gap-8 mb-4">
@@ -109,7 +111,7 @@ const UserList = () => {
               <div className="relative mr-5">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg
-                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    className="w-4 h-4 text-secondary dark:text-primary"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -126,7 +128,7 @@ const UserList = () => {
                 </div>
                 <input
                   type="text"
-                  className="text-sm bg-white bg-opacity-0 block ps-10 p-2.5 border-0 border-b-2 border-grey-dark placeholder-gray-400"
+                  className="text-sm bg-opacity-0 block ps-10 p-2.5 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={handleSearch}
@@ -135,9 +137,9 @@ const UserList = () => {
 
               <button
                 onClick={handleAddUserClick} // Call handleAddUserClick on button click
-                className="p-2 hover:bg-teal-500 rounded-lg bg-teal-400 text-white"
+                className="p-2 hover:bg-secondary rounded-lg bg-primary text-white"
               >
-                Add User
+                <FontAwesomeIcon icon={faPlusSquare} /> Add User
               </button>
             </div>
             {showAddUserForm && ( // Conditionally render the form
@@ -219,6 +221,7 @@ const UserList = () => {
                 </tbody>
               </table>
             </div>
+
             {/* Pagination */}
             <div className="flex justify-center mt-4">
               {Array.from({ length: totalPages }, (_, index) => (
@@ -226,7 +229,7 @@ const UserList = () => {
                   key={index}
                   className={`mx-1 px-3 py-1 rounded-lg ${
                     currentPage === index + 1
-                      ? "bg-teal-400 hover:bg-teal-500 text-white"
+                      ? "bg-primary hover:bg-secondary text-white"
                       : "bg-gray-200 hover:bg-gray-300 text-gray-600"
                   }`}
                   onClick={() => handlePageChange(index + 1)}
@@ -235,6 +238,8 @@ const UserList = () => {
                 </button>
               ))}
             </div>
+
+            
           </div>
         </div>
         {/* Delete confirmation modal */}
