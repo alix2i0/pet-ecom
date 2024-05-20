@@ -1,26 +1,70 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchCategories,
   fetchProduct,
   fetchProductById,
+  setFilter,
   setSearch,
+  setSort,
 } from "../../../../admin/src/services/reducer/productSlice";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { FaSearch } from "react-icons/fa";
+import { ShoppingCartIcon } from "lucide-react";
+import {
+  DropdownMenuTrigger,
+  DropdownMenuRadioItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuContent,
+  DropdownMenu,
+} from "@/components/ui/dropdown-menu";
+import Filters from "../../components/Filter";
 
 const Products = () => {
-  const { product, loading, error, totalPages, search } = useSelector(
-    (state) => state.product
-  );
+  const {
+    product,
+    categories,
+    loading,
+    error,
+    totalPages,
+    search,
+    filters,
+    sort,
+  } = useSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(search);
+  const [selectedFilters, setSelectedFilters] = useState(filters);
+  console.log("selectedFilters", selectedFilters);
   const dispatch = useDispatch();
 
+  const handleFilterChange = (filterKey, filterValue) => {
+    const newFilters = { ...selectedFilters, [filterKey]: filterValue };
+    // console.log("newFilters", newFilters);
+    setSelectedFilters(newFilters);
+    dispatch(setFilter(newFilters));
+    setCurrentPage(1);
+  };
+
+
   useEffect(() => {
-    dispatch(fetchProduct({ page: currentPage, search: searchTerm }));
-  }, [dispatch, currentPage, searchTerm]);
+    dispatch(
+      fetchProduct({
+        page: currentPage,
+        search: searchTerm,
+        filters: selectedFilters,
+        sort,
+      })
+    );
+    dispatch(fetchCategories());
+  }, [dispatch, currentPage, searchTerm, selectedFilters, sort]);
+
+  
+  const handleSortChange = (sortOption) => {
+    dispatch(setSort(sortOption));
+    setCurrentPage(1);
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -53,7 +97,9 @@ const Products = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  console.log("Products :: ", product);
+
+  
+  console.log("categories : ", categories);
   return (
     <div className="bg-gray-50">
       <Navbar />
@@ -70,7 +116,7 @@ const Products = () => {
           </div>
           <form
             onSubmit={handleSearchSubmit}
-            className="flex items-center justify-center mb-6 gap-2"
+            className="flex items-center justify-end mb-6 gap-2"
           >
             <div className="flex">
               <input
@@ -84,7 +130,44 @@ const Products = () => {
                 <FaSearch className="text-white" />
               </div>
             </div>
+            <div className="mx-2 px-4 md:px-6 py-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="shrink-0" variant="outline">
+                    <ArrowUpDownIcon className="w-4 h-4 mr-2" />
+                    Sort by
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[200px]">
+                  <DropdownMenuRadioGroup
+                    value={sort}
+                    onValueChange={handleSortChange}
+                  >
+                    <DropdownMenuRadioItem value="featured">
+                      Featured
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="newest">
+                      Newest
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="priceLowHigh">
+                      Price: Low to High
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="priceHighLow">
+                      Price: High to Low
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <Filters
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedFilters={selectedFilters}
+              setSelectedFilters={setSelectedFilters}
+              setCurrentPage={setCurrentPage}
+            />
           </form>
+
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {product &&
               product.map((item) => (
@@ -103,11 +186,13 @@ const Products = () => {
                     style={{ aspectRatio: "400/300", objectFit: "cover" }}
                   />
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold">{item.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {item.description}
-                    </p>
-                    <div className="mt-4 flex items-end justify-between">
+                    <div className="mt-4 flex flex-col items-center justify-between">
+                      <h3 className="text-lg font-semibold">{item.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {item.description}
+                      </p>
+                    </div>
+                    <div className="mt-4 flex items-center justify-between">
                       <span className="text-lg font-semibold">
                         ${item.price}
                       </span>
@@ -140,25 +225,41 @@ const Products = () => {
   );
 };
 
-function ShoppingCartIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="8" cy="21" r="1" />
-      <circle cx="19" cy="21" r="1" />
-      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-    </svg>
-  );
-}
+const ArrowUpDownIcon = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m21 16-4 4-4-4" />
+    <path d="M17 20V4" />
+    <path d="m3 8 4-4 4 4" />
+    <path d="M7 4v16" />
+  </svg>
+);
+
+const FilterIcon = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+  </svg>
+);
 
 export default Products;

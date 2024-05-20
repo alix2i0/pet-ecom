@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchProduct,
+  fetchProductAdmin,
   selectIsLoading,
   selectTotalPages,
   setSearch,
@@ -74,7 +74,7 @@ const ProductList = () => {
     if (selectedCategory !== "") {
       // Fetch products based on selected pet category
       dispatch(
-        fetchProduct({
+        fetchProductAdmin({
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
@@ -84,7 +84,7 @@ const ProductList = () => {
     } else {
       // Fetch all products if no category is selected
       dispatch(
-        fetchProduct({
+        fetchProductAdmin({
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
@@ -184,7 +184,7 @@ const ProductList = () => {
         withCredentials: true,
       });
       dispatch(
-        fetchProduct({
+        fetchProductAdmin({
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
@@ -216,7 +216,7 @@ const ProductList = () => {
       });
       console.log("Product created successfully.");
       dispatch(
-        fetchProduct({
+        fetchProductAdmin({
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,

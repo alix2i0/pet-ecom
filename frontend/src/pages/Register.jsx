@@ -24,7 +24,7 @@ const Register = () => {
 
     try {
       console.log("username,email,password : ", username, email, password);
-      const res = await fetch("http://localhost:3000/admin/register", {
+      const res = await fetch("http://localhost:3300/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

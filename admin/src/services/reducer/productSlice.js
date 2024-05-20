@@ -3,18 +3,38 @@ import axios from "axios";
 
 const initialState = {
   product: [],
+  categories: [],
   isLoading: false,
   isError: null,
+  productDetails: null,
   count: 0,
   totalAmount: 0,
   CountOrders: 0,
+  totalPages: 1,
+  search: "",
+  filters: {},
+  sort: "",
 };
-
 export const fetchProduct = createAsyncThunk(
-  'products/fetchProduct',
+  "product/fetchProduct",
+  async ({ page, search, filters, sort }) => {
+    const filterParams = new URLSearchParams();
+    if (filters) {
+      for (const key in filters) {
+        filterParams.append(key, filters[key]);
+      }
+    }
+    const response = await axios.get(
+      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams.toString()}`
+    );
+    return response.data;
+  }
+);
+export const fetchProductAdmin = createAsyncThunk(
+  'products/fetchProductAdmin',
   async ({ page, limit, search, petCategory }) => {
     try {
-      const response = await axios.get('http://localhost:3300/api/products', {
+      const response = await axios.get('http://localhost:3300/api/products/admin', {
         params: {
           page,
           limit,
@@ -39,6 +59,15 @@ export const fetchProductById = createAsyncThunk(
     return response.data;
   }
 );
+export const fetchCategories = createAsyncThunk(
+  "categories/fetchCategories",
+  async () => {
+    const response = await axios.get(`http://localhost:3300/api/categories`);
+    console.log("categories : ", response.data.categories);
+    return response.data.categories;
+  }
+);
+
 // Count Product
 
 export const CountProducts = createAsyncThunk(
@@ -91,17 +120,16 @@ export const CountTotalAmount = createAsyncThunk(
 
 export const productSlice = createSlice({
   name: "product",
-  initialState: {
-    product: [],
-    productDetails: null,
-    loading: false,
-    error: null,
-    totalPages: 1,
-    search: "",
-  },
+  initialState,
   reducers: {
     setSearch: (state, action) => {
       state.search = action.payload;
+    },
+    setFilter(state, action) {
+      state.filters = action.payload;
+    },
+    setSort(state, action) {
+      state.sort = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -116,6 +144,19 @@ export const productSlice = createSlice({
         state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+      .addCase(fetchProductAdmin.pending, (state) => {
+        state.isLoading = true;
+        state.isError = null;
+      })
+      .addCase(fetchProductAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.product = action.payload.data || [];
+        state.totalPages = action.payload.totalPages;
+      })
+      .addCase(fetchProductAdmin.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
       })
@@ -171,6 +212,17 @@ export const productSlice = createSlice({
       .addCase(CountTotalAmount.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
+      }) // Fetch categories
+      .addCase(fetchCategories.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categories = action.payload;
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
       });
   },
 });
@@ -185,7 +237,6 @@ export const selectTotalAmount = (state) => state.totalAmount;
 export const selectTotalPages = (state) => state.product.totalPages;
 
 
-export const { setSearch } = productSlice.actions;
-
+export const { setSearch, setFilter, setSort } = productSlice.actions;
 export const { setPage } = productSlice.actions;
 export default productSlice.reducer;

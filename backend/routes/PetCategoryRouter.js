@@ -1,8 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 // const petCategoryController = require('../controllers/petCategoryController');
-const petCategoryController = require('../controllers/petCategoryController');
-
+const petCategoryController = require("../controllers/petCategoryController");
 
 // Routes for pet categories
 router.get('/', petCategoryController.getCategories);
