@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   product: [],
+  categories: [],
   isLoading: false,
   isError: null,
   productDetails: null,
@@ -18,9 +19,14 @@ const initialState = {
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
   async ({ page, search, filters, sort }) => {
-    const filterParams = new URLSearchParams(filters).toString();
+    const filterParams = new URLSearchParams();
+    if (filters) {
+      for (const key in filters) {
+        filterParams.append(key, filters[key]);
+      }
+    }
     const response = await axios.get(
-      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams}`
+      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams.toString()}`
     );
     return response.data;
   }
@@ -34,6 +40,14 @@ export const fetchProductById = createAsyncThunk(
     );
     console.log('response : ', response.data);
     return response.data;
+  }
+);
+export const fetchCategories = createAsyncThunk(
+  "product/fetchCategories",
+  async () => {
+    const response = await axios.get(`http://localhost:3300/api/categories`);
+    console.log("response : ", response.data.categories);
+    return response.data.categories;
   }
 );
 
@@ -166,6 +180,17 @@ export const productSlice = createSlice({
         state.totalAmount = action.payload;
       })
       .addCase(CountTotalAmount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      }) // Fetch categories
+      .addCase(fetchCategories.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categories = action.payload;
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
       });

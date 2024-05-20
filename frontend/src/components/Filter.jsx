@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { FilterIcon } from "lucide-react";
 
 const Filters = ({
   searchTerm,
@@ -44,25 +45,11 @@ const Filters = ({
     setSelectedFilters(newFilters);
     dispatch(setFilter(newFilters));
     setCurrentPage(1);
-    dispatch(
-      fetchProduct({
-        page: 1,
-        search: searchTerm,
-        filters: newFilters,
-      })
-    );
   };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     dispatch(setSearch(e.target.value));
-    dispatch(
-      fetchProduct({
-        page: 1,
-        search: e.target.value,
-        filters: selectedFilters,
-      })
-    );
     setCurrentPage(1);
   };
 
@@ -173,22 +160,3 @@ const Filters = ({
 };
 
 export default Filters;
-
-function FilterIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-    </svg>
-  );
-}

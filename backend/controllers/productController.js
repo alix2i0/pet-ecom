@@ -19,6 +19,27 @@ exports.getAllProducts = async (req, res) => {
         query[key] = { $in: filters[key] };
       }
     }
+    if (filters.category) {
+      // Ensure category filter is a string, not an array
+      const categoryName = Array.isArray(filters.category)
+        ? filters.category[0]
+        : filters.category;
+      const category = await Category.findOne({
+        name: { $regex: categoryName, $options: "i" },
+      });
+      if (category) {
+        query.category = category._id;
+      }
+    }
+    if (filters.minPrice || filters.maxPrice) {
+      query.price = {};
+      if (filters.minPrice) {
+        query.price.$gte = parseFloat(filters.minPrice);
+      }
+      if (filters.maxPrice) {
+        query.price.$lte = parseFloat(filters.maxPrice);
+      }
+    }
 
     let sortOptions = {};
     switch (sort) {
