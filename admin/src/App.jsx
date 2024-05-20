@@ -28,7 +28,6 @@ import Profile from "./pages/Profile";
 
 
 function App() {
-  const [count, setCount] = useState(0);
 
   const location = useLocation();
 

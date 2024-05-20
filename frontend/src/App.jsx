@@ -1,4 +1,5 @@
 import "./App.css";
+import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
@@ -6,11 +7,13 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import Contact from "./pages/Contact";
-import Products from "./pages/Products";
-import ProductDetails from "./pages/ProductDetails";
-import ProfilePage from "./components/Profile";
 
-function App() {
+import Products from "./pages/Products/Products";
+import ProductDetails from "./pages/Products/ProductDetails";
+import PetsDetails from "./pages/Pets/PetsDetails";
+import Pets from "./pages/Pets/Pets";
+
+const App = () => {
   return (
     <div>
       <ToastContainer />
@@ -23,6 +26,8 @@ function App() {
         <Route path="/forgetPassword" element={<ForgotPassword />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/pets" element={<Pets />} />
+        <Route path="/pets/:id" element={<PetsDetails />} />
       </Routes>
     </div>
   );

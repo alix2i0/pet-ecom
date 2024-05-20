@@ -5,16 +5,22 @@ const initialState = {
   product: [],
   isLoading: false,
   isError: null,
+  productDetails: null,
   count: 0,
   totalAmount: 0,
   CountOrders: 0,
+  totalPages: 1,
+  search: "",
+  filters: {},
+  sort: "",
 };
 
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
-  async ({ page, search }) => {
+  async ({ page, search, filters, sort }) => {
+    const filterParams = new URLSearchParams(filters).toString();
     const response = await axios.get(
-      `http://localhost:3300/api/products?page=${page}&limit=4&search=${search}`
+      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams}`
     );
     return response.data;
   }
@@ -22,6 +28,7 @@ export const fetchProduct = createAsyncThunk(
 export const fetchProductById = createAsyncThunk(
   "product/fetchProductById",
   async ({ productId }) => {
+    console.log("getID",productId)
     const response = await axios.get(
       `http://localhost:3300/api/products/${productId}`
     );
@@ -29,6 +36,7 @@ export const fetchProductById = createAsyncThunk(
     return response.data;
   }
 );
+
 // Count Product
 
 export const CountProducts = createAsyncThunk(
@@ -81,17 +89,16 @@ export const CountTotalAmount = createAsyncThunk(
 
 export const productSlice = createSlice({
   name: "product",
-  initialState: {
-    product: [],
-    productDetails: null,
-    loading: false,
-    error: null,
-    totalPages: 1,
-    search: "",
-  },
+  initialState,
   reducers: {
     setSearch: (state, action) => {
       state.search = action.payload;
+    },
+    setFilter(state, action) {
+      state.filters = action.payload;
+    },
+    setSort(state, action) {
+      state.sort = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -175,7 +182,6 @@ export const selectTotalAmount = (state) => state.totalAmount;
 export const selectTotalPages = (state) => state.product.totalPages;
 
 
-export const { setSearch } = productSlice.actions;
-
+export const { setSearch, setFilter, setSort } = productSlice.actions;
 export const { setPage } = productSlice.actions;
 export default productSlice.reducer;

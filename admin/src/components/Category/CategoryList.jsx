@@ -1,7 +1,10 @@
 // CategoryList.js
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories,deleteCategories } from "../../services/reducer/categorySlice";
+import {
+  fetchCategories,
+  deleteCategories,
+} from "../../services/reducer/categorySlice";
 import CategoryForm from "./CategoryForm";
 
 const CategoryList = () => {
@@ -24,7 +27,6 @@ const CategoryList = () => {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteCategoryId, setDeleteCategoryId] = useState(null);
-
 
   useEffect(() => {
     dispatch(
@@ -127,7 +129,7 @@ const CategoryList = () => {
             </div>
             <button
               onClick={handleAddCategory}
-              className="p-2 hover:bg-teal-500 rounded-lg bg-teal-400 text-white"
+              className="p-2 hover:bg-secondary rounded-lg bg-primary text-white"
             >
               Add Category
             </button>
@@ -151,7 +153,7 @@ const CategoryList = () => {
                       <button onClick={() => handleEditCategory(category)}>
                         <img src="edit.png" alt="edit" className="h-[20px]" />
                       </button>
-                      <button onClick={()=>handleDeleteClick(category._id)}>
+                      <button onClick={() => handleDeleteClick(category._id)}>
                         <img
                           src="delete.png"
                           alt="delete"
@@ -170,7 +172,7 @@ const CategoryList = () => {
                 key={index}
                 className={`mx-1 px-3 py-1 rounded-lg ${
                   currentPage === index + 1
-                    ? "bg-teal-400 hover:bg-teal-500 text-white"
+                    ? "bg-primary hover:bg-secondary text-white"
                     : "bg-gray-200 hover:bg-gray-300 text-gray-600"
                 }`}
                 onClick={() => handlePageChange(index + 1)}
@@ -180,7 +182,7 @@ const CategoryList = () => {
             ))}
           </div>
         </div>
-        
+
         {deleteModalOpen && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-5 rounded-lg">

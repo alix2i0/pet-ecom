@@ -114,9 +114,9 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
         // <div className="max-w-sm mx-auto">
         //   <div className="bg-white p-6 rounded-lg shadow-md">
         //     <span className="text-gray-700 text-2xl cursor-pointer absolute top-0 right-0" onClick={handleClose}>&times;</span>
-        <div className="fixed  inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="fixed  inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 ">
           <div className="bg-teal-400 shadow p-3">
-            <div className={`bg-white p-5 rounded-lg w-[550px] ${files.length > 0 ? 'h-auto overflow-y-auto' : 'h-[700px]'} flex flex-col gap-3`}>
+            <div className={`bg-white p-5 h-[500px] overflow-y-auto rounded-lg w-[550px] ${files.length > 0 ? 'h-auto overflow-y-auto' : 'h-[700px]'} flex flex-col gap-3`}>
             <h2 className="text-xl text-gray-800 mb-3 ">Add new product</h2>
             <button
               onClick={handleClose}
@@ -183,7 +183,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="block px-0 w-full h-32 text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                    className="block px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                     style={{ resize: "none" }}
                   />
                 </div>
@@ -233,7 +233,7 @@ const ProductForm = ({ isOpen, onClose, onSubmit }) => {
                 </div>
                 <div>
                 {files.map((file, index) => (
-                    <div key={index} className="relative inline-block mr-2 mb-2">
+                    <div key={index} className="relative inline-block mr-2 mb-2 ">
                         <img src={URL.createObjectURL(file)} alt={file.name} className="w-24 h-24 object-cover rounded" />
                         <button
                             onClick={() => handleRemoveFile(index)}

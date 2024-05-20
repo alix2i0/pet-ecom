@@ -13,6 +13,8 @@ import ProductEditForm from "./EditForm";
 import Pagination from "./Pagination";
 import ProductView from "./ProductView";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -67,6 +69,7 @@ const ProductList = () => {
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
+    console.log("filteredProducts", filteredProducts);
 
   Object.keys(filters).forEach((key) => {
     filteredProducts = filteredProducts.filter(
@@ -181,7 +184,7 @@ const ProductList = () => {
                   <div className="relative">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                       <svg
-                        className="w-4 h-4 text-teal-500 dark:text-teal-400"
+                        className="w-4 h-4 text-primary dark:text-primary"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -200,16 +203,16 @@ const ProductList = () => {
                       value={searchQuery}
                       onChange={handleSearch}
                       type="text"
-                      className="text-sm bg-opacity-0 block ps-10 p-2.5 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                      className="text-sm bg-opacity-0 block ps-10 p-2.5 bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder="Search..."
                     />
                   </div>
                 </div>
                 <button
-                  className="p-2 hover:bg-teal-500 rounded-lg bg-teal-400 text-white"
+                  className="p-2 hover:bg-secondary rounded-lg bg-primary text-white"
                   onClick={handleOpenProductForm}
                 >
-                  Add product
+                  <FontAwesomeIcon icon={faPlusSquare} /> Add Product
                 </button>
               </div>
               <ProductForm
@@ -278,7 +281,7 @@ const ProductList = () => {
                           ${product.price}
                         </td>
                         <td className="px-6 py-3">{product.description}</td>
-                        <td className="px-6 py-3">{product.category.name}</td>
+                        {/* <td className="px-6 py-3">{product.category.name}</td> */}
                         <td className="px-6 py-3 text-red-500">
                           {product.quantity}
                         </td>

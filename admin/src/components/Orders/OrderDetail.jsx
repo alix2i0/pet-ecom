@@ -70,15 +70,14 @@ const OrderDetail = () => {
             </table>
           </div>
           <div className="flex justify-end">
-            
-          <Link
-            className="p-2.5 ms-2 text-center w-[70px] text-sm font-medium text-white bg-teal-400 rounded-lg border border-teal-400 hover:bg-teal-500 focus:ring-4 focus:outline-none"
-            to="/orders"
-          >
-            Back
-          </Link>
-        </div>
+            <Link
+              className="p-2.5 ms-2 text-center w-[70px] text-sm font-medium text-white bg-primary rounded-lg border border-primary hover:bg-secondary focus:ring-4 focus:outline-none"
+              to="/orders"
+            >
+              Back
+            </Link>
           </div>
+        </div>
       </div>
     </div>
   );

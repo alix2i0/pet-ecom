@@ -34,7 +34,7 @@ const ProductView = ({ isOpen, onClose, productId }) => {
   useEffect(() => {
     const handleOutsideClick = (e) => {
       const userFormElements = document.getElementsByClassName(
-        "bg-teal-400 shadow p-3"
+        "bg-primary shadow p-3"
       );
       if (userFormElements.length > 0) {
         const userFormElement = userFormElements[0]; // Assuming there's only one element with this class

@@ -76,7 +76,7 @@ const UserForm = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      const userFormElements = document.getElementsByClassName("bg-teal-400 shadow p-3");
+      const userFormElements = document.getElementsByClassName("bg-primary shadow p-3");
       if (userFormElements.length > 0) {
         const userFormElement = userFormElements[0]; // Assuming there's only one element with this class
         if (!userFormElement.contains(e.target)) {
@@ -101,7 +101,7 @@ const UserForm = ({ isOpen, onClose }) => {
           // {/* <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto"> */}
           // {/* Card */}
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-teal-400 shadow p-3">
+          <div className="bg-primary shadow p-3">
             <div className="bg-white p-5 rounded-lg">
               <div className="mb-8">
                 <h2 className="text-xl text-gray-800 mb-3 ">
@@ -130,7 +130,7 @@ const UserForm = ({ isOpen, onClose }) => {
                         autoComplete="given-name"
                         required
                         type="text"
-                        className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                        className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                       />
                       <input
                         type="text"
@@ -141,7 +141,7 @@ const UserForm = ({ isOpen, onClose }) => {
                         autoComplete="family-name"
                         required
                         placeholder="Last Name"
-                        className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                        className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                       />
                     </div>
                   </div>
@@ -158,7 +158,7 @@ const UserForm = ({ isOpen, onClose }) => {
                       autoComplete="username"
                       required
                       type="text"
-                      className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                      className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                     />
                   </div>
                   {/* End Username Field */}
@@ -176,7 +176,7 @@ const UserForm = ({ isOpen, onClose }) => {
                       required
                       placeholder="Email"
                       type="email"
-                      className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                      className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                     />
                   </div>
                   {/* End Email Field */}
@@ -194,7 +194,7 @@ const UserForm = ({ isOpen, onClose }) => {
                         required
                         placeholder="Enter your password"
                         type="text"
-                        className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-teal-400 peer"
+                        className="block py-2 px-0 w-full text-sm  bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer"
                       />
                     </div>
                   </div>
@@ -251,13 +251,13 @@ const UserForm = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={() => onClose()}
-                    className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-teal-400 bg-white text-teal-400 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none "
+                    className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-primary bg-white text-primary shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none "
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-teal-400 text-white hover:bg-teal-500 disabled:opacity-50 disabled:pointer-events-none"
+                    className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-primary text-white hover:bg-secondary disabled:opacity-50 disabled:pointer-events-none"
                   >
                     {isEditMode ? "Save changes" : "Create User"}
                   </button>

@@ -1,10 +1,12 @@
 // Home.jsx
-import Services from "@/components/Services";
+import Services from "../components/Services";
 import FeaturedProducts from "../components/FeaturedProducts";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Sponsor from "../components/Sponsor";
 import Testimonials from "../components/Testimonials";
+
+
 
 const Home = () => {
   return (
@@ -20,9 +22,9 @@ const Home = () => {
           <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
             <div className="flex relative flex-col self-stretch mx-4 mt-52 max-md:mt-10 max-md:max-w-full">
               <div className="text-6xl tracking-tighter font-serif text-indigo-950 max-md:max-w-full max-md:text-4xl max-md:leading-10">
-                Welcome to{" "}
+                Welcome to
                 <strong className="font-semibold text-amber-600">
-                  Petopia
+                  &nbsp;Meowtopia
                 </strong>
                 <br />
                 Where Every Pet&apos;s
@@ -57,7 +59,7 @@ const Home = () => {
           <h2 className="text-3xl font-bold tracking-tighter text-center text-gray-800 sm:text-4xl md:text-5xl">
             Our Best Sellers
           </h2>
-          <div className="text-right">
+          <div className="text-right z-50">
             <a
               href="/products"
               className="text-lg font-semibold text-orange-500 hover:text-orange-600 transition-colors"
