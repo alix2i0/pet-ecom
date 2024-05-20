@@ -43,8 +43,8 @@ const Login = () => {
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">
-              Your Email
+            <label htmlFor="username" className="block text-gray-700">
+              username
             </label>
             <input
               type="text"
@@ -53,12 +53,12 @@ const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="mt-1 px-4 py-2 w-full border rounded-md"
-              placeholder="Enter your email"
+              placeholder="Enter your username"
             />
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700">
-              Your Password
+              password
             </label>
             <input
               type="password"

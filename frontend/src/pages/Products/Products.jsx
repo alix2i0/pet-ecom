@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchCategories,
   fetchProduct,
   fetchProductById,
   setFilter,
@@ -19,24 +20,66 @@ import {
   DropdownMenuContent,
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
+import Filter from "../../components/Filter"
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@radix-ui/react-select";
+import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import Filters from "../../components/Filter";
 
 const Products = () => {
-  const { product, loading, error, totalPages, search, filters, sort } =
-    useSelector((state) => state.product);
+  const {
+    product,
+    categories,
+    loading,
+    error,
+    totalPages,
+    search,
+    filters,
+    sort,
+  } = useSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(search);
+  const [selectedFilters, setSelectedFilters] = useState(filters);
+  console.log("selectedFilters", selectedFilters);
   const dispatch = useDispatch();
+
+  const handleFilterChange = (filterKey, filterValue) => {
+    const newFilters = { ...selectedFilters, [filterKey]: filterValue };
+    console.log("newFilters", newFilters);
+    setSelectedFilters(newFilters);
+    dispatch(setFilter(newFilters));
+    setCurrentPage(1);
+  };
+
 
   useEffect(() => {
     dispatch(
-      fetchProduct({ page: currentPage, search: searchTerm, filters, sort })
+      fetchProduct({
+        page: currentPage,
+        search: searchTerm,
+        filters: {
+          ...selectedFilters,
+          category:
+            selectedFilters.category &&
+            typeof selectedFilters.category === "string"
+              ? selectedFilters.category
+              : selectedFilters.category
+              ? selectedFilters.category[0]
+              : "",
+        },
+        sort,
+      })
     );
-  }, [dispatch, currentPage, searchTerm, filters, sort]);
+    dispatch(fetchCategories());
+  }, [dispatch, currentPage, searchTerm, selectedFilters, sort]);
 
-  const handleFilterChange = (filter) => {
-    dispatch(setFilter(filter));
-    setCurrentPage(1);
-  };
+  
   const handleSortChange = (sortOption) => {
     dispatch(setSort(sortOption));
     setCurrentPage(1);
@@ -73,7 +116,9 @@ const Products = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  console.log("Products :: ", product);
+
+  
+  console.log("categories : ", categories);
   return (
     <div className="bg-gray-50">
       <Navbar />
@@ -133,7 +178,15 @@ const Products = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+            <Filters
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedFilters={selectedFilters}
+              setSelectedFilters={setSelectedFilters}
+              setCurrentPage={setCurrentPage}
+            />
           </form>
+
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {product &&
               product.map((item) => (
@@ -211,5 +264,21 @@ const ArrowUpDownIcon = (props) => (
   </svg>
 );
 
+const FilterIcon = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+  </svg>
+);
 
 export default Products;

@@ -11,7 +11,7 @@ const Navbar = () => {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
-  console.log("isAuthenticated", isAuthenticated);
+  // console.log("isAuthenticated", isAuthenticated);
   const checkActive = (path) => {
     // Function to check if the path is the current location
     return location.pathname === path ? "active" : "";
