@@ -20,16 +20,6 @@ import {
   DropdownMenuContent,
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
-import Filter from "../../components/Filter"
-import {
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@radix-ui/react-select";
-import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import Filters from "../../components/Filter";
 
 const Products = () => {
@@ -63,16 +53,7 @@ const Products = () => {
       fetchProduct({
         page: currentPage,
         search: searchTerm,
-        filters: {
-          ...selectedFilters,
-          category:
-            selectedFilters.category &&
-            typeof selectedFilters.category === "string"
-              ? selectedFilters.category
-              : selectedFilters.category
-              ? selectedFilters.category[0]
-              : "",
-        },
+        filters: selectedFilters,
         sort,
       })
     );
