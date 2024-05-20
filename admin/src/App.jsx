@@ -27,7 +27,6 @@ import PetComponent from "./components/Pet/PetComponent";
 
 
 function App() {
-  const [count, setCount] = useState(0);
 
   const location = useLocation();
 

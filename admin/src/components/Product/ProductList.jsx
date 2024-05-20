@@ -69,6 +69,7 @@ const ProductList = () => {
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
+    console.log("filteredProducts", filteredProducts);
 
   Object.keys(filters).forEach((key) => {
     filteredProducts = filteredProducts.filter(
@@ -173,9 +174,9 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="bg-primary h-screen">
-        <div className="bg-primary p-3 sm:ml-64 overflow-hidden">
-          <div className="bg-white p-3 shadow-md rounded-lg">
+      <div className="bg-gray-100 h-screen">
+        <div className="bg-gray-100 p-3 sm:ml-64 overflow-hidden">
+          <div className="bg-white p-3 shadow-md sm:rounded-lg">
             <h3 className="text-xl">All Products</h3>
             <div className="flex flex-col gap-8">
               <div className="flex justify-end items-center gap-8">
@@ -280,7 +281,7 @@ const ProductList = () => {
                           ${product.price}
                         </td>
                         <td className="px-6 py-3">{product.description}</td>
-                        <td className="px-6 py-3">{product.category.name}</td>
+                        {/* <td className="px-6 py-3">{product.category.name}</td> */}
                         <td className="px-6 py-3 text-red-500">
                           {product.quantity}
                         </td>

@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt"); // Importing bcrypt for password hashing
 const jwt = require("jsonwebtoken"); // Importing jsonwebtoken for token generation
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const { errorMonitor } = require("events");
 
 // Controller function for user registration
 exports.register = async (req, res) => {
@@ -243,6 +244,14 @@ exports.getAllUsers = async (req, res) => {
 };
 
 
+exports.GetAllUsers = async (req,res) => {
+  try {
+    const users = await User.find()
+    res.status(200).json(users)
+  } catch (error) {
+    res.status(404).json(error)
+  }
+}
 
 // Controller function to get a specific user by ID
 exports.getUserById = async (req, res) => {

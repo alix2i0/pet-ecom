@@ -13,7 +13,6 @@ export default function Table() {
     useEffect(() => {
         dispatch(RecentOrders());
     }, [dispatch]); 
-    console.log("Recent Orders : ",LastOrders);
   return (
     <div className="bg-white px-4 pt-3 pb-4 rounded-sm border border-gray-200 flex-1 w-full ">
       <strong className="text-gray-700 font-medium">Recent Orders</strong>
@@ -29,7 +28,7 @@ export default function Table() {
           </thead>
           <tbody>
             {LastOrders.map((order) => (
-              <tr key={order.customer.firstName}>
+              <tr key={order.orderId}>
                 <td className="py-3 px-2.5 text-sm text-left border-y border-gray-200">
                     {order.customer.firstName}
                 </td>

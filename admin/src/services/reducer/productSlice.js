@@ -3,18 +3,30 @@ import axios from "axios";
 
 const initialState = {
   product: [],
+  categories: [],
   isLoading: false,
   isError: null,
+  productDetails: null,
   count: 0,
   totalAmount: 0,
   CountOrders: 0,
+  totalPages: 1,
+  search: "",
+  filters: {},
+  sort: "",
 };
 
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
-  async ({ page, search }) => {
+  async ({ page, search, filters, sort }) => {
+    const filterParams = new URLSearchParams();
+    if (filters) {
+      for (const key in filters) {
+        filterParams.append(key, filters[key]);
+      }
+    }
     const response = await axios.get(
-      `http://localhost:3300/api/products?page=${page}&limit=4&search=${search}`
+      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams.toString()}`
     );
     return response.data;
   }
@@ -22,6 +34,7 @@ export const fetchProduct = createAsyncThunk(
 export const fetchProductById = createAsyncThunk(
   "product/fetchProductById",
   async ({ productId }) => {
+    console.log("getID",productId)
     const response = await axios.get(
       `http://localhost:3300/api/products/${productId}`
     );
@@ -29,6 +42,15 @@ export const fetchProductById = createAsyncThunk(
     return response.data;
   }
 );
+export const fetchCategories = createAsyncThunk(
+  "categories/fetchCategories",
+  async () => {
+    const response = await axios.get(`http://localhost:3300/api/categories`);
+    console.log("categories : ", response.data.categories);
+    return response.data.categories;
+  }
+);
+
 // Count Product
 
 export const CountProducts = createAsyncThunk(
@@ -38,15 +60,15 @@ export const CountProducts = createAsyncThunk(
       "http://localhost:3300/api/products/count",
       {
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    console.log(response.data);
-    return response.data;
-  }
-);
+
+        headers : {
+            'Content-Type' : 'application/json',
+        }});
+        console.log("slice",response.data);
+    return response.data.count;
+
+})
+
 // Count Order
 
 export const CountOrders = createAsyncThunk("product/CountOrders", async () => {
@@ -81,17 +103,16 @@ export const CountTotalAmount = createAsyncThunk(
 
 export const productSlice = createSlice({
   name: "product",
-  initialState: {
-    product: [],
-    productDetails: null,
-    loading: false,
-    error: null,
-    totalPages: 1,
-    search: "",
-  },
+  initialState,
   reducers: {
     setSearch: (state, action) => {
       state.search = action.payload;
+    },
+    setFilter(state, action) {
+      state.filters = action.payload;
+    },
+    setSort(state, action) {
+      state.sort = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -161,6 +182,17 @@ export const productSlice = createSlice({
       .addCase(CountTotalAmount.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
+      }) // Fetch categories
+      .addCase(fetchCategories.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.categories = action.payload;
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
       });
   },
 });
@@ -174,7 +206,7 @@ export const selectCountOrders = (state) => state.ordersCount;
 export const selectTotalAmount = (state) => state.totalAmount;
 export const selectTotalPages = (state) => state.product.totalPages;
 
-export const { setSearch } = productSlice.actions;
 
+export const { setSearch, setFilter, setSort } = productSlice.actions;
 export const { setPage } = productSlice.actions;
 export default productSlice.reducer;

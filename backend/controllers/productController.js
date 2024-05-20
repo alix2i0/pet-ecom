@@ -9,15 +9,60 @@ exports.getAllProducts = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
     const search = req.query.search || "";
+    const filters = JSON.parse(req.query.filters || "{}");
     const query = search ? { name: new RegExp(search, "i") } : {};
+    const sort = req.query.sort || "popular";
+
+    // Add filters to query
+    for (let key in filters) {
+      if (filters[key].length) {
+        query[key] = { $in: filters[key] };
+      }
+    }
+    if (filters.category) {
+      // Ensure category filter is a string, not an array
+      const categoryName = Array.isArray(filters.category)
+        ? filters.category[0]
+        : filters.category;
+      const category = await Category.findOne({
+        name: { $regex: categoryName, $options: "i" },
+      });
+      if (category) {
+        query.category = category._id;
+      }
+    }
+    if (filters.minPrice || filters.maxPrice) {
+      query.price = {};
+      if (filters.minPrice) {
+        query.price.$gte = parseFloat(filters.minPrice);
+      }
+      if (filters.maxPrice) {
+        query.price.$lte = parseFloat(filters.maxPrice);
+      }
+    }
+
+    let sortOptions = {};
+    switch (sort) {
+      case "priceLowHigh":
+        sortOptions.price = 1;
+        break;
+      case "priceHighLow":
+        sortOptions.price = -1;
+        break;
+      case "newest":
+        sortOptions.createdAt = -1;
+        break;
+      // Add more sorting options if needed
+    }
 
     const products = await Productmd.find(query)
       .populate("category", "name")
       .populate("petCategory", "name")
+      .sort(sortOptions)
       .skip(skip)
       .limit(limit);
 
-      const total = await Productmd.countDocuments(query);
+    const total = await Productmd.countDocuments(query);
 
     res.json({
       success: true,
@@ -229,7 +274,8 @@ exports.getMostPopularProduct = async (req, res) => {
         },
       },
       { $sort: { totalQuantitySold: -1 } },
-      { $limit: 1 },
+      { $limit: 5 }
+
     ]);
     if (popularProduct.length === 0) {
       return res.status(404).json({ message: "No orders found" });

@@ -6,6 +6,7 @@ const initialState = {
     orders: [],
     recentorders: [],
     mostPopularProduct: [],
+    ordersAnalys : [],
     isLoading: false,
     isError: null,
 }
@@ -18,13 +19,29 @@ export const GetOrders = createAsyncThunk("orders/getOrders", async () => {
                 'Content-Type': 'application/json',
             }
         });
-     
         return response.data;
     } catch (error) {
         console.error("Error fetching orders:", error);
         throw error;
     }
 });
+
+
+export const ordersAnalys = createAsyncThunk("orders/analys", async () => {
+    try {
+        const response = await axios.get("http://localhost:3300/api/orders/analys", {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        throw error;
+    }
+});
+
 export const RecentOrders = createAsyncThunk("orders/getRecentOrders", async () => {
     try {
         const response = await axios.get("http://localhost:3300/api/orders/RO", {
@@ -94,6 +111,18 @@ export const orderSlice = createSlice({
                 state.mostPopularProduct = action.payload;
             })
             .addCase(mostPopularProduct.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = action.error.message; // Update with error message
+            })
+            .addCase(ordersAnalys.pending, (state) => {
+                state.isLoading = true;
+                state.isError = null;
+            })
+            .addCase(ordersAnalys.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.ordersAnalys = action.payload;
+            })
+            .addCase(ordersAnalys.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = action.error.message; // Update with error message
             })

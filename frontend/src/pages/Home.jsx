@@ -59,7 +59,7 @@ const Home = () => {
           <h2 className="text-3xl font-bold tracking-tighter text-center text-gray-800 sm:text-4xl md:text-5xl">
             Our Best Sellers
           </h2>
-          <div className="text-right">
+          <div className="text-right z-50">
             <a
               href="/products"
               className="text-lg font-semibold text-orange-500 hover:text-orange-600 transition-colors"
