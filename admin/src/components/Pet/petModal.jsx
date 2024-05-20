@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addPet, updatePet } from "../../services/reducer/petSlice";
 import { toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const PetModal = ({ petData, handleClose, handleSubmit }) => {
   const [formData, setFormData] = useState(petData);
   const dispatch = useDispatch();
+  const [file, setFile] = useState(null);
+
 
   // Update formData when petData changes
   useEffect(() => {
@@ -19,10 +22,25 @@ const PetModal = ({ petData, handleClose, handleSubmit }) => {
     console.log("Form data", formData);
   };
 
-  const handleModalSubmit = (e) => {
+  const handleModalSubmit = async(e) => {
     e.preventDefault();
-    if (formData._id) {
-      dispatch(updatePet(formData)).then((result) => {
+    try{
+      let imageUrl = formData.image;
+      if (file) {
+        imageUrl = await uploadImage(file);
+        console.log("Image uploaded successfully", imageUrl);
+      }
+      // const uploadedImageUrls = await uploadImage(files);
+          // return imageUrl;
+        // }
+      // )
+      // );
+      // const image = uploadedImageUrls;
+      // console.log("image uploaded successfully", image);
+      const newFormData = { ...formData, image: imageUrl };
+      console.log("this is newformdata:", newFormData);
+      if (formData._id) {
+        dispatch(updatePet(newFormData)).then((result) => {
         console.log("result ", result);
         if (updatePet.fulfilled.match(result)) {
           handleClose();
@@ -30,20 +48,45 @@ const PetModal = ({ petData, handleClose, handleSubmit }) => {
         }
       });
     } else {
-      dispatch(addPet(formData)).then((result) => {
+      dispatch(addPet(newFormData)).then((result) => {
         if (addPet.fulfilled.match(result)) {
           handleClose();
           toast.success("Pet added successfully");
         }
       });
+    }}catch (err) {
+      console.error(err);
+      toast.error("Error saving pet");
     }
   };
   // Add image upload handling
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    setModalData({ ...modalData, profileImage: file });
+    // const file = Array.from(e.target.files);
+    // // const file = e.target.files[0];
+    // // setModalData({ ...modalData, profileImage: file });
+    // setFile({ ...files, ...file });
+    
+      const file = e.target.files[0]; // Take the first file
+      setFile(file); // Assuming you have a state variable named 'file'
+    
   };
+  const uploadImage = async (file) => {
+    console.log("Uploading image");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "petcom");
+    // formData.append("folder", folderId);
 
+    try {
+      const response = await axios.post('https://api.cloudinary.com/v1_1/dk28itsov/image/upload', formData);
+      const { secure_url } = response.data;
+      return secure_url; 
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error; // Re-throw the error to be caught by the parent try-catch block
+    }
+
+  };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-y-auto">
       <div className="max-w-sm bg-white shadow-md rounded-lg p-2 h-[90%] overflow-y-auto">
@@ -158,10 +201,18 @@ const PetModal = ({ petData, handleClose, handleSubmit }) => {
                 </select>
               </div>
               <div className="">
+              <label
+                  htmlFor="CategoryName"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Image:
+                </label>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
+                  // value={formData.image}
+
                 />
               </div>
 

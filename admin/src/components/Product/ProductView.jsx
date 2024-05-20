@@ -66,10 +66,30 @@ const ProductView = ({ isOpen, onClose, productId }) => {
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-primary shadow p-3">
-            <div className="bg-white p-5 rounded w-[550px] flex flex-col gap-3">
+            <div className="bg-white p-5 rounded w-[700px] flex flex-col">
               <h2 className="text-xl text-gray-800 mb-3">Product Details</h2>
-              <div className="card flex lg:card-side bg-base-100 shadow-xl">
-                <div className="flex flex-col gap-5">
+              <button
+              onClick={onClose}
+              className="absolute top-14 right-14 text-gray-600 hover:text-gray-800 focus:outline-none bg-white rounded-full p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+              <div className="card flex lg:card-side bg-base-100 shadow-xl p-2">
+                <div className="flex flex-col gap-5 my-2">
                   <div className="flex">
                     <figure>
                       <img
@@ -78,7 +98,7 @@ const ProductView = ({ isOpen, onClose, productId }) => {
                           "https://flowbite.com/docs/images/examples/image-1@2x.jpg"
                         }
                         alt="Album"
-                        className="h-48 w-48"
+                        // className="h-48 w-64"
                         // height={"200px"}
                         // width={"200px"}
                       />
@@ -134,38 +154,38 @@ const ProductView = ({ isOpen, onClose, productId }) => {
                     </figure>
 
                     <div className="card-body">
-                      <div className="grid gap-4 px-8 pt-6 pb-8 mb-4">
+                      <div className="grid gap-4 px-4 py-4 mb-4">
                         <div className="col-span-1 flex flex-col justify-between">
+                            <h2 className="text-2xl font-bold text-center">{name}</h2>
                           <div className="flex justify-between mb-2">
-                            <h2 className="text-xl text-gray-900">Name:</h2>
-                            <h2 className="text-xl font-bold">{name}</h2>
+                            {/* <h2 className="text-xl text-gray-900">Name:</h2> */}
                           </div>
                           <div className="flex justify-between mb-2">
-                            <p className="text-gray-900 mr-5">Description:</p>
-                            <p className="text-gray-700">{description}</p>
+                            {/* <p className="text-gray-900 mr-5">Description:</p> */}
+                            <p className="text-gray-700 text-justify p-2 my-3 border-y-2 ">{description}</p>
                           </div>
                           <div className="flex justify-between mb-2">
-                            <p className="text-gray-900">Price:</p>
-                            <p className="text-gray-800">${price}</p>
+                            <p className="text-gray-900">Price :</p>
+                            <p className="text-xl text-gray-800">${price}</p>
                           </div>
                           <div className="flex justify-between mb-2">
-                            <p className="text-gray-900">Category:</p>
+                            <p className="text-gray-900">Category :</p>
                             <p className="text-gray-600">{category}</p>
                           </div>
                           <div className="flex justify-between mb-2">
-                            <p className="text-gray-900">Quantity:</p>
+                            <p className="text-gray-900">Stock :</p>
                             <p className="font-bold">{quantity}</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <button
+                  {/* <button
                     className="btn btn-primary block w-full p-1 text-white bg-primary hover:bg-secondary border border-transparent rounded-lg shadow-sm "
                     onClick={onClose}
                   >
                     Close
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

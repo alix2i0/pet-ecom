@@ -13,6 +13,8 @@ import ProductEditForm from "./EditForm";
 import Pagination from "./Pagination";
 import ProductView from "./ProductView";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 const ProductList = () => {
   const dispatch = useDispatch();

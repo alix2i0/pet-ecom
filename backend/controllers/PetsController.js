@@ -32,14 +32,14 @@ const getPets = async (req, res) => {
 };
 
 // Handle file upload
-const uploadImage = (req, res, next) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "Please upload an image" });
-  }
+// const uploadImage = (req, res, next) => {
+  // if (!req.file) {
+  //   return res.status(400).json({ message: "Please upload an image" });
+  // }
   // Assuming the file is stored in 'uploads' directory
-  req.body.image = req.file.path;
-  next();
-};
+  // req.body.image = req.file.path;
+//   next();
+// };
 const createPet = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -48,7 +48,7 @@ const createPet = async (req, res) => {
     }
 
     const {
-      // image,
+      image,
       name,
       age,
       location,
@@ -65,7 +65,7 @@ const createPet = async (req, res) => {
     }
 
     const newPet = new Pet({
-      // image,
+      image,
       name,
       age,
       location,
@@ -156,7 +156,7 @@ const searchPets = async (req, res) => {
 
 module.exports = {
   createPet,
-  uploadImage,
+  // uploadImage,
   getPet,
   updatePet,
   deletePet,

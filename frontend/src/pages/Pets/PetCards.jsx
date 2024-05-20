@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const PetCards = ({
   id,
+  image,
   name,
   age,
   location,
@@ -22,7 +23,8 @@ const PetCards = ({
       <div className="group hover:saturate-100 saturate-0 transition-[filter] relative w-[248px] h-[260px] bg-[#ffede2] font-['Robot_Flex'] border-b-2 border-b-primary">
         <img
           className="group-hover:rounded-br-[100px] rounded-br-[0px] transition-[border-radius] duration-300"
-          src={"/default_no_animal.png"}
+          src={image}
+          style={{ aspectRatio: "400/300", objectFit: "cover" }}
         />
         <div className=" absolute top-0 right-0 bg-primary px-4 py-2 text-white text-sm transition duration-500 ease-in-out">
           <span>{location}</span>
@@ -46,34 +48,6 @@ const PetCards = ({
           />
         </svg>
       </div>
-      {/*<div
-        key={id}
-        className="bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-950 transform transition-transform duration-300 ease-in-out hover:scale-105"
-      >
-        <img
-          alt="Pet"
-          className="w-full h-48 object-cover"
-          src={"/default_no_animal.png"}
-          //src={pet.imageUrl || '/placeholder.svg'} // Use the imageUrl if available, otherwise use a placeholder
-          style={{
-            aspectRatio: "400/300",
-            objectFit: "cover",
-          }}
-        />
-        <div className=" absolute top-0 right-0 bg-primary px-4 py-2 text-white text-sm transition duration-500 ease-in-out">
-          <span className="font-bold">{formattedDate.split(" ")[1]}</span>
-          <small>&nbsp;{formattedDate.split(" ")[0]}</small>
-        </div>
-        <div className="p-4 space-y-2">
-          <h3 className="text-xl font-semibold">{name}</h3>
-          <div className="flex justify-between">
-            <p className="text-gray-500 dark:text-gray-400">{age} y</p>
-            <p className="text-gray-500 dark:text-gray-400">{location}</p>
-          </div>
-        </div>
-      </div> */}
-
-
     </Link>
   );
 };

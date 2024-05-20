@@ -202,9 +202,9 @@ const handleSubmit = async (event) => {
                   id="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="block w-full p-1 text-gray-900 border-none border-gray-300 rounded-lg bg-gray-50  "
+                  className="block w-full p-1 text-gray-900  border-primary rounded-lg bg-gray-50 "
                 >
-                  <option value=""></option>
+                  <option value="-1">Select category</option>
                   {/* {categories.map((cat) => (
             <option key={cat._id} value={cat._id}>{cat.name}</option>
             ))} */}
