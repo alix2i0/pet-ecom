@@ -103,7 +103,7 @@ const Pets = () => {
               <input
                 type="name"
                 name="search"
-                class="ml-1 h-12 w-full cursor-text rounded-md border py-4 pl-6 outline-none ring-primary sm:border-0 sm:pr-40 sm:pl-12 focus:ring"
+                class="h-12 w-full cursor-text rounded-md border py-4  outline-none ring-primary sm:border-0 sm:mr-40 sm:pl-4 focus:ring"
                 placeholder="Search by name, location, etc."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

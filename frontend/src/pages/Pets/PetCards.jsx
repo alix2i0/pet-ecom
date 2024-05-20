@@ -31,7 +31,7 @@ const PetCards = ({
         </div>
         <p className="m-[5px] text-[#262626] font-primary text-lg">{name}</p>
         <p className="m-[5px] text-[#777674] text-sm font-primary">
-          {age} years old
+          {age} {age < 2 ? 'year' : 'years'} old
         </p>
         {/* <!-- SVG of Arrow --> */}
         <svg

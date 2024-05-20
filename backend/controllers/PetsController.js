@@ -4,17 +4,22 @@ const ProductCategory = require("../models/PetCategory.js");
 
 const getPets = async (req, res) => {
   try {
-    let { page = 1, limit = 10 } = req.query;
+    let { page = 1, limit = 12, category, availability, location } = req.query;
 
     // Convert page and limit to numbers, provide default values if not specified
     page = parseInt(page);
     limit = parseInt(limit) ;
     const skip = (page - 1) * limit;
 
-    const pets = await Pet.find().skip(skip).limit(limit);
+    // Construct the filter object based on provided query parameters
+    const filter = {};
+    if (category) filter.CategoryName = { $regex: new RegExp(category, 'i') }; // Case insensitive;
+    if (availability !== undefined) filter.availability = availability === 'true';
+    if (location) filter.location = { $regex: new RegExp(location, 'i') };
+    const pets = await Pet.find(filter).skip(skip).limit(limit);
 
     // Optionally, return the total count of pets for pagination purposes
-    const totalCount = await Pet.countDocuments();
+    const totalCount = await Pet.countDocuments(filter);
 
     res.status(200).json({
       totalPages: Math.ceil(totalCount / limit),
