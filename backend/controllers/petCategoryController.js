@@ -5,15 +5,18 @@ const Product = require('../models/Product');
 // Function to add a new pet category
 exports.addCategory = async (req, res) => {
     try {
-        const { name } = req.body;
-
+        const { name, description } = req.body;
+        if(!name) {
+            return res.status(400).json({ message: 'Name is required' });
+        }
+        
         // Check if the category already exists
         const existingCategory = await PetCategory.findOne({ name });
         if (existingCategory) {
             return res.status(400).json({ message: 'Category already exists' });
         }
 
-        const petCategory = new PetCategory({ name });
+        const petCategory = new PetCategory({ name, description });
         await petCategory.save();
         res.status(201).json(petCategory);
     } catch (error) {
@@ -22,15 +25,34 @@ exports.addCategory = async (req, res) => {
 };
 
 // Function to get all pet categories
+// exports.getCategories = async (req, res) => {
+//     try {
+//         const categories = await PetCategory.find();
+//         res.status(200).json(categories);
+//     } catch (error) {
+//         res.status(400).json(error);
+//     }
+// };
 exports.getCategories = async (req, res) => {
     try {
-        const categories = await PetCategory.find();
-        res.status(200).json(categories);
+        const page = parseInt(req.query.page) || 1; // Parse page number from query parameters, default to 1 if not provided
+        const limit = parseInt(req.query.limit) || 10; // Parse limit from query parameters, default to 10 if not provided
+        const skip = (page - 1) * limit;
+
+        const categories = await PetCategory.find().skip(skip).limit(limit);
+        const totalCategories = await PetCategory.countDocuments();
+
+        const totalPages = Math.ceil(totalCategories / limit);
+
+        res.status(200).json({
+            categories,
+            currentPage: page,
+            totalPages
+        });
     } catch (error) {
         res.status(400).json(error);
     }
 };
-
 // Function to get pet category by name
 exports.getCategoryByName = async (req, res) => {
     try {

@@ -8,6 +8,5 @@ const petCategorySchema = new mongoose.Schema({
     
 }, { timestamps: true });
 
-const PetCategory = mongoose.model('PetCategory', petCategorySchema);
+module.exports = mongoose.model('PetCategory', petCategorySchema);
 
-module.exports = PetCategory;

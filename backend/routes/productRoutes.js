@@ -9,6 +9,7 @@ router.get('/search', productController.searchProducts);
 // Admin-only routes for full CRUD operations
 
 router.get('/', productController.getAllProducts);
+router.get('/admin', productController.getAllProductsAdmin);
 router.get("/populare",productController.getMostPopularProduct);
 router.get('/products-per-category', productController.getProductsPerCategory);
 router.get('/count',isAdmin, productController.countProduct);
