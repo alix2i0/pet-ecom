@@ -15,7 +15,6 @@ const initialState = {
   filters: {},
   sort: "",
 };
-
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
   async ({ page, search, filters, sort }, { rejectWithValue }) => {
@@ -32,6 +31,24 @@ export const fetchProduct = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const fetchProductAdmin = createAsyncThunk(
+  'products/fetchProductAdmin',
+  async ({ page, limit, search, petCategory }) => {
+    try {
+      const response = await axios.get('http://localhost:3300/api/products/admin', {
+        params: {
+          page,
+          limit,
+          search,
+          petCategory, // Include petCategory parameter in the API request
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw Error(error.response.data.message);
     }
   }
 );
@@ -131,6 +148,19 @@ export const productSlice = createSlice({
         state.totalPages = action.payload.totalPages;
       })
       .addCase(fetchProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
+      })
+      .addCase(fetchProductAdmin.pending, (state) => {
+        state.isLoading = true;
+        state.isError = null;
+      })
+      .addCase(fetchProductAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.product = action.payload.data || [];
+        state.totalPages = action.payload.totalPages;
+      })
+      .addCase(fetchProductAdmin.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
       })

@@ -14,6 +14,6 @@ router.use("/users", userRoutes);
 router.use("/auth", authRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/pets", petRoutes);
-router.use("/pet-categories", PetCategoryRoutes);
+router.use("/petCategories", PetCategoryRoutes);
 
 module.exports = router;

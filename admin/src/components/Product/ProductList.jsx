@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchProduct,
+  fetchProductAdmin,
   selectIsLoading,
   selectTotalPages,
   setSearch,
@@ -15,6 +15,9 @@ import ProductView from "./ProductView";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import PetCategory from "./PetCategory";
+// import { selectCategories } from "../../services/reducer/petCategorySlice";
+
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -23,12 +26,26 @@ const ProductList = () => {
   const isError = useSelector(selectError);
   const totalPages = useSelector(selectTotalPages);
 
+  /********************************************/
+  // const [selectedCategory, setSelectedCategory] = useState("");
+  // const categories = useSelector(selectCategories);
+
+  // useEffect(() => {
+  //   dispatch(fetchProduct({ page: currentPage, limit: productsPerPage, search: searchQuery, category: selectedCategory }));
+  // }, [dispatch, currentPage, searchQuery, selectedCategory]);
+
+  // const handleCategoryChange = (e) => {
+  //   setSelectedCategory(e.target.value);
+  // };
+
+  
+  /*********************************************/
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5); // Fixed products per page
+  const [productsPerPage, setProductsPerPage] = useState(5); // Fixed products per page
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [filters, setFilters] = useState({});
@@ -36,16 +53,51 @@ const ProductList = () => {
   const [deleteUserId, setDeleteUserId] = useState(null);
   const [isViewFormOpen, setIsViewFormOpen] = useState(false);
   const [viewProductId, setViewProductId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
+
+  // useEffect(() => {
+  //   dispatch(
+  //     fetchProduct({
+  //       page: currentPage,
+  //       limit: productsPerPage,
+  //       search: searchQuery,
+  //     })
+  //   );
+  // }, [dispatch, currentPage, searchQuery]);
+  // const importedproducts = useSelector(selectProduct);
+  // useEffect(() => {
+  //   console.log('imported products', importedproducts);
+  // }, [importedproducts]);
   useEffect(() => {
-    dispatch(
-      fetchProduct({
-        page: currentPage,
-        limit: productsPerPage,
-        search: searchQuery,
-      })
-    );
-  }, [dispatch, currentPage, searchQuery]);
+    console.log('Selected pet category:', selectedCategory);
+    if (selectedCategory !== "") {
+      // Fetch products based on selected pet category
+      dispatch(
+        fetchProductAdmin({
+          page: currentPage,
+          limit: productsPerPage,
+          search: searchQuery,
+          petCategory: selectedCategory,
+        })
+      );
+    } else {
+      // Fetch all products if no category is selected
+      dispatch(
+        fetchProductAdmin({
+          page: currentPage,
+          limit: productsPerPage,
+          search: searchQuery,
+        })
+      );
+    }
+  }, [dispatch, currentPage, searchQuery, selectedCategory]);
+
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setCurrentPage(1); // Reset pagination to first page
+
+  };
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -69,13 +121,19 @@ const ProductList = () => {
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
-    console.log("filteredProducts", filteredProducts);
+  // console.log('this is  filteredproducts',filteredProducts);
 
   Object.keys(filters).forEach((key) => {
     filteredProducts = filteredProducts.filter(
       (product) => product[key] === filters[key]
     );
   });
+  // const indexOfLastProduct = currentPage * productsPerPage;
+  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // const currentProducts = filteredProducts.slice(
+  //   indexOfFirstProduct,
+  //   indexOfLastProduct
+  // );
 
   if (sortBy === "category") {
     filteredProducts.sort((a, b) => {
@@ -126,17 +184,17 @@ const ProductList = () => {
         withCredentials: true,
       });
       dispatch(
-        fetchProduct({
+        fetchProductAdmin({
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
         })
       );
       console.log("Product deleted successfully.");
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  };
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+    };
 
   const closeModal = () => {
     setDeleteUserId(null);
@@ -158,7 +216,7 @@ const ProductList = () => {
       });
       console.log("Product created successfully.");
       dispatch(
-        fetchProduct({
+        fetchProductAdmin({
           page: currentPage,
           limit: productsPerPage,
           search: searchQuery,
@@ -208,6 +266,7 @@ const ProductList = () => {
                     />
                   </div>
                 </div>
+                <PetCategory onChange={handleCategoryChange} />
                 <button
                   className="p-2 hover:bg-secondary rounded-lg bg-primary text-white"
                   onClick={handleOpenProductForm}
@@ -281,7 +340,7 @@ const ProductList = () => {
                           ${product.price}
                         </td>
                         <td className="px-6 py-3">{product.description}</td>
-                        {/* <td className="px-6 py-3">{product.category.name}</td> */}
+                        <td className="px-6 py-3">{product.category ? product.category.name : ''}</td>
                         <td className="px-6 py-3 text-red-500">
                           {product.quantity}
                         </td>

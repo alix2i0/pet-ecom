@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { useNavigate, NavLink, Link } from "react-router-dom";
 
 // import image from "../../public/";
@@ -28,28 +28,23 @@ export default function Register({ onSignUp }) {
     }
 
     setLoading(true);
-
+    const username = `${firstname}-${lastname}}`
     try {
-      const response = await fetch("http://localhost:3300/api/auth/register", {
-        method: "POST",
-        body: JSON.stringify({
-          username: `${firstname}${lastname}`,
-          email,
-          password,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await axios.post("http://localhost:3300/api/auth/register", {
+        username,
+        email,
+        password,
       });
-      const data = await response.json();
+      console.log(response);
+      console.log('Success');
+      navigate("/login", { replace: true });
+      // onSignUp();
+      // const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Signup failed");
-      } else {
-        navigate("/login", { replace: true });
+      if (!response.data.success) {
+        throw new Error(response.data.message || "Signup failed");
       }
       // Call onSignUp callback or handle success as needed
-      onSignUp();
     } catch (error) {
       setError("Signup failed. try again");
     } finally {
