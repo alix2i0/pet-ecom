@@ -4,6 +4,7 @@ import PetCards from "./PetCards";
 import Navbar from "../../components/Navbar";
 
 import Footer from "../../components/Footer";
+import { FaSearch } from "react-icons/fa";
 const Pets = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -82,7 +83,7 @@ const Pets = () => {
         <div class="relative  flex w-full flex-col justify-center rounded-lg p-2 sm:flex-row sm:items-center sm:p-0">
           <div class="flex gap-4 items-center justify-center mb-5">
             <label
-              class="focus-within:ring flex items-center justify-center h-12 rounded-md bg-gray-200 px-2 ring-primary"
+              class="focus-within:ring flex items-center justify-center h-10 rounded-md bg-gray-200 ring-primary"
               for="category"
             >
               <select
@@ -99,33 +100,86 @@ const Pets = () => {
               </select>
             </label>
 
-            <div>
+            <div className="flex">
               <input
                 type="name"
                 name="search"
-                class="h-12 w-full cursor-text rounded-md border py-4  outline-none ring-primary sm:border-0 sm:mr-40 sm:pl-4 focus:ring"
+                className="px-4 py-2 border border-primary ring-primary rounded-l-md shadow-sm sm:text-sm flex-grow"
                 placeholder="Search by name, location, etc."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              <div className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600 cursor-pointer">
+                <FaSearch className="text-white" onClick={handleSearch} />
+              </div>
             </div>
 
             <div>
-              <button
+              {/* <button
                 type="button"
                 class="h-12 px-4 inline-flex w-full items-center justify-center rounded-md bg-primary text-center align-middle text-base font-medium normal-case text-white outline-none ring-primary ring-offset-1 focus:ring"
                 onClick={handleSearch}
               >
                 Search
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="md:col-span-1 bg-gray-200">
+          <div className="w-64 p-4 bg-gray-100">
+            <h2 className="text-xl font-bold mb-4">Filters</h2>
 
-        <div class="md:col-span-1 bg-gray-200">filter and sort pets</div>
+            <div className="mb-4">
+              <label className="flex items-center">
+                <input type="checkbox" className="form-checkbox" />
+                <span className="ml-2">Available</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="form-checkbox" />
+                <span className="ml-2">Not Available</span>
+              </label>
+            </div>
+
+            {/* Price filter */}
+            {/* <div className="mb-4">
+              <button className="w-full text-left font-semibold">Price</button>
+              <div className="mt-2">
+                <input type="range" min="0" max="500" className="w-full" />
+                <div className="flex justify-between text-sm">
+                  <span>$0</span>
+                  <span>$500+</span>
+                </div>
+              </div>
+            </div> */}
+
+            <div className="mb-4">
+              <button className="w-full text-left font-semibold">Category</button>
+              <div className="mt-2">
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">category data</span>
+                </label>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <button className="w-full text-left font-semibold">Location</button>
+              <div className="mt-2">
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">location data</span>
+                </label>
+              </div>
+            </div>
+
+            <button className="w-full py-2 bg-primary hover:bg-secondary text-white font-bold">
+              Clear Filters
+            </button>
+          </div>
+        </div>
 
         <section className="md:col-span-4 my-4">
           <div className="container px-4 md:px-6">
