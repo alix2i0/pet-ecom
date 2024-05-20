@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCategories,
@@ -12,8 +12,6 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
 } from "@radix-ui/react-dropdown-menu";
 import { Label } from "@/components/ui/label";
 import {
@@ -32,6 +30,7 @@ const Filters = ({
   selectedFilters,
   setSelectedFilters,
   setCurrentPage,
+  onFilterChange,
 }) => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.product);
@@ -41,10 +40,7 @@ const Filters = ({
   }, [dispatch]);
 
   const handleFilterChange = (filterKey, filterValue) => {
-    const newFilters = { ...selectedFilters, [filterKey]: filterValue };
-    setSelectedFilters(newFilters);
-    dispatch(setFilter(newFilters));
-    setCurrentPage(1);
+    onFilterChange(filterKey, filterValue);
   };
 
   const handleSearchChange = (e) => {
@@ -55,29 +51,6 @@ const Filters = ({
 
   return (
     <div className="flex items-center justify-between mb-8 z-50">
-      <div className="flex">
-        <input
-          type="search"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          placeholder="Search products..."
-          className="px-4 py-2 border hover:border-amber-500 rounded-l-md shadow-sm sm:text-sm flex-grow"
-        />
-        <button
-          onClick={() =>
-            dispatch(
-              fetchProduct({
-                page: 1,
-                search: searchTerm,
-                filters: selectedFilters,
-              })
-            )
-          }
-          className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600 cursor-pointer"
-        >
-          <FaSearch className="text-white" />
-        </button>
-      </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="shrink-0" variant="outline">

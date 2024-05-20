@@ -17,17 +17,21 @@ const initialState = {
 };
 export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
-  async ({ page, search, filters, sort }) => {
-    const filterParams = new URLSearchParams();
-    if (filters) {
-      for (const key in filters) {
-        filterParams.append(key, filters[key]);
+  async ({ page, search, filters, sort }, { rejectWithValue }) => {
+    try {
+      const filterParams = new URLSearchParams();
+      if (filters) {
+        for (const key in filters) {
+          filterParams.append(key, filters[key]);
+        }
       }
+      const response = await axios.get(
+        `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams.toString()}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
-    const response = await axios.get(
-      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams.toString()}`
-    );
-    return response.data;
   }
 );
 export const fetchProductAdmin = createAsyncThunk(
@@ -60,7 +64,7 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 export const fetchCategories = createAsyncThunk(
-  "categories/fetchCategories",
+  "product/fetchCategories",
   async () => {
     const response = await axios.get(`http://localhost:3300/api/categories`);
     console.log("categories : ", response.data.categories);

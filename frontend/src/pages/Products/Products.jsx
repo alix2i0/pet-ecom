@@ -41,12 +41,13 @@ const Products = () => {
 
   const handleFilterChange = (filterKey, filterValue) => {
     const newFilters = { ...selectedFilters, [filterKey]: filterValue };
-    // console.log("newFilters", newFilters);
     setSelectedFilters(newFilters);
     dispatch(setFilter(newFilters));
     setCurrentPage(1);
+    dispatch(
+      fetchProduct({ page: 1, search: searchTerm, filters: newFilters, sort })
+    );
   };
-
 
   useEffect(() => {
     dispatch(
@@ -60,7 +61,6 @@ const Products = () => {
     dispatch(fetchCategories());
   }, [dispatch, currentPage, searchTerm, selectedFilters, sort]);
 
-  
   const handleSortChange = (sortOption) => {
     dispatch(setSort(sortOption));
     setCurrentPage(1);
@@ -98,7 +98,20 @@ const Products = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  
+  // Apply filters to the products
+  const filteredProducts = product.filter((item) => {
+    const meetsCategory =
+      selectedFilters.category === "all" ||
+      item.category === selectedFilters.category;
+    const meetsMinPrice =
+      !selectedFilters.minPrice || item.price >= selectedFilters.minPrice;
+    const meetsMaxPrice =
+      !selectedFilters.maxPrice || item.price <= selectedFilters.maxPrice;
+    return meetsCategory && meetsMinPrice && meetsMaxPrice;
+  });
+
+  console.log("products ", product);
+
   console.log("categories : ", categories);
   return (
     <div className="bg-gray-50">
@@ -165,6 +178,7 @@ const Products = () => {
               selectedFilters={selectedFilters}
               setSelectedFilters={setSelectedFilters}
               setCurrentPage={setCurrentPage}
+              onFilterChange={handleFilterChange}
             />
           </form>
 
