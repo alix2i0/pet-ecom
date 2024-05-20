@@ -8,6 +8,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import Contact from "./pages/Contact";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
+import ProfilePage from "./components/Profile";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgetPassword" element={<ForgotPassword />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>
   );

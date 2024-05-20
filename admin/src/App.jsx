@@ -24,6 +24,7 @@ import CategoryList from "./components/Category/CategoryList";
 import CategoryForm from "./components/Category/CategoryForm";
 import { CategoryDetails } from "./components/component/CategoryDetails";
 import PetComponent from "./components/Pet/PetComponent";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="/categories/new" element={<CategoryForm />} />
           <Route path="/categories/:id/edit" element={<CategoryForm />} />
           <Route path="/categories/:id" element={<CategoryDetails />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/*"></Route>
 
         </Route>
