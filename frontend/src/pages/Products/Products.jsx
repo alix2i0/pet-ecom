@@ -41,7 +41,7 @@ const Products = () => {
 
   const handleFilterChange = (filterKey, filterValue) => {
     const newFilters = { ...selectedFilters, [filterKey]: filterValue };
-    console.log("newFilters", newFilters);
+    // console.log("newFilters", newFilters);
     setSelectedFilters(newFilters);
     dispatch(setFilter(newFilters));
     setCurrentPage(1);

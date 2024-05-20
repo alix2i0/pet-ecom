@@ -43,10 +43,10 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 export const fetchCategories = createAsyncThunk(
-  "product/fetchCategories",
+  "categories/fetchCategories",
   async () => {
     const response = await axios.get(`http://localhost:3300/api/categories`);
-    console.log("response : ", response.data.categories);
+    console.log("categories : ", response.data.categories);
     return response.data.categories;
   }
 );
