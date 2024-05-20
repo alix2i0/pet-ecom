@@ -3,25 +3,150 @@ const Category = require("../models/category.js");
 const petCategory = require("../models/PetCategory.js")
 const Order = require("../models/Order.js");
 // Fetch all products (accessible to both admin and normal user)
+// exports.getAllProducts = async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 10;
+//     const skip = (page - 1) * limit;
+//     const search = req.query.search || "";
+//     const filters = JSON.parse(req.query.filters || "{}");
+//     const query = search ? { name: new RegExp(search, "i") } : {};
+//     const sort = req.query.sort || "popular";
+
+//     // Add filters to query
+//     for (let key in filters) {
+//       if (filters[key].length) {
+//         query[key] = { $in: filters[key] };
+//       }
+//     }
+
+//     let sortOptions = {};
+//     switch (sort) {
+//       case "priceLowHigh":
+//         sortOptions.price = 1;
+//         break;
+//       case "priceHighLow":
+//         sortOptions.price = -1;
+//         break;
+//       case "newest":
+//         sortOptions.createdAt = -1;
+//         break;
+//       // Add more sorting options if needed
+//     }
+
+//     const products = await Productmd.find(query)
+//       .populate("category", "name")
+//       .populate("petCategory", "name")
+//       .sort(sortOptions)
+//       .skip(skip)
+//       .limit(limit);
+
+//     const total = await Productmd.countDocuments(query);
+
+//     res.json({
+//       success: true,
+//       data: products,
+//       page,
+//       totalPages: Math.ceil(total / limit),
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+// exports.getAllProducts = async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 10;
+//     const skip = (page - 1) * limit;
+//     const search = req.query.search || "";
+//     const filters = JSON.parse(req.query.filters || "{}");
+//     const petCategory = req.query.petCategory || ""; // Extract petCategory from query params
+
+//     const query = search ? { name: new RegExp(search, "i") } : {};
+
+//     // Add filters to query
+//     for (let key in filters) {
+//       if (filters[key].length) {
+//         query[key] = { $in: filters[key] };
+//       }
+//     }
+
+//     // Add petCategory to query if provided
+//     if (petCategory) {
+//       query.petCategory = petCategory;
+//     }
+
+//     let sortOptions = {};
+//     switch (req.query.sort) {
+//       case "priceLowHigh":
+//         sortOptions.price = 1;
+//         break;
+//       case "priceHighLow":
+//         sortOptions.price = -1;
+//         break;
+//       case "newest":
+//         sortOptions.createdAt = -1;
+//         break;
+//       default:
+//         sortOptions.popular = -1; // default sorting option
+//     }
+
+//     console.log("Query:", query); // Log the query for debugging
+//     console.log("Sort Options:", sortOptions); // Log sort options
+//     console.log("Pagination:", { skip, limit }); // Log pagination details
+
+//     const products = await Productmd.find(query)
+//       .populate("category", "name")
+//       .populate("petCategory", "name")
+//       .sort(sortOptions)
+//       .skip(skip)
+//       .limit(limit);
+
+//     const total = await Productmd.countDocuments(query);
+
+//     res.json({
+//       success: true,
+//       data: products,
+//       page,
+//       totalPages: Math.ceil(total / limit),
+//     });
+//   } catch (error) {
+//     console.error("Error fetching products:", error); // Log the error for debugging
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 exports.getAllProducts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const search = req.query.search || "";
-    const filters = JSON.parse(req.query.filters || "{}");
-    const query = search ? { name: new RegExp(search, "i") } : {};
-    const sort = req.query.sort || "popular";
+    const petCategory = req.query.petCategory || ""; // Extract petCategory from query params
 
-    // Add filters to query
-    for (let key in filters) {
-      if (filters[key].length) {
-        query[key] = { $in: filters[key] };
+    let query = {};
+
+    // If petCategory is provided, filter by it
+    if (petCategory) {
+      query.petCategory = petCategory;
+    } else {
+      // Otherwise, handle other filters and search
+      const search = req.query.search || "";
+      const filters = JSON.parse(req.query.filters || "{}");
+
+      if (search) {
+        query.name = new RegExp(search, "i");
+      }
+
+      // Add filters to query
+      for (let key in filters) {
+        if (filters[key].length) {
+          query[key] = { $in: filters[key] };
+        }
       }
     }
 
     let sortOptions = {};
-    switch (sort) {
+    switch (req.query.sort) {
       case "priceLowHigh":
         sortOptions.price = 1;
         break;
@@ -31,7 +156,8 @@ exports.getAllProducts = async (req, res) => {
       case "newest":
         sortOptions.createdAt = -1;
         break;
-      // Add more sorting options if needed
+      default:
+        sortOptions.popular = -1; // default sorting option
     }
 
     const products = await Productmd.find(query)
@@ -50,9 +176,11 @@ exports.getAllProducts = async (req, res) => {
       totalPages: Math.ceil(total / limit),
     });
   } catch (error) {
+    console.error("Error fetching products:", error); // Log the error for debugging
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Search products
 exports.searchProducts = async (req, res) => {

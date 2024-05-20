@@ -11,12 +11,21 @@ const initialState = {
 };
 
 export const fetchProduct = createAsyncThunk(
-  "product/fetchProduct",
-  async ({ page, search }) => {
-    const response = await axios.get(
-      `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}`
-    );
-    return response.data;
+  'products/fetchProduct',
+  async ({ page, limit, search, petCategory }) => {
+    try {
+      const response = await axios.get('http://localhost:3300/api/products', {
+        params: {
+          page,
+          limit,
+          search,
+          petCategory, // Include petCategory parameter in the API request
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw Error(error.response.data.message);
+    }
   }
 );
 export const fetchProductById = createAsyncThunk(
