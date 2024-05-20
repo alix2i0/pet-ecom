@@ -19,6 +19,7 @@ const Orders = () => {
   const [sortBy, setSortBy] = useState(""); // State to hold current sorting option
   const [sortOrder, setSortOrder] = useState(1); // State to hold sorting order (1 for ascending, -1 for descending)
   const [selectedStatus, setSelectedStatus] = useState({});
+  const [editMode, setEditMode] = useState({});
 
   const fetchOrders = async () => {
     try {
@@ -89,16 +90,21 @@ const Orders = () => {
       await axios.put(`http://localhost:3300/api/orders/${orderId}`, {
         status: newStatus,
       });
-      // Optionally, you can fetch orders again to refresh the data after updating status
+      // Hide save button and exit edit mode after saving
+      setEditMode({ ...editMode, [orderId]: false });
       fetchOrders();
     } catch (error) {
       console.error("Error updating order status:", error);
     }
   };
 
+  const handleEditMode = (orderId) => {
+    setEditMode({ ...editMode, [orderId]: true });
+  };
+
   return (
-    <div className="bg-gray-100 h-screen">
-      <div className="p-3 bg-gray-100 sm:ml-64 overflow-hidden">
+    <div className="bg-primary h-screen">
+      <div className="p-3 bg-primary sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h3 className="text-xl">All Orders</h3>
           <div className="flex justify-end items-center mb-8">
@@ -152,6 +158,7 @@ const Orders = () => {
                   <TableHead scope="col">Products</TableHead>
                   <TableHead scope="col">Total Amount</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Delivery</TableHead>
                   <TableHead onClick={() => handleSort("orderDate")}>
                     Date{" "}
                     {sortBy === "orderDate" && (sortOrder === 1 ? "▲" : "▼")}
@@ -178,19 +185,55 @@ const Orders = () => {
                     </TableCell>
                     <TableCell>{order.totalAmount}</TableCell>
                     <TableCell className="flex items-center justify-center">
-                      <select
-                        value={selectedStatus[order._id] || order.status}
-                        onChange={(e) => handleStatusChange(order._id, e)}
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Rejected">Rejected</option>
-                        <option value="Stock Not Available">Stock Not Available</option>
-                      </select>
+                      {editMode[order._id] ? (
+                        <select
+                          value={selectedStatus[order._id] || order.status}
+                          onChange={(e) => handleStatusChange(order._id, e)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Rejected">Rejected</option>
+                        </select>
+                      ) : (
+                        <span
+                          className={`${
+                            order.status === "Rejected"
+                              ? "bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                              : order.status === "Completed"
+                              ? "bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                               : order.status === "pending"
+                               ? "bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                              : ""
+                          }`}
+                        >
+                          {order.status}
+                        </span>
+                      )}
+                      {editMode[order._id] && (
+                        <button onClick={() => updateOrderStatus(order._id)}>
+                          <img src="save.png" className="h-[20px]" alt="#" />
+                        </button>
+                      )}
+                    </TableCell>
 
-                      <button onClick={() => updateOrderStatus(order._id)}>
-                        <img src="save.png" className="h-[20px]" alt="#" />
-                      </button>
+                    <TableCell className="items-center justify-center">
+                      {editMode[order._id] ? (
+                        <select
+                          value={selectedStatus[order._id] || order.status}
+                          onChange={(e) => handleStatusChange(order._id, e)}
+                        >
+                          <option value="pending">Pending</option>
+                          <option value="Delivered">Delivered</option>
+                          {/* <option value="Rejected">Rejected</option> */}
+                        </select>
+                      ) : (
+                        <span>{order.status}</span>
+                      )}
+                      {editMode[order._id] && (
+                        <button onClick={() => updateOrderStatus(order._id)}>
+                          <img src="save.png" className="h-[20px]" alt="#" />
+                        </button>
+                      )}
                     </TableCell>
                     <TableCell>{formatDate(order.orderDate)}</TableCell>
                     <TableCell className="flex h-[100px] items-center justify-around gap-1">
@@ -201,6 +244,14 @@ const Orders = () => {
                         <img
                           src="delete.png"
                           alt="delete"
+                          className="h-[20px]"
+                        />
+                      </button>
+                      {/* Edit icon for editing status */}
+                      <button onClick={() => handleEditMode(order._id)}>
+                        <img
+                          src="edit.png"
+                          alt="edit"
                           className="h-[20px]"
                         />
                       </button>

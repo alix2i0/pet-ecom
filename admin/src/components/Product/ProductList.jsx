@@ -15,6 +15,7 @@ import ProductView from "./ProductView";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import PetCategory from "./PetCategory";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -69,12 +70,20 @@ const ProductList = () => {
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
+  // console.log(filteredProducts);
 
   Object.keys(filters).forEach((key) => {
     filteredProducts = filteredProducts.filter(
       (product) => product[key] === filters[key]
     );
   });
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
 
   if (sortBy === "category") {
     filteredProducts.sort((a, b) => {
@@ -271,7 +280,7 @@ const ProductList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredProducts.map((product) => (
+                    {currentProducts.map((product) => (
                       <tr
                         key={product._id}
                         className="text-gray-900 hover:bg-gray-100 bg-gray-50 text-sm font-medium "
@@ -281,7 +290,7 @@ const ProductList = () => {
                           ${product.price}
                         </td>
                         <td className="px-6 py-3">{product.description}</td>
-                        <td className="px-6 py-3">{product.category.name}</td>
+                        {/* <td className="px-6 py-3">{product.category.name}</td> */}
                         <td className="px-6 py-3 text-red-500">
                           {product.quantity}
                         </td>
