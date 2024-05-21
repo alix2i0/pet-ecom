@@ -122,27 +122,24 @@ exports.getAllProducts = async (req, res) => {
     const skip = (page - 1) * limit;
     const search = req.query.search || "";
     const filters = JSON.parse(req.query.filters || "{}");
-    const query = search ? { name: new RegExp(search, "i") } : {};
+    // const query = search ? { name: new RegExp(search, "i") } : {};
     const sort = req.query.sort || "popular";
 
-    // Add filters to query
-    for (let key in filters) {
-      if (filters[key].length) {
-        query[key] = { $in: filters[key] };
-      }
+    const query = {};
+    // Handle search query
+    if (search) {
+      query.name = new RegExp(search, "i");
     }
-    if (filters.category) {
-      // Ensure category filter is a string, not an array
-      const categoryName = Array.isArray(filters.category)
-        ? filters.category[0]
-        : filters.category;
+    // Handle filters
+    if (filters.category && filters.category !== "all") {
       const category = await Category.findOne({
-        name: { $regex: categoryName, $options: "i" },
+        name: new RegExp(filters.category, "i"),
       });
       if (category) {
         query.category = category._id;
       }
     }
+
     if (filters.minPrice || filters.maxPrice) {
       query.price = {};
       if (filters.minPrice) {
@@ -150,6 +147,18 @@ exports.getAllProducts = async (req, res) => {
       }
       if (filters.maxPrice) {
         query.price.$lte = parseFloat(filters.maxPrice);
+      }
+    }
+
+    // Handle any other filters
+    for (let key in filters) {
+      if (
+        key !== "category" &&
+        key !== "minPrice" &&
+        key !== "maxPrice" &&
+        filters[key].length
+      ) {
+        query[key] = { $in: filters[key] };
       }
     }
 

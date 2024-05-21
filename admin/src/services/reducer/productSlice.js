@@ -19,15 +19,15 @@ export const fetchProduct = createAsyncThunk(
   "product/fetchProduct",
   async ({ page, search, filters, sort }, { rejectWithValue }) => {
     try {
-      const filterParams = new URLSearchParams();
-      if (filters) {
-        for (const key in filters) {
-          filterParams.append(key, filters[key]);
-        }
-      }
-      const response = await axios.get(
-        `http://localhost:3300/api/products?page=${page}&limit=8&search=${search}&sort=${sort}&${filterParams.toString()}`
-      );
+      const response = await axios.get(`http://localhost:3300/api/products`, {
+        params: {
+          page,
+          limit: 8,
+          search,
+          sort,
+          filters: JSON.stringify(filters),
+        },
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
