@@ -89,22 +89,26 @@ const Navbar = () => {
             className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
           >
             <div className="flex items-center gap-2">
-              <Button
-                className="rounded-full p-2 hover:text-white hover:bg-amber-600"
-                size="icon"
-                variant="ghost"
-              >
-                <HeartIcon className="h-5 w-5 hover:text-gray-50" />
-                <span className="sr-only">Watchlist</span>
-              </Button>
-              <Button
-                className="rounded-full p-2 hover:text-white hover:bg-amber-600"
-                size="icon"
-                variant="ghost"
-              >
-                <ShoppingCartIcon className="h-5 w-5" />
-                <span className="sr-only">Basket</span>
-              </Button>
+              <a href="/wishlist">
+                <Button
+                  className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <HeartIcon className="h-5 w-5 hover:text-gray-50" />
+                  <span className="sr-only">Watchlist</span>
+                </Button>
+              </a>
+              <a href="/cart">
+                <Button
+                  className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <ShoppingCartIcon className="h-5 w-5" />
+                  <span className="sr-only">Basket</span>
+                </Button>
+              </a>
             </div>
             <div ref={dropdownRef} className="relative">
               <button

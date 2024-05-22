@@ -12,6 +12,7 @@ const ProductEditForm = ({ isOpen, onClose, productId }) => {
   const [quantity, setQuantity] = useState(0);
 
   const categories = useSelector((state) => state.category.categories);
+  console.log('categories', categories);
   // useEffect(() => {
   //   const fetchCategories = async () => {
   //     try {
