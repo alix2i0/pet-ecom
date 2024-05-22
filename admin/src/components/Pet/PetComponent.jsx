@@ -39,6 +39,8 @@ const PetComponent = () => {
   const [modalData, setModalData] = useState({
     name: "",
     age: "",
+    gender:"",
+    isVaccinated:false,
     availability: false,
     location: "",
     categoryName: "",
@@ -92,6 +94,8 @@ const PetComponent = () => {
     setModalData({
       name: "",
       age: "",
+      gender: "",
+      isVaccinated: false,
       availability: false,
       location: "",
       categoryName: "",
@@ -209,6 +213,8 @@ const PetComponent = () => {
                       Pet Name
                     </TableHead>
                     <TableHead className="w-1/5 md:w-auto col">Age</TableHead>
+                    <TableHead className="w-1/5 md:w-auto col">Gender</TableHead>
+                    <TableHead className="w-1/5 md:w-auto col">Vaccination Status</TableHead>
                     <TableHead className="w-1/5 md:w-auto col">
                       Availability
                     </TableHead>
@@ -223,6 +229,18 @@ const PetComponent = () => {
                       </TableCell>
                       <TableCell className="w-1/5 md:w-auto text-center">
                         {pet.age}
+                      </TableCell>
+                      <TableCell className={`w-1/5 md:w-auto text-center capitalize ${pet.gender==='male' ? 'text-blue-500':'text-pink-500'}`}>
+                        {pet.gender} 
+                      </TableCell>
+                      <TableCell className="w-1/5 md:w-auto text-center">
+                        <span
+                          className={
+                            pet.isVaccinated ? "text-green-500" : "text-red-500"
+                          }
+                        >
+                          {pet.isVaccinated ? "Vaccinated" : "Not Vaccinated"}
+                        </span>
                       </TableCell>
                       <TableCell className="w-1/5 md:w-auto text-center">
                         <span

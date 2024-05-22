@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PetCards from "./PetCards";
 import Navbar from "../../components/Navbar";
-
 import Footer from "../../components/Footer";
 import { FaSearch } from "react-icons/fa";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
 import { Button } from "@headlessui/react";
+
 const Pets = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,14 +65,22 @@ const Pets = () => {
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
+  const backgroundImageStyle = {
+    backgroundImage: 'url("../../../pets-bg.png")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height:'600px'
+  };
 
   return (
     <div>
       <Navbar />
-      <section className="w-full pt-32 md:pt-32 pb-10">
-        <div className="">
+      <div className=" bg-gray-500">
+        
+      
+      <section className="w-full pt-32 md:pt-32 pb-10" style={backgroundImageStyle}>        
           <div className="text-center space-y-4">
-            <h1 className="text-2xl tracking-wide font-primary font-bold sm:text-3xl">
+            <h1 className="text-4xl tracking-wide font-primary font-bold sm:text-4xl text-primary">
               Find Your Furry Friend
             </h1>
             <p className="max-w-[700px] mx-auto text-gray-500 md:text-xl dark:text-gray-400">
@@ -80,8 +88,10 @@ const Pets = () => {
               their forever homes.
             </p>
           </div>
-        </div>
+        
+        {/* <img src="../../../petss.png"/> */}
       </section>
+      </div>
 
       <div className="w-full py-5 md:py-5 lg:py-5 bg-gray-100 dark:bg-gray-800">
         <div className="relative  flex w-full flex-col justify-center rounded-lg p-2 sm:flex-row sm:items-center sm:p-0">

@@ -63,7 +63,7 @@ const Navbar = () => {
   return (
     <div>
       <nav
-        className={`fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
+        className={` fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
           isScrolled ? "bg-gray-50" : ""
         }`}
         aria-label="Global"
@@ -155,9 +155,9 @@ const Navbar = () => {
           id="navbar-collapse-with-animation"
           className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
         >
-          <div className="flex flex-col font-serif gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
+          <div className="flex flex-col font-primary gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
             <a
-              className={`relative inline-block dark:text-white ${checkActive(
+              className={`relative inline-block dark:text-white  hover:text-primary ${checkActive(
                 "/"
               )}`}
               href="./"
@@ -166,31 +166,31 @@ const Navbar = () => {
               Home
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/pets"
               )}`}
-              href="pets"
+              href="/pets"
             >
               Pets
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/products"
               )}`}
-              href="products"
+              href="/products"
             >
               Shop
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/aboutus"
               )}`}
-              href="aboutus"
+              href="/aboutus"
             >
               About Us
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/contact"
               )}`}
               href="/contact"
@@ -198,7 +198,7 @@ const Navbar = () => {
               Contact
             </a>
             <a
-              className="relative inline-block dark:text-white dark:hover:text-neutral-300"
+              className="relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300"
               href="#"
             >
               Blog
