@@ -75,7 +75,7 @@ const Navbar = () => {
             aria-label="Petopia"
           >
             <img
-              src="../../public/logoo.png"
+              src="../../logoo.png"
               alt="Pet Store"
               className="w-40 ml-8"
             />

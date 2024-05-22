@@ -1,13 +1,13 @@
 // Sample logos for demonstration purposes
 const sponsors = [
-  { id: 1, name: "Coca-cola", logo: "/../../public/1x/coca-cola.svg" },
-  { id: 2, name: "Spotify", logo: "/../../public/1x/spotify.svg" },
-  { id: 3, name: "Adobe XD", logo: "/../../public/1x/adobe-xd.svg" },
-  { id: 4, name: "Google", logo: "/../../public/1x/google.svg" },
-  { id: 5, name: "Coca-cola", logo: "/../../public/1x/coca-cola.svg" },
-  { id: 6, name: "Spotify", logo: "/../../public/1x/spotify.svg" },
-  { id: 7, name: "Adobe XD", logo: "/../../public/1x/adobe-xd.svg" },
-  { id: 8, name: "Google", logo: "/../../public/1x/google.svg" },
+  { id: 1, name: "Coca-cola", logo: "/../../1x/coca-cola.svg" },
+  { id: 2, name: "Spotify", logo: "/../../1x/spotify.svg" },
+  { id: 3, name: "Adobe XD", logo: "/../../1x/adobe-xd.svg" },
+  { id: 4, name: "Google", logo: "/../../1x/google.svg" },
+  { id: 5, name: "Coca-cola", logo: "/../../1x/coca-cola.svg" },
+  { id: 6, name: "Spotify", logo: "/../../1x/spotify.svg" },
+  { id: 7, name: "Adobe XD", logo: "/../../1x/adobe-xd.svg" },
+  { id: 8, name: "Google", logo: "/../../1x/google.svg" },
 ];
 
 const Sponsor = () => {

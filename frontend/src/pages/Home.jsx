@@ -46,7 +46,7 @@ const Home = () => {
           <div className="flex flex-col ml-10 mt-44 w-8/12 max-md:ml-0 max-md:w-full">
             <img
               loading="lazy"
-              src="../../public/landing-dog.png"
+              src="../../landing-dog.png"
               alt="Happy Pets"
             />
           </div>
