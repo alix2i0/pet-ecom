@@ -25,7 +25,6 @@ import Filters from "../../components/Filters";
 const Products = () => {
   const {
     product,
-    categories,
     loading,
     error,
     totalPages,
@@ -119,24 +118,15 @@ const Products = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  // Apply filters to the products
-  const filteredProducts = product.filter((item) => {
-    const meetsCategory =
-      selectedFilters.category === "all" ||
-      item.category === selectedFilters.category;
-    const meetsMinPrice =
-      !selectedFilters.minPrice || item.price >= selectedFilters.minPrice;
-    const meetsMaxPrice =
-      !selectedFilters.maxPrice || item.price <= selectedFilters.maxPrice;
-    return meetsCategory && meetsMinPrice && meetsMaxPrice;
-  });
-
   return (
     <div className="bg-gray-50">
       <Navbar />
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      <section className="w-full pb-12 md:py-24 lg:py-16">
+        <div className="">
+          <img src="../../public/cover.png" className="size-full "></img>
+        </div>
         <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
-          <div className="space-y-3 bg-white">
+          <div className="space-y-3 ">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Our Pet Store Products
             </h2>

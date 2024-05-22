@@ -16,8 +16,8 @@ const Services = () => {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div className="flex flex-col items-center justify-center gap-3 rounded-lg bg-white p-6 shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeIn">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-              <PawPrintIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full  bg-gray-500 hover:bg-amber-600 ">
+              <PawPrintIcon className="h-6 w-6 text-gray-50 " />
             </div>
             <h3 className="text-lg font-semibold">Grooming</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -26,8 +26,8 @@ const Services = () => {
             </p>
           </div>
           <div className="flex flex-col items-center justify-center gap-3 rounded-lg bg-white p-6 shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeIn animate-delay-100">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-              <DogIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full  bg-gray-500 hover:bg-amber-600">
+              <DogIcon className="h-6 w-6 text-gray-50" />
             </div>
             <h3 className="text-lg font-semibold">Veterinary Care</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -36,8 +36,8 @@ const Services = () => {
             </p>
           </div>
           <div className="flex flex-col items-center justify-center gap-3 rounded-lg bg-white p-6 shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeIn animate-delay-200">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-              <PawPrintIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full  bg-gray-500 hover:bg-amber-600">
+              <PawPrintIcon className="h-6 w-6 text-gray-50" />
             </div>
             <h3 className="text-lg font-semibold">Pet Supplies</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -46,13 +46,13 @@ const Services = () => {
             </p>
           </div>
           <div className="flex flex-col items-center justify-center gap-3 rounded-lg bg-white p-6 shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeIn animate-delay-300">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-              <LassoIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full  bg-gray-500 hover:bg-amber-600 dark:bg-gray-800">
+              <LassoIcon className="h-6 w-6 text-gray-50" />
             </div>
             <h3 className="text-lg font-semibold">Pet Boarding</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Safe and comfortable boarding services for your pets while you&apos;re
-              away.
+              Safe and comfortable boarding services for your pets while
+              you&apos;re away.
             </p>
           </div>
         </div>

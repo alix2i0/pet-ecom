@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../admin/src/services/reducer/authSlice";
+import { Button } from "@headlessui/react";
+import { HeartIcon, ShoppingCartIcon } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation(); // Get current location
@@ -63,7 +65,7 @@ const Navbar = () => {
   return (
     <div>
       <nav
-        className={`fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
+        className={`fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mt-0 ${
           isScrolled ? "bg-gray-50" : ""
         }`}
         aria-label="Global"
@@ -86,10 +88,28 @@ const Navbar = () => {
             ref={dropdownRef}
             className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
           >
+            <div className="flex items-center gap-2">
+              <Button
+                className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                size="icon"
+                variant="ghost"
+              >
+                <HeartIcon className="h-5 w-5 hover:text-gray-50" />
+                <span className="sr-only">Watchlist</span>
+              </Button>
+              <Button
+                className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                size="icon"
+                variant="ghost"
+              >
+                <ShoppingCartIcon className="h-5 w-5" />
+                <span className="sr-only">Basket</span>
+              </Button>
+            </div>
             <div ref={dropdownRef} className="relative">
               <button
                 onClick={toggleDropdown}
-                className="py-2 px-3 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
+                className="py-2 px-3 ml-4 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
               >
                 Pf
               </button>

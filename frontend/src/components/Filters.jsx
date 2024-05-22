@@ -65,7 +65,6 @@ const Filters = ({
                 Category
               </Label>
               <Select
-                defaultValue="all"
                 id="category"
                 onValueChange={(value) => handleFilterChange("category", value)}
               >
