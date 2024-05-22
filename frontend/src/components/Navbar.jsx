@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../admin/src/services/reducer/authSlice";
+import CartIcon from "./cartComponent/cartIcon";
 
 const Navbar = () => {
   const location = useLocation(); // Get current location
@@ -202,6 +203,10 @@ const Navbar = () => {
               href="#"
             >
               Blog
+            </a>
+            <a href="">
+              <cartIcon />
+              ali
             </a>
           </div>
         </div>

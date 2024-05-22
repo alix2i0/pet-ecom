@@ -6,7 +6,9 @@ import categorySlice from './categorySlice'
 import productSlice from './productSlice'
 import petSlice from './petSlice'
 import petCategorySlice from './petCategorySlice';
-import orderSlice from './orderSlice'
+import orderSlice from './orderSlice';
+import cartReducer from './cartSlice';
+import wishReducere from './wishSlice';
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +19,8 @@ export const store = configureStore({
         pets: petSlice,
         petCategory : petCategorySlice,
         orders: orderSlice,
+        cart: cartReducer,
+        wish: wishReducere,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
