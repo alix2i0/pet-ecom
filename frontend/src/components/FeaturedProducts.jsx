@@ -17,8 +17,7 @@ const FeaturedProducts = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {product &&
-           product.map((product) => (
+        {product.slice(1,3).map((product) => (
             <div
               key={product._id}
               className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md transition-transform duration-500 ease-in-out hover:scale-110"

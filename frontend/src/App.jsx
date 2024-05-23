@@ -11,6 +11,8 @@ import Products from "./pages/Products/Products";
 import ProductDetails from "./pages/Products/ProductDetails";
 import PetsDetails from "./pages/Pets/PetsDetails";
 import Pets from "./pages/Pets/Pets";
+import Wishlist from "./pages/Wishlist";
+import CartShopping from "./pages/CartShopping";
 import About from "./pages/About";
 import FAQs from "./pages/FAQs"
 const App = () => {
@@ -27,6 +29,8 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/pets" element={<Pets />} />
         <Route path="/pets/:id" element={<PetsDetails />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/cart" element={<CartShopping />} />
         <Route path="/about" element={<About/>} />
         <Route path="/FAQs" element={<About/>} />
 

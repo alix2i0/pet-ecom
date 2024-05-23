@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../admin/src/services/reducer/authSlice";
+import { Button } from "@headlessui/react";
+import { HeartIcon, ShoppingCartIcon } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation(); // Get current location
@@ -11,7 +13,7 @@ const Navbar = () => {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
-  console.log("isAuthenticated", isAuthenticated);
+  // console.log("isAuthenticated", isAuthenticated);
   const checkActive = (path) => {
     // Function to check if the path is the current location
     return location.pathname === path ? "active" : "";
@@ -63,7 +65,7 @@ const Navbar = () => {
   return (
     <div>
       <nav
-        className={`fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
+        className={`fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mt-0 ${
           isScrolled ? "bg-gray-50" : ""
         }`}
         aria-label="Global"
@@ -75,7 +77,7 @@ const Navbar = () => {
             aria-label="Petopia"
           >
             <img
-              src="../../public/logoo.png"
+              src="../../logoo.png"
               alt="Pet Store"
               className="w-40 ml-8"
             />
@@ -86,10 +88,32 @@ const Navbar = () => {
             ref={dropdownRef}
             className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
           >
+            <div className="flex items-center gap-2">
+              <a href="/wishlist">
+                <Button
+                  className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <HeartIcon className="h-5 w-5 hover:text-gray-50" />
+                  <span className="sr-only">Watchlist</span>
+                </Button>
+              </a>
+              <a href="/cart">
+                <Button
+                  className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <ShoppingCartIcon className="h-5 w-5" />
+                  <span className="sr-only">Basket</span>
+                </Button>
+              </a>
+            </div>
             <div ref={dropdownRef} className="relative">
               <button
                 onClick={toggleDropdown}
-                className="py-2 px-3 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
+                className="py-2 px-3 ml-4 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
               >
                 Pf
               </button>
@@ -155,9 +179,9 @@ const Navbar = () => {
           id="navbar-collapse-with-animation"
           className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
         >
-          <div className="flex flex-col font-serif gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
+          <div className="flex flex-col font-primary gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
             <a
-              className={`relative inline-block dark:text-white ${checkActive(
+              className={`relative inline-block dark:text-white  hover:text-primary ${checkActive(
                 "/"
               )}`}
               href="./"
@@ -166,18 +190,18 @@ const Navbar = () => {
               Home
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/pets"
               )}`}
-              href="pets"
+              href="/pets"
             >
               Pets
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/products"
               )}`}
-              href="products"
+              href="/products"
             >
               Shop
             </a>
@@ -190,7 +214,7 @@ const Navbar = () => {
               About Us
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/contact"
               )}`}
               href="/contact"
@@ -198,7 +222,7 @@ const Navbar = () => {
               Contact
             </a>
             <a
-              className="relative inline-block dark:text-white dark:hover:text-neutral-300"
+              className="relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300"
               href="#"
             >
               Blog

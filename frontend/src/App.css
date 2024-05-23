@@ -15,7 +15,7 @@
   animation-delay: -10s;
 }
 .bg-dog {
-  background-image: url("../../public/bg-amber.png");
+  background-image: url("../../bg-amber.png");
   background-size: 50%;
   background-repeat: no-repeat;
   background-position: top right;

@@ -1,26 +1,76 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchCategories,
   fetchProduct,
   fetchProductById,
+  setFilter,
   setSearch,
+  setSort,
 } from "../../../../admin/src/services/reducer/productSlice";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { FaSearch } from "react-icons/fa";
+import { ShoppingCartIcon } from "lucide-react";
+import {
+  DropdownMenuTrigger,
+  DropdownMenuRadioItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuContent,
+  DropdownMenu,
+} from "@/components/ui/dropdown-menu";
+import Filters from "../../components/Filters";
 
 const Products = () => {
-  const { product, loading, error, totalPages, search } = useSelector(
-    (state) => state.product
-  );
+  const {
+    product,
+    loading,
+    error,
+    totalPages,
+    search,
+    filters,
+    sort,
+  } = useSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(search);
+  const [selectedFilters, setSelectedFilters] = useState(filters);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProduct({ page: currentPage, search: searchTerm }));
-  }, [dispatch, currentPage, searchTerm]);
+    dispatch(
+      fetchProduct({
+        page: currentPage,
+        search: searchTerm,
+        filters: selectedFilters,
+        sort,
+      })
+    );
+    dispatch(fetchCategories());
+  }, [dispatch, currentPage, searchTerm, selectedFilters, sort]);
+
+  const handleFilterChange = (filterKey, filterValue) => {
+    const newFilters = { ...selectedFilters, [filterKey]: filterValue };
+    setSelectedFilters(newFilters);
+    dispatch(setFilter(newFilters));
+    setCurrentPage(1);
+    dispatch(
+      fetchProduct({ page: 1, search: searchTerm, filters: newFilters, sort })
+    );
+  };
+
+  const handleSortChange = (sortOption) => {
+    dispatch(setSort(sortOption));
+    setCurrentPage(1);
+    dispatch(
+      fetchProduct({
+        page: 1,
+        search: searchTerm,
+        filters: selectedFilters,
+        sort: sortOption,
+      })
+    );
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -37,14 +87,28 @@ const Products = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     dispatch(setSearch(e.target.value));
-    dispatch(fetchProduct({ page: 1, search: e.target.value }));
+    dispatch(
+      fetchProduct({
+        page: 1,
+        search: e.target.value,
+        filters: selectedFilters,
+        sort,
+      })
+    );
     setCurrentPage(1);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     dispatch(setSearch(searchTerm));
-    dispatch(fetchProduct({ page: 1, search: searchTerm }));
+    dispatch(
+      fetchProduct({
+        page: 1,
+        search: searchTerm,
+        filters: selectedFilters,
+        sort,
+      })
+    );
   };
 
   const handleProductClick = (productId) => {
@@ -53,13 +117,16 @@ const Products = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  console.log("Products :: ", product);
+
   return (
     <div className="bg-gray-50">
       <Navbar />
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      <section className="w-full pb-12 md:py-24 lg:py-16">
+        <div className="">
+          <img src="../../public/cover.png" className="size-full "></img>
+        </div>
         <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
-          <div className="space-y-3">
+          <div className="space-y-3 ">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
               Our Pet Store Products
             </h2>
@@ -70,55 +137,97 @@ const Products = () => {
           </div>
           <form
             onSubmit={handleSearchSubmit}
-            className="flex items-center justify-center mb-6 gap-2"
+            className="flex items-center justify-end mb-6 gap-2"
           >
-            <div className="flex">
-              <input
-                type="search"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                placeholder="Search products..."
-                className="px-4 py-2 border hover:border-amber-500 rounded-l-md shadow-sm sm:text-sm flex-grow"
-              />
-              <div className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600 cursor-pointer">
-                <FaSearch className="text-white" />
+            <div className="mx-2 px-4 md:px-6 py-4 gap-2 flex items-center z-40">
+              <div className="flex">
+                <input
+                  type="search"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  placeholder="Search products..."
+                  className="px-4 py-2 border hover:border-amber-500 rounded-l-md shadow-sm sm:text-sm flex-grow"
+                />
+                <button
+                  type="submit"
+                  className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600"
+                >
+                  <FaSearch className="text-white" />
+                </button>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="shrink-0" variant="outline">
+                    <ArrowUpDownIcon className="w-4 h-4 mr-2" />
+                    Sort by
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[200px]">
+                  <DropdownMenuRadioGroup
+                    value={sort}
+                    onValueChange={handleSortChange}
+                  >
+                    <DropdownMenuRadioItem value="featured">
+                      Featured
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="newest">
+                      Newest
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="priceLowHigh">
+                      Price: Low to High
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="priceHighLow">
+                      Price: High to Low
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <div>
+                <Filters
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  selectedFilters={selectedFilters}
+                  setSelectedFilters={setSelectedFilters}
+                  setCurrentPage={setCurrentPage}
+                  onFilterChange={handleFilterChange}
+                />
               </div>
             </div>
           </form>
+
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {product &&
-              product.map((item) => (
-                <div
-                  key={item._id}
-                  onClick={() => handleProductClick(item._id)}
-                  className="relative  flex flex-col justify-between group overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeInUp"
-                >
-                  <Link className="absolute inset-0 z-10" to={`/${item._id}`}>
-                    <span className="sr-only">View Product</span>
-                  </Link>
-                  <img
-                    alt={item.name}
-                    className="object-cover w-full h-60 group-hover:opacity-50 transition-opacity"
-                    src={item.image || "/placeholder.svg"}
-                    style={{ aspectRatio: "400/300", objectFit: "cover" }}
-                  />
-                  <div className="p-4">
+            {product.map((item) => (
+              <div
+                key={item._id}
+                onClick={() => handleProductClick(item._id)}
+                className="relative flex flex-col justify-between group overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:scale-105 hover:shadow-lg dark:bg-gray-950 animate-fadeInUp"
+              >
+                <Link className="absolute inset-0 z-10" to={`/${item._id}`}>
+                  <span className="sr-only">View Product</span>
+                </Link>
+                <img
+                  alt={item.name}
+                  className="object-cover w-full h-60 group-hover:opacity-50 transition-opacity"
+                  src={item.image || "/placeholder.svg"}
+                  style={{ aspectRatio: "400/300", objectFit: "cover" }}
+                />
+                <div className="p-4">
+                  <div className="mt-4 flex flex-col items-center justify-between">
                     <h3 className="text-lg font-semibold">{item.name}</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {item.description}
                     </p>
-                    <div className="mt-4 flex items-end justify-between">
-                      <span className="text-lg font-semibold">
-                        ${item.price}
-                      </span>
-                      <Button size="sm" className="text-white bg-amber-600">
-                        <ShoppingCartIcon className="mr-2 h-4 w-4" />
-                        Add to Cart
-                      </Button>
-                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-lg font-semibold">${item.price}</span>
+                    <Button size="sm" className="text-white bg-amber-600">
+                      <ShoppingCartIcon className="mr-2 h-4 w-4" />
+                      Add to Cart
+                    </Button>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
           <div className="flex items-center justify-center mt-6">
             <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
@@ -140,25 +249,24 @@ const Products = () => {
   );
 };
 
-function ShoppingCartIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="8" cy="21" r="1" />
-      <circle cx="19" cy="21" r="1" />
-      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-    </svg>
-  );
-}
+const ArrowUpDownIcon = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m21 16-4 4-4-4" />
+    <path d="M17 20V4" />
+    <path d="m3 8 4-4 4 4" />
+    <path d="M7 4v16" />
+  </svg>
+);
 
 export default Products;

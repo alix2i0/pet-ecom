@@ -4,17 +4,56 @@ const ProductCategory = require("../models/PetCategory.js");
 
 const getPets = async (req, res) => {
   try {
-    let { page = 1, limit = 10 } = req.query;
+    let {
+      page = 1,
+      limit = 12,
+      category,
+      availability,
+      location,
+      sort,
+    } = req.query;
 
     // Convert page and limit to numbers, provide default values if not specified
     page = parseInt(page);
-    limit = parseInt(limit) ;
+    limit = parseInt(limit);
     const skip = (page - 1) * limit;
 
-    const pets = await Pet.find().skip(skip).limit(limit);
+    const filter = {};
+    if (category) filter.CategoryName = { $regex: new RegExp(category, "i") }; // Case insensitive;
+    if (availability !== undefined)
+      filter.availability = availability === "true";
+    if (location) filter.location = { $regex: new RegExp(location, "i") };
+
+    // Sort configuration
+    let sortOptions = {};
+    switch (sort) {
+      case "age":
+        sortOptions.age = 1;
+        break;
+      case "ageDesc":
+        sortOptions.age = -1;
+        break;
+      case "updatedAt":
+        sortOptions.updatedAt = 1;
+        break;
+      case "updatedAtDesc":
+        sortOptions.updatedAt = -1;
+        break;
+      case "nameDesc":
+        sortOptions.name = -1;
+        break;
+      default:
+        sortOptions.name = 1; // Default sorting by name
+        break;
+    }
+
+    const pets = await Pet.find(filter)
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(limit);
 
     // Optionally, return the total count of pets for pagination purposes
-    const totalCount = await Pet.countDocuments();
+    const totalCount = await Pet.countDocuments(filter);
 
     res.status(200).json({
       totalPages: Math.ceil(totalCount / limit),
@@ -32,14 +71,14 @@ const getPets = async (req, res) => {
 };
 
 // Handle file upload
-const uploadImage = (req, res, next) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "Please upload an image" });
-  }
-  // Assuming the file is stored in 'uploads' directory
-  req.body.image = req.file.path;
-  next();
-};
+// const uploadImage = (req, res, next) => {
+// if (!req.file) {
+//   return res.status(400).json({ message: "Please upload an image" });
+// }
+// Assuming the file is stored in 'uploads' directory
+// req.body.image = req.file.path;
+//   next();
+// };
 const createPet = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -48,9 +87,11 @@ const createPet = async (req, res) => {
     }
 
     const {
-      // image,
+      image,
       name,
       age,
+      gender,
+      isVaccinated,
       location,
       description,
       availability,
@@ -59,15 +100,17 @@ const createPet = async (req, res) => {
 
     // Fetch the category by name
     const category = await ProductCategory.findOne({ name: CategoryName });
-    console.log('category :', category);
+    console.log("category :", category);
     if (!category) {
       return res.status(400).json({ message: "Category not found" });
     }
 
     const newPet = new Pet({
-      // image,
+      image,
       name,
       age,
+      gender,
+      isVaccinated,
       location,
       description,
       availability,
@@ -139,27 +182,28 @@ const searchPets = async (req, res) => {
   const { query, criteria } = req.body;
   try {
     let searchQuery = {};
-    if (criteria === 'name') {
-      searchQuery = { name: { $regex: new RegExp(query, 'i') } };
-    } else if (criteria === 'age') {
+    if (criteria === "name") {
+      searchQuery = { name: { $regex: new RegExp(query, "i") } };
+    } else if (criteria === "age") {
       searchQuery = { age: parseInt(query) };
-    } else if (criteria === 'location') {
-      searchQuery = { location: { $regex: new RegExp(query, 'i') } };
+    } else if (criteria === "location") {
+      searchQuery = { location: { $regex: new RegExp(query, "i") } };
     }
     const pets = await Pet.find(searchQuery);
     res.status(200).json({ pets });
   } catch (error) {
-    res.status(500).json({ message: "Error searching pets", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error searching pets", error: error.message });
   }
 };
 
-
 module.exports = {
   createPet,
-  uploadImage,
+  // uploadImage,
   getPet,
   updatePet,
   deletePet,
   getPets,
-  searchPets
+  searchPets,
 };

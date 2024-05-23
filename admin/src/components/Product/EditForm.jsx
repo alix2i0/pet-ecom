@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../../services/reducer/categorySlice";
+
 const ProductEditForm = ({ isOpen, onClose, productId }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -11,6 +12,7 @@ const ProductEditForm = ({ isOpen, onClose, productId }) => {
   const [quantity, setQuantity] = useState(0);
 
   const categories = useSelector((state) => state.category.categories);
+  console.log('categories', categories);
   // useEffect(() => {
   //   const fetchCategories = async () => {
   //     try {
@@ -203,9 +205,9 @@ const handleSubmit = async (event) => {
                   id="category"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="block w-full p-1 text-gray-900 border-none border-gray-300 rounded-lg bg-gray-50  "
+                  className="block w-full p-1 text-gray-900  border-primary rounded-lg bg-gray-50 "
                 >
-                  <option value=""></option>
+                  <option value="-1">Select category</option>
                   {/* {categories.map((cat) => (
             <option key={cat._id} value={cat._id}>{cat.name}</option>
             ))} */}
