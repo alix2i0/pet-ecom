@@ -21,17 +21,11 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
 import Filters from "../../components/Filters";
+import Footer from "@/components/Footer";
 
 const Products = () => {
-  const {
-    product,
-    loading,
-    error,
-    totalPages,
-    search,
-    filters,
-    sort,
-  } = useSelector((state) => state.product);
+  const { product, loading, error, totalPages, search, filters, sort } =
+    useSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(search);
   const [selectedFilters, setSelectedFilters] = useState(filters);
@@ -127,12 +121,12 @@ const Products = () => {
         </div>
         <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
           <div className="space-y-3 ">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Our Pet Store Products
+            <h2 className="text-3xl font-bold font-serif tracking-tighter pt-8 sm:text-4xl md:text-5xl">
+              LET&apos;S SHOP !!
             </h2>
             <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              Discover our wide range of high-quality pet products tailored to
-              meet your furry friends&apos; needs.
+              Explore our extensive selection of premium pet products designed
+              to cater to your furry friends&apos; every need.
             </p>
           </div>
           <form
@@ -245,6 +239,7 @@ const Products = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
