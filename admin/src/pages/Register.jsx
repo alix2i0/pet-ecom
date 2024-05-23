@@ -62,7 +62,7 @@ export default function Register({ onSignUp }) {
           backgroundPosition: "center",
         }}
       >
-        <div className="p-12 text-white flex flex-col justify-center">
+        <div className="p-12 flex flex-col justify-center">
           <h2
             className="text-4xl font-bold mb-6 text-center"
             style={{ fontFamily: "Dynapuff" }}
@@ -181,9 +181,9 @@ export default function Register({ onSignUp }) {
             </div>
           </form>
           <div className="flex flex-col gap-2 mt-2">
-            <div className="mt-3 text-sm text-center text-gray-300">
+            <div className="mt-3 text-sm text-center ">
               Already registered?&nbsp;
-              <Link to="/login" className="underline hover:text-primary">
+              <Link to="/login" className="underline text-primary">
                 Login now
               </Link>
             </div>

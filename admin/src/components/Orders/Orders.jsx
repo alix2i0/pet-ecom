@@ -62,7 +62,17 @@ const Orders = () => {
   const handleLimitChange = (e) => {
     setLimit(parseInt(e.target.value));
   };
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
+  };
 
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -161,7 +171,7 @@ const Orders = () => {
               </TableHeader>
               <TableBody>
                 {orders.map((order) => (
-                  <TableRow key={order._id}>
+                  <TableRow key={order._id} className="">
                     <TableCell>{order.customer.username}</TableCell>
                     {/* Display product details here */}
                     <TableCell>
@@ -176,33 +186,82 @@ const Orders = () => {
                         ))}
                       </ul>
                     </TableCell>
-                    <TableCell>{order.totalAmount}</TableCell>
-                    <TableCell className="flex items-center justify-center">
-                      <select
-                        value={selectedStatus[order._id] || order.status}
-                        onChange={(e) => handleStatusChange(order._id, e)}
-                      >
-                        <option value="Pending">Pending</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Rejected">Rejected</option>
-                        <option value="Stock Not Available">Stock Not Available</option>
-                      </select>
+                    <TableCell className=" text-lg">
+                      ${order.totalAmount}
+                    </TableCell>
+                    <TableCell className="px-6 py-3">
+                      <div className="flex">
+                        <select
+                          value={selectedStatus[order._id] || order.status}
+                          onChange={(e) => handleStatusChange(order._id, e)}
+                          className={`text-white p-1 rounded-3xl ${
+                            order.status === "Pending"
+                              ? "bg-yellow-400"
+                              : order.status === "Completed"
+                              ? "bg-green-500"
+                              : order.status === "Rejected" ||
+                                order.status === "Stock Not Available"
+                              ? "bg-red-500"
+                              : "bg-black"
+                          }`}
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Rejected">Rejected</option>
+                          <option value="Stock Not Available">
+                            Stock Not Available
+                          </option>
+                        </select>
 
-                      <button onClick={() => updateOrderStatus(order._id)}>
-                        <img src="save.png" className="h-[20px]" alt="#" />
-                      </button>
+                        <button onClick={() => updateOrderStatus(order._id)}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="2em"
+                            height="2em"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="#787878"
+                              d="M17.59 3.59c-.38-.38-.89-.59-1.42-.59H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7.83c0-.53-.21-1.04-.59-1.41zM12 19c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3m1-10H7c-1.1 0-2-.9-2-2s.9-2 2-2h6c1.1 0 2 .9 2 2s-.9 2-2 2"
+                            ></path>
+                          </svg>{" "}
+                        </button>
+                      </div>
                     </TableCell>
                     <TableCell>{formatDate(order.orderDate)}</TableCell>
-                    <TableCell className="flex h-[100px] items-center justify-around gap-1">
-                      <Link to={`/orders/${order._id}`}>
-                        <img src="view.png" alt="view" className="h-[20px]" />
+                    <TableCell className="flex h-[100px] items-center justify-center">
+                      <Link
+                        to={`/orders/${order._id}`}
+                        className="bg-blue-500 hover:bg-blue-600 py-2 px-3 rounded-s-3xl"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1.5em"
+                          height="1.5em"
+                          viewBox="0 0 32 32"
+                        >
+                          <circle cx={16} cy={16} r={4} fill="white"></circle>
+                          <path
+                            fill="white"
+                            d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 22.5a6.5 6.5 0 1 1 6.5-6.5a6.51 6.51 0 0 1-6.5 6.5"
+                          ></path>
+                        </svg>{" "}
                       </Link>
-                      <button onClick={() => handleDelete(order._id)}>
-                        <img
-                          src="delete.png"
-                          alt="delete"
-                          className="h-[20px]"
-                        />
+                      <button
+                        onClick={() => handleDelete(order._id)}
+                        className="bg-red-500 hover:bg-red-600 py-2 px-3 rounded-e-3xl"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1.5em"
+                          height="1.5em"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="white"
+                            d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
+                          ></path>
+                        </svg>
                       </button>
                     </TableCell>
                   </TableRow>
@@ -212,7 +271,7 @@ const Orders = () => {
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center mt-4">
+          {/* <div className="flex justify-center mt-4">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index}
@@ -226,7 +285,78 @@ const Orders = () => {
                 {index + 1}
               </button>
             ))}
-          </div>
+          </div> */}
+
+<div className="flex justify-center gap-4">
+                <button
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                  className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                    currentPage === 1
+                      ? "text-gray-900  pointer-events-none"
+                      : "text-gray-600 hover:bg-neutral-200"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                    ></path>
+                  </svg>
+                  Previous
+                </button>
+                <div className="flex items-center gap-2">
+
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    className={`relative block px-3 py-1.5 text-sm transition-all duration-300 ${
+                      currentPage === index + 1
+                        ? "bg-primary text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}</div>
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                    currentPage === totalPages
+                      ? "text-gray-900  pointer-events-none"
+                      : "text-gray-600 hover:bg-neutral-200"
+                  }`}
+                >
+                  Next
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+
         </div>
       </div>
     </div>

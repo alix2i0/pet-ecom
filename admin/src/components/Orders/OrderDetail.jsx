@@ -30,36 +30,103 @@ const OrderDetail = () => {
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h2 className="text-xl mb-5">Order Details</h2>
           <div className="flex justify-between items-center mb-4">
-            <table className="text-center w-full text-sm rtl:text-right text-gray-500 dark:text-gray-400">
+            <table className="text-center text-md w-full rtl:text-right text-gray-500 dark:text-gray-400">
               <tr className="text-md text-gray-700  bg-gray-100">
                 <th scope="col" className="px-6 py-3">
                   Customer
                 </th>
-                <td className="px-6 py-3">{order.customer.username}</td>
+                <td className="px-6 py-3 text-3xl">{order.customer.username}</td>
               </tr>
               <tr className="text-md text-gray-700  bg-gray-100">
                 <th scope="col" className="px-6 py-3">
                   Products
                 </th>
                 <td className="px-6 py-3">
-                  <ul>
+                  {/* <table className="w-full">
+                    <thead>
+                      <tr>
+                        <th className="text-left">Product Name</th>
+                        <th className="text-left">Quantity</th>
+                        <th className="text-left">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {order.products.map((product) => (
+                        <tr key={product._id}>
+                          <td>{product.product.name}</td>
+                          <td>x{product.quantity}</td>
+                          <td>${product.product.price}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table> */}
+                  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                      <tr className=" text-center">
+                        <th
+                          scope="col"
+                          class="px-6 py-3 bg-gray-50 dark:bg-gray-800"
+                        >
+                          Product name
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 bg-gray-50 dark:bg-gray-800"
+                        >
+                          Price
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 bg-gray-50 dark:bg-gray-800"
+                        >
+                          Quantity
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
                     {order.products.map((product) => (
-                      <li key={product._id}>
-                        {product.product.name} x{product.quantity}
-                      </li>
-                    ))}
-                  </ul>
+                      <tr  key={product._id} class="border-b text-center border-gray-200 dark:border-gray-700">
+                        <th
+                          scope="row"
+                          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
+                        >
+                          {product.product.name}
+                        </th>
+                        <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                          ${product.product.price}
+                        </td>
+                        <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                          {product.quantity}
+                        </td>
+                      </tr>))}
+                    </tbody>
+                  </table>
                 </td>
               </tr>
               <tr className="text-md text-gray-700  bg-gray-100">
                 <th scope="col" className="px-6 py-3 truncate">
                   Total Amount
                 </th>
-                <td className="px-6 py-3">{order.totalAmount}</td>
+                <td className="px-6 py-3 font-bold">${order.totalAmount}</td>
               </tr>
               <tr className="text-md text-gray-700  bg-gray-100">
-                <th>Status</th>
-                <td className="px-6 py-3">{order.status}</td>
+                <th>Payement Status</th>
+                <td className="flex items-center justify-center">
+                  <div
+                    className={`py-3 w-48 flex justify-center rounded-3xl text-white ${
+                      order.status === "Pending"
+                        ? "bg-yellow-400"
+                        : order.status === "Completed"
+                        ? "bg-green-500"
+                        : order.status === "Rejected" ||
+                          order.status === "Stock Not Available"
+                        ? "bg-red-500"
+                        : "bg-black"
+                    }`}
+                  >
+                    {order.status}
+                  </div>
+                </td>
               </tr>
               <tr className="text-md text-gray-700  bg-gray-100">
                 <th>Date</th>

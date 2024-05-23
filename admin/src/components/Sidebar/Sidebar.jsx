@@ -30,7 +30,7 @@ const Sidebar = () => {
           <div className="flex justify-center">
             <img
               alt=""
-              src="icon_blue.png"
+              src="favico.png"
               className="h-[100px] w-[100px] mb-5"
             />
           </div>
@@ -190,7 +190,7 @@ const Sidebar = () => {
       <div className=" sm:ml-64 pl-1">
         <div className="w-full h-[60px] bg-white flex items-center">
           <div className="w-1/2">
-            <form className="flex items-center max-w-sm p-2">
+            {/* <form className="flex items-center max-w-sm p-2">
               <label htmlFor="simple-search" className="sr-only">
                 Search
               </label>
@@ -220,7 +220,7 @@ const Sidebar = () => {
                   required
                 />
               </div>
-            </form>
+            </form> */}
           </div>
           <div className="w-1/2 flex justify-end p-2">
             <div className="relative">

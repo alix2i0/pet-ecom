@@ -4,7 +4,13 @@ import PetCards from "./PetCards";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { FaSearch } from "react-icons/fa";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
 import { Button } from "@headlessui/react";
 
@@ -67,18 +73,19 @@ const Pets = () => {
   };
   const backgroundImageStyle = {
     backgroundImage: 'url("../../../pets-bg.png")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height:'600px'
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    height: "600px",
   };
 
   return (
     <div>
       <Navbar />
       <div className=" bg-gray-500">
-        
-      
-      <section className="w-full pt-32 md:pt-32 pb-10" style={backgroundImageStyle}>        
+        <section
+          className="w-full pt-32 md:pt-32 pb-10"
+          style={backgroundImageStyle}
+        >
           <div className="text-center space-y-4">
             <h1 className="text-4xl tracking-wide font-primary font-bold sm:text-4xl text-primary">
               Find Your Furry Friend
@@ -88,9 +95,9 @@ const Pets = () => {
               their forever homes.
             </p>
           </div>
-        
-        {/* <img src="../../../petss.png"/> */}
-      </section>
+
+          {/* <img src="../../../petss.png"/> */}
+        </section>
       </div>
 
       <div className="w-full py-5 md:py-5 lg:py-5 bg-gray-100 dark:bg-gray-800">
@@ -132,12 +139,18 @@ const Pets = () => {
             <div className="">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="flex items-center bg-gray-200 p-2 rounded-md" variant="outline">
+                  <Button
+                    className="flex items-center bg-gray-200 p-2 rounded-md"
+                    variant="outline"
+                  >
                     <ArrowUpDownIcon className="w-4 h-4 mr-2" />
                     Sort by
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-[200px] z-50 bg-white p-1">
+                <DropdownMenuContent
+                  align="start"
+                  className="w-[200px] z-50 bg-white p-1"
+                >
                   <DropdownMenuRadioGroup
                     value={sortCriteria}
                     onValueChange={(value) => {
@@ -145,29 +158,46 @@ const Pets = () => {
                       setCurrentPage(1); // Reset to first page when sorting changes
                     }}
                   >
-                    <DropdownMenuRadioItem value="name" className="cursor-pointer hover:bg-gray-100 p-2">
+                    <DropdownMenuRadioItem
+                      value="name"
+                      className="cursor-pointer hover:bg-gray-100 p-2"
+                    >
                       Name A-Z
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="nameDesc" className="cursor-pointer hover:bg-gray-100 p-2">
+                    <DropdownMenuRadioItem
+                      value="nameDesc"
+                      className="cursor-pointer hover:bg-gray-100 p-2"
+                    >
                       Name Z-A
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="updatedAt" className="cursor-pointer hover:bg-gray-100 p-2">
+                    <DropdownMenuRadioItem
+                      value="updatedAt"
+                      className="cursor-pointer hover:bg-gray-100 p-2"
+                    >
                       Recently Added
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="updatedAtDesc"  className="cursor-pointer hover:bg-gray-100 p-2">
+                    <DropdownMenuRadioItem
+                      value="updatedAtDesc"
+                      className="cursor-pointer hover:bg-gray-100 p-2"
+                    >
                       Oldest Added
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="age"  className="cursor-pointer hover:bg-gray-100 p-2">
+                    <DropdownMenuRadioItem
+                      value="age"
+                      className="cursor-pointer hover:bg-gray-100 p-2"
+                    >
                       Age: Low to High
                     </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="ageDesc"  className="cursor-pointer hover:bg-gray-100 p-2">
+                    <DropdownMenuRadioItem
+                      value="ageDesc"
+                      className="cursor-pointer hover:bg-gray-100 p-2"
+                    >
                       Age: High to Low
                     </DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            
           </div>
         </div>
       </div>
@@ -192,7 +222,7 @@ const Pets = () => {
             <div className="mb-4">
               <button className="w-full text-left font-semibold">Age</button>
               <div className="mt-2">
-                <input type="range" min="0" max="500" className="w-full" />
+                <input type="range" min="0" max="20" className="w-full" />
                 <div className="flex justify-between text-sm">
                   <span>0</span>
                   <span>20</span>
@@ -207,7 +237,11 @@ const Pets = () => {
               <div className="mt-2">
                 <label className="flex items-center">
                   <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">category data</span>
+                  <span className="ml-2">Cats</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Dogs</span>
                 </label>
               </div>
             </div>
@@ -219,7 +253,35 @@ const Pets = () => {
               <div className="mt-2">
                 <label className="flex items-center">
                   <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">location data</span>
+                  <span className="ml-2">Casablanca</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Rabat</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Tanger</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Marrakech</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Agadir</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">El Jadida</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Mohammedia</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="form-checkbox" />
+                  <span className="ml-2">Fes</span>
                 </label>
               </div>
             </div>
