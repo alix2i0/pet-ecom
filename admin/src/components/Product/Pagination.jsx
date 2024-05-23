@@ -1,6 +1,6 @@
 import React from "react";
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ currentPage, totalPages, onPageChange ,}) => {
   return (
     <nav aria-label="Product pagination">
       <ul className="list-style-none flex justify-center p-4">

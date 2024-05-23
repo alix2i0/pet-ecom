@@ -330,7 +330,7 @@ const ProductList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredProducts.map((product) => (
+                    {currentProducts.map((product) => (
                       <tr
                         key={product._id}
                         className="text-gray-900 hover:bg-gray-100 bg-gray-50 text-sm font-medium "
