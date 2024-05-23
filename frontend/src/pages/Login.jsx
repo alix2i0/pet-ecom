@@ -9,6 +9,7 @@ const Login = () => {
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const error = useSelector((state) => state.auth.isError);
+  const userId = useSelector((state) => state.auth.userId);
 
   if (error) {
     console.log(error);

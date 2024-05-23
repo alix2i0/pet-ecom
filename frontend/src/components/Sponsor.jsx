@@ -10,29 +10,98 @@ const sponsors = [
   { id: 8, name: "Google", logo: "/../../public/1x/google.svg" },
 ];
 
-const Sponsor = () => {
+export default function Sponsor() {
   return (
-    <div className="sponsor-ticker overflow-hidden w-full bg-gradient-to-r from-gray-50 via-gray-200 to-gray-50">
-      <div className="animate-marquee flex items-center justify-end ">
-        {sponsors.map((sponsor) => (
-          <div
-            key={sponsor.id}
-            className="flex flex-col items-center justify-center mx-10"
+    <section className="py-12 md:py-16 lg:py-20">
+      <div className="container mx-auto px-4 md:px-6">
+        {/* <div className="mb-8 md:mb-10 lg:mb-12">
+          <h2 className="text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl">
+            Our Sponsors
+          </h2>
+        </div> */}
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:gap-8">
+          <a
+            className="flex items-center justify-center rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+            href="#"
           >
             <img
-              src={sponsor.logo}
-              alt={sponsor.name}
-              className="h-32 my-4 opacity-75 hover:opacity-100 transition-opacity duration-300"
+              alt="Sponsor 1"
+              className="max-w-full"
+              height={60}
+              src="../public/sponsor/google.svg"
+              style={{
+                aspectRatio: "120/60",
+                // objectFit: "cover",
+              }}
+              width={140}
             />
-            <h3 className="text-lg font-bold text-gray-800">{sponsor.name}</h3>
-            <p className="text-sm text-center text-gray-600">
-              {sponsor.description}
-            </p>
-          </div>
-        ))}
+          </a>
+          <a
+            className="flex items-center justify-center rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+            href="#"
+          >
+            <img
+              alt="Sponsor 2"
+              className="max-w-full"
+              height={60}
+              src="../public/sponsor/spotify.svg"
+              style={{
+                aspectRatio: "120/60",
+                objectFit: "cover",
+              }}
+              width={120}
+            />
+          </a>
+          <a
+            className="flex items-center justify-center rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+            href="#"
+          >
+            <img
+              alt="Sponsor 3"
+              className="max-w-full"
+              height={60}
+              src="../public/sponsor/coca-cola.svg"
+              style={{
+                aspectRatio: "120/60",
+                objectFit: "cover",
+              }}
+              width={120}
+            />
+          </a>
+          <a
+            className="flex items-center justify-center rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+            href="#"
+          >
+            <img
+              alt="Sponsor 4"
+              className="max-w-full"
+              height={60}
+              src="../public/sponsor/dental.svg"
+              style={{
+                aspectRatio: "120/60",
+                objectFit: "cover",
+              }}
+              width={120}
+            />
+          </a>
+          <a
+            className="flex items-center justify-center rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+            href="#"
+          >
+            <img
+              alt="Sponsor 5"
+              className="max-w-full"
+              height={60}
+              src="../public/sponsor/disney.png"
+              style={{
+                aspectRatio: "120/60",
+                objectFit: "cover",
+              }}
+              width={120}
+            />
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default Sponsor;
+}

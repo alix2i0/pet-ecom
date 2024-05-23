@@ -50,22 +50,21 @@ const Filters = ({
   };
 
   return (
-    <div className="flex items-center justify-between mb-8 z-50">
-      <DropdownMenu>
+    <div className="flex items-center justify-between z-40">
+      <DropdownMenu >
         <DropdownMenuTrigger asChild>
           <Button className="shrink-0" variant="outline">
             <FilterIcon className="w-4 h-4 mr-2" />
             Filter
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[300px] p-4">
+        <DropdownMenuContent className="w-[300px] p-4 bg-white">
           <div className="grid gap-4">
             <div>
               <Label className="text-sm font-medium" htmlFor="category">
                 Category
               </Label>
               <Select
-                defaultValue="all"
                 id="category"
                 onValueChange={(value) => handleFilterChange("category", value)}
               >

@@ -1,106 +1,145 @@
-import React from "react";
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="w-full bg-amber-600 text-white py-8">
-      <div className="container mx-auto px-6 text-center">
-        <div className="flex flex-col md:flex-row justify-between items-start space-y-4 md:space-y-0">
-          <div>
-            <h3 className="text-lg font-semibold">Quick Links</h3>
-            <ul className="mt-2">
-              <li>
-                <a href="/about" className="hover:underline">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="/contact" className="hover:underline">
-                  Contact Us
-                </a>
-              </li>
-              <li>
-                <a href="/terms" className="hover:underline">
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a href="/privacy" className="hover:underline">
-                  Privacy Policy
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold">Follow Us</h3>
-            <ul className="flex justify-center space-x-4 mt-2">
-              <li>
-                <a href="https://facebook.com" className="hover:underline">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    x="0px"
-                    y="0px"
-                    width="30"
-                    height="30"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12,2C6.477,2,2,6.477,2,12c0,5.013,3.693,9.153,8.505,9.876V14.65H8.031v-2.629h2.474v-1.749 c0-2.896,1.411-4.167,3.818-4.167c1.153,0,1.762,0.085,2.051,0.124v2.294h-1.642c-1.022,0-1.379,0.969-1.379,2.061v1.437h2.995 l-0.406,2.629h-2.588v7.247C18.235,21.236,22,17.062,22,12C22,6.477,17.523,2,12,2z"></path>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a href="https://twitter.com" className="hover:underline">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    x="0px"
-                    y="0px"
-                    width="30"
-                    height="30"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M22,3.999c-0.78,0.463-2.345,1.094-3.265,1.276c-0.027,0.007-0.049,0.016-0.075,0.023c-0.813-0.802-1.927-1.299-3.16-1.299 c-2.485,0-4.5,2.015-4.5,4.5c0,0.131-0.011,0.372,0,0.5c-3.353,0-5.905-1.756-7.735-4c-0.199,0.5-0.286,1.29-0.286,2.032 c0,1.401,1.095,2.777,2.8,3.63c-0.314,0.081-0.66,0.139-1.02,0.139c-0.581,0-1.196-0.153-1.759-0.617c0,0.017,0,0.033,0,0.051 c0,1.958,2.078,3.291,3.926,3.662c-0.375,0.221-1.131,0.243-1.5,0.243c-0.26,0-1.18-0.119-1.426-0.165 c0.514,1.605,2.368,2.507,4.135,2.539c-1.382,1.084-2.341,1.486-5.171,1.486H2C3.788,19.145,6.065,20,8.347,20 C15.777,20,20,14.337,20,8.999c0-0.086-0.002-0.266-0.005-0.447C19.995,8.534,20,8.517,20,8.499c0-0.027-0.008-0.053-0.008-0.08 c-0.003-0.136-0.006-0.263-0.009-0.329c0.79-0.57,1.475-1.281,2.017-2.091c-0.725,0.322-1.503,0.538-2.32,0.636 C20.514,6.135,21.699,4.943,22,3.999z"></path>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a href="https://instagram.com" className="hover:underline">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    x="0px"
-                    y="0px"
-                    width="30"
-                    height="30"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"></path>
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold">
-              Subscribe to Our Newsletter
-            </h3>
-            <form className="mt-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="mt-2 p-2 text-black"
-              />
-              <button
-                type="submit"
-                className="ml-2 px-4 py-2 bg-white text-amber-600 font-semibold rounded hover:bg-gray-200"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
+    <footer className="bg-amber-600 py-6 dark:bg-gray-800 w-full">
+      <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
+        <div className="flex items-center gap-2">
+          <a href="#">
+            <PawPrintIcon className="h-6 w-6 text-gray-50 dark:text-gray-400" />
+            <span className="text-sm font-medium text-gray-50 dark:text-gray-300">
+              Pet Store
+            </span>
+          </a>
         </div>
-        <div className="pt-8">
-          <p>© 2024 Petopia. All rights reserved.</p>
+        <nav className="flex items-center gap-4 ">
+          <a
+            className="text-sm font-semibold pl-8 text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            href="/pets"
+          >
+            Pets
+          </a>
+          <a
+            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            href="/products"
+          >
+            Shop
+          </a>
+          <a
+            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            href="/about"
+          >
+            About
+          </a>
+          <a
+            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            href="/contact"
+          >
+            Contact
+          </a>
+        </nav>
+        <div className="flex items-center gap-4">
+          <a aria-label="Facebook" href="#">
+            <FacebookIcon className="h-5 w-5 text-gray-50 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" />
+          </a>
+          <a aria-label="Twitter" href="#">
+            <TwitterIcon className="h-5 w-5 text-gray-50 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" />
+          </a>
+          <a aria-label="Instagram" href="#">
+            <InstagramIcon className="h-5 w-5 text-gray-50 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" />
+          </a>
         </div>
+      </div>
+      <div>
+        <p className="text-sm flex justify-center items-center text-gray-50 dark:text-gray-400">
+          © 2024 Pet Store. All rights reserved.
+        </p>
       </div>
     </footer>
   );
-};
+}
 
-export default Footer;
+function FacebookIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function InstagramIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
+function PawPrintIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="4" r="2" />
+      <circle cx="18" cy="8" r="2" />
+      <circle cx="20" cy="16" r="2" />
+      <path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" />
+    </svg>
+  );
+}
+
+function TwitterIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+    </svg>
+  );
+}

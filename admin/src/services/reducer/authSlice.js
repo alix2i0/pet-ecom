@@ -4,6 +4,7 @@ import axios from "axios";
 
 const initialState = {
   isAuthenticated: localStorage.getItem('isAuthenticated') === 'true',
+  userId: localStorage.getItem('userId') || null,
   auth: null,
   isLoading: false,
   isError: null,
@@ -32,6 +33,7 @@ export const login = createAsyncThunk("auth/login", async (data) => {
 
     // Stockage de l'authentification dans le localStorage
     localStorage.setItem('isAuthenticated', true);
+    localStorage.setItem('userId', response.data.userId);
 
     return response.data;
   } catch (error) {
@@ -99,7 +101,8 @@ export const authSlice = createSlice({
         state.isLoading = false;
         if(action.payload.success) {
           state.auth = action.payload;
-          state.isAuthenticated = true
+          state.isAuthenticated = true;
+          state.userId = action.payload.userId;
           state.admin = action.payload.role;
         }
         else {
@@ -201,5 +204,6 @@ export const selectUser = (state) => state.auth.auth;
 export const selectLoading = (state) => state.auth.isLoading;
 export const selectError = (state) => state.auth.isError;
 export const selectAuth = (state) => state.auth.isAuthenticated;
+export const selectUserId = (state) => state.auth.userId;
 
 export default authSlice.reducer;
