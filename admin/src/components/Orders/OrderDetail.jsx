@@ -113,14 +113,14 @@ const OrderDetail = () => {
                 <th>Payement Status</th>
                 <td className="flex items-center justify-center">
                   <div
-                    className={`py-3 w-48 flex justify-center rounded-3xl text-white ${
+                    className={`py-1 flex justify-center rounded-3xl px-4 ${
                       order.status === "Pending"
-                        ? "bg-yellow-400"
+                        ? "bg-yellow-400/30 text-orange-400"
                         : order.status === "Completed"
-                        ? "bg-green-500"
+                        ? "bg-green-500/30 text-green-500"
                         : order.status === "Rejected" ||
                           order.status === "Stock Not Available"
-                        ? "bg-red-500"
+                        ? "bg-red-500/30 text-red-500"
                         : "bg-black"
                     }`}
                   >

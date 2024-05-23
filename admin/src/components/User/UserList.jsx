@@ -234,28 +234,14 @@ const UserList = () => {
                             </div>
                           ) : (
                             <div className="flex justify-center items-center">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="3em"
-                                height="3em"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  fill="none"
-                                  stroke="red"
-                                  stroke-linecap="round"
-                                  stroke-width="1.5"
-                                  d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
-                                />
-                              </svg>{" "}
-                              
+<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 15 15"><path fill="red" fillRule="evenodd" d="M11.782 4.032a.575.575 0 1 0-.813-.814L7.5 6.687L4.032 3.218a.575.575 0 0 0-.814.814L6.687 7.5l-3.469 3.468a.575.575 0 0 0 .814.814L7.5 8.313l3.469 3.469a.575.575 0 0 0 .813-.814L8.313 7.5z" clipRule="evenodd"></path></svg>                              
                             </div>
                           )}
                       </td>
-                      <td className="px-6 py-3 flex h-[100px] items-center justify-center">
+                      <td className="px-6 py-3 flex h-[100px] items-center justify-center gap-2">
                         <Link
                           to={`/users/${user._id}`}
-                          className="bg-blue-500 hover:bg-blue-600 py-2 px-3 rounded-s-3xl"
+                          className="rounded-s-3xl"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -263,16 +249,16 @@ const UserList = () => {
                             height="1.5em"
                             viewBox="0 0 32 32"
                           >
-                            <circle cx={16} cy={16} r={4} fill="white"></circle>
+                            <circle cx={16} cy={16} r={4} fill="blue"></circle>
                             <path
-                              fill="white"
+                              fill="blue"
                               d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 22.5a6.5 6.5 0 1 1 6.5-6.5a6.51 6.51 0 0 1-6.5 6.5"
                             ></path>
                           </svg>
                         </Link>
                         <button
                           onClick={() => handleEditClick(user._id)}
-                          className="bg-yellow-400 hover:bg-yellow-500 py-2 px-3"
+                          
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -281,14 +267,14 @@ const UserList = () => {
                             viewBox="0 0 24 24"
                           >
                             <path
-                              fill="white"
+                              fill="orange"
                               d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
                             ></path>
                           </svg>{" "}
                         </button>
                         <button
                           onClick={() => handleDeleteClick(user._id)}
-                          className="bg-red-500 hover:bg-red-600 py-2 px-3 rounded-e-3xl"
+                          className=" rounded-e-3xl"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -297,7 +283,7 @@ const UserList = () => {
                             viewBox="0 0 24 24"
                           >
                             <path
-                              fill="white"
+                              fill="red"
                               d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
                             ></path>
                           </svg>

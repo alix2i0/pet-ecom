@@ -194,14 +194,14 @@ const Orders = () => {
                         <select
                           value={selectedStatus[order._id] || order.status}
                           onChange={(e) => handleStatusChange(order._id, e)}
-                          className={`text-white p-1 rounded-3xl ${
+                          className={`p-1 rounded-3xl ${
                             order.status === "Pending"
-                              ? "bg-yellow-400"
+                              ? "bg-yellow-400/30 text-orange-400"
                               : order.status === "Completed"
-                              ? "bg-green-500"
+                              ? "bg-green-500/30 text-green-500"
                               : order.status === "Rejected" ||
                                 order.status === "Stock Not Available"
-                              ? "bg-red-500"
+                              ? "bg-red-500/30 text-red-500"
                               : "bg-black"
                           }`}
                         >
@@ -222,17 +222,17 @@ const Orders = () => {
                           >
                             <path
                               fill="#787878"
-                              d="M17.59 3.59c-.38-.38-.89-.59-1.42-.59H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7.83c0-.53-.21-1.04-.59-1.41zM12 19c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3m1-10H7c-1.1 0-2-.9-2-2s.9-2 2-2h6c1.1 0 2 .9 2 2s-.9 2-2 2"
+                              d="M20 7.423v10.962q0 .69-.462 1.153T18.384 20H5.616q-.691 0-1.153-.462T4 18.384V5.616q0-.691.463-1.153T5.616 4h10.961zm-8.004 9.115q.831 0 1.417-.582T14 14.543t-.582-1.418t-1.413-.586t-1.419.581T10 14.535t.582 1.418t1.414.587M6.769 9.77h7.423v-3H6.77z"
                             ></path>
                           </svg>{" "}
                         </button>
                       </div>
                     </TableCell>
                     <TableCell>{formatDate(order.orderDate)}</TableCell>
-                    <TableCell className="flex h-[100px] items-center justify-center">
+                    <TableCell className="flex h-[100px] items-center justify-center gap-2">
                       <Link
                         to={`/orders/${order._id}`}
-                        className="bg-blue-500 hover:bg-blue-600 py-2 px-3 rounded-s-3xl"
+                        className=" rounded-s-3xl"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -240,16 +240,16 @@ const Orders = () => {
                           height="1.5em"
                           viewBox="0 0 32 32"
                         >
-                          <circle cx={16} cy={16} r={4} fill="white"></circle>
+                          <circle cx={16} cy={16} r={4} fill="blue"></circle>
                           <path
-                            fill="white"
+                            fill="blue"
                             d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 22.5a6.5 6.5 0 1 1 6.5-6.5a6.51 6.51 0 0 1-6.5 6.5"
                           ></path>
                         </svg>{" "}
                       </Link>
                       <button
                         onClick={() => handleDelete(order._id)}
-                        className="bg-red-500 hover:bg-red-600 py-2 px-3 rounded-e-3xl"
+                        className="rounded-e-3xl"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -258,7 +258,7 @@ const Orders = () => {
                           viewBox="0 0 24 24"
                         >
                           <path
-                            fill="white"
+                            fill="red"
                             d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
                           ></path>
                         </svg>
@@ -287,76 +287,75 @@ const Orders = () => {
             ))}
           </div> */}
 
-<div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={goToPreviousPage}
+              disabled={currentPage === 1}
+              className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                currentPage === 1
+                  ? "text-gray-900  pointer-events-none"
+                  : "text-gray-600 hover:bg-neutral-200"
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                aria-hidden="true"
+                className="w-4 h-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                ></path>
+              </svg>
+              Previous
+            </button>
+            <div className="flex items-center gap-2">
+              {[...Array(totalPages)].map((_, index) => (
                 <button
-                  onClick={goToPreviousPage}
-                  disabled={currentPage === 1}
-                  className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
-                    currentPage === 1
-                      ? "text-gray-900  pointer-events-none"
-                      : "text-gray-600 hover:bg-neutral-200"
+                  key={index}
+                  className={`relative block px-3 py-1.5 text-sm transition-all duration-300 ${
+                    currentPage === index + 1
+                      ? "bg-primary text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
+                  onClick={() => handlePageChange(index + 1)}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                    ></path>
-                  </svg>
-                  Previous
+                  {index + 1}
                 </button>
-                <div className="flex items-center gap-2">
-
-                {[...Array(totalPages)].map((_, index) => (
-                  <button
-                    key={index}
-                    className={`relative block px-3 py-1.5 text-sm transition-all duration-300 ${
-                      currentPage === index + 1
-                        ? "bg-primary text-white"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                    }`}
-                    onClick={() => handlePageChange(index + 1)}
-                  >
-                    {index + 1}
-                  </button>
-                ))}</div>
-                <button
-                  onClick={goToNextPage}
-                  disabled={currentPage === totalPages}
-                  className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
-                    currentPage === totalPages
-                      ? "text-gray-900  pointer-events-none"
-                      : "text-gray-600 hover:bg-neutral-200"
-                  }`}
-                >
-                  Next
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                    className="w-4 h-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-
+              ))}
+            </div>
+            <button
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+              className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                currentPage === totalPages
+                  ? "text-gray-900  pointer-events-none"
+                  : "text-gray-600 hover:bg-neutral-200"
+              }`}
+            >
+              Next
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                aria-hidden="true"
+                className="w-4 h-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>

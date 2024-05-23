@@ -220,7 +220,7 @@ const PetComponent = () => {
                       Location
                     </TableHead>
                     <TableHead className="w-1/5 md:w-auto col">
-                      Vaccination Status
+                      Vaccination
                     </TableHead>
                     <TableHead className="w-1/5 md:w-auto col">
                       Availability
@@ -230,8 +230,8 @@ const PetComponent = () => {
                 </TableHeader>
                 <TableBody>
                   {getFilteredAndSortedPets().map((pet) => (
-                    <TableRow key={pet._id}>
-                      <TableCell className="w-1/5 md:w-auto text-center">
+                    <TableRow key={pet._id} className="h-[52px]">
+                      <TableCell className="w-1/5 md:w-auto text-center ">
                         {pet.name}
                       </TableCell>
                       <TableCell className="w-1/5 md:w-auto text-center">
@@ -345,28 +345,14 @@ const PetComponent = () => {
                             </div>
                           ) : (
                             <div className="flex justify-center items-center">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="3em"
-                                height="3em"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  fill="none"
-                                  stroke="red"
-                                  stroke-linecap="round"
-                                  stroke-width="1.5"
-                                  d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
-                                />
-                              </svg>{" "}
-                              
+<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 15 15"><path fill="red" fillRule="evenodd" d="M11.782 4.032a.575.575 0 1 0-.813-.814L7.5 6.687L4.032 3.218a.575.575 0 0 0-.814.814L6.687 7.5l-3.469 3.468a.575.575 0 0 0 .814.814L7.5 8.313l3.469 3.469a.575.575 0 0 0 .813-.814L8.313 7.5z" clipRule="evenodd"></path></svg>                              
                             </div>
                           )}
                         </span>
                       </TableCell>
-                      <TableCell className="w-1/5 md:w-auto flex justify-center">
+                      <TableCell className="w-1/5 md:w-auto flex justify-center gap-2">
                         <button
-                            className="bg-yellow-400 hover:bg-yellow-500 rounded-s-3xl py-2 px-3"
+                            className="rounded-s-3xl "
                             onClick={() => handleEditPet(pet)}
                         >
                             <svg
@@ -376,13 +362,13 @@ const PetComponent = () => {
                               viewBox="0 0 24 24"
                             >
                               <path
-                                fill="white"
+                                fill="orange"
                                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
                               ></path>
                             </svg>{" "}
                         </button>
                         <button
-                            className="bg-red-500 hover:bg-red-600 py-2 px-3 rounded-e-3xl"
+                            className=" rounded-e-3xl"
                             onClick={() => handleDeletePet(pet._id)}
                         >
                             <svg
@@ -392,7 +378,7 @@ const PetComponent = () => {
                               viewBox="0 0 24 24"
                             >
                               <path
-                                fill="white"
+                                fill="red"
                                 d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
                               ></path>
                             </svg>

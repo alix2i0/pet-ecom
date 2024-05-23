@@ -180,10 +180,10 @@ const CategoryList = () => {
                     className="text-gray-900 bg-gray-50 hover:bg-gray-100"
                   >
                     <td className="px-6 py-3">{category.name}</td>
-                    <td className="px-6 py-3 flex h-[100px] items-center justify-center">
+                    <td className="px-6 py-3 flex h-[100px] gap-2 items-center justify-center">
                       <button
                         onClick={() => handleEditCategory(category)}
-                        className="bg-yellow-400 hover:bg-yellow-500 rounded-s-3xl py-2 px-3"
+                        className=" rounded-s-3xl "
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -192,14 +192,14 @@ const CategoryList = () => {
                           viewBox="0 0 24 24"
                         >
                           <path
-                            fill="white"
+                            fill="orange"
                             d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
                           ></path>
                         </svg>{" "}
                       </button>
                       <button
                         onClick={() => handleDeleteClick(category._id)}
-                        className="bg-red-500 hover:bg-red-600 py-2 px-3 rounded-e-3xl"
+                        className=" rounded-e-3xl"
                       >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +208,7 @@ const CategoryList = () => {
                               viewBox="0 0 24 24"
                             >
                               <path
-                                fill="white"
+                                fill="red"
                                 d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
                               ></path>
                             </svg>

@@ -100,7 +100,7 @@ const PetsDetails = () => {
                   </svg>
                   <span className="text-gray-500">Gender</span>
                 </div>
-                <span className="ml-auto text-gray-900 capitalize flex items-center">
+                <span className={`ml-auto capitalize flex items-center font-medium ${pet.gender === "male" ? "text-blue-700" : "text-pink-500"}`}>
                   {pet.gender === "male" ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

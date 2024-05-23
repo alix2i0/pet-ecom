@@ -30,8 +30,8 @@ const Sidebar = () => {
           <div className="flex justify-center">
             <img
               alt=""
-              src="favico.png"
-              className="h-[100px] w-[100px] mb-5"
+              src="logoo.png"
+              className="h-[50px] w-[200px] mb-5"
             />
           </div>
 

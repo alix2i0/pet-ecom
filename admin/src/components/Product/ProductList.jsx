@@ -348,9 +348,9 @@ const ProductList = () => {
                         <td className="px-6 py-3 text-red-500 text-lg">
                           {product.quantity}
                         </td>
-                        <td className="px-6 py-3 flex h-[100px] w-[200px] items-center justify-center ">
+                        <td className="px-6 py-3 flex gap-2 h-[100px] w-[200px] items-center justify-center ">
                           <button
-                            className="bg-blue-500 hover:bg-blue-600 py-2 px-3 rounded-s-3xl"
+                            className="rounded-s-3xl"
                             onClick={() => handleOpenViewForm(product._id)}
                           >
                             <svg
@@ -363,16 +363,16 @@ const ProductList = () => {
                                 cx={16}
                                 cy={16}
                                 r={4}
-                                fill="white"
+                                fill="blue"
                               ></circle>
                               <path
-                                fill="white"
+                                fill="blue"
                                 d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 22.5a6.5 6.5 0 1 1 6.5-6.5a6.51 6.51 0 0 1-6.5 6.5"
                               ></path>
                             </svg>{" "}
                           </button>
                           <button
-                            className="bg-yellow-400 hover:bg-yellow-500 py-2 px-3"
+                            
                             onClick={() => handleOpenEditForm(product._id)}
                           >
                             <svg
@@ -382,13 +382,13 @@ const ProductList = () => {
                               viewBox="0 0 24 24"
                             >
                               <path
-                                fill="white"
+                                fill="orange"
                                 d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
                               ></path>
                             </svg>{" "}
                           </button>
                           <button
-                            className="bg-red-500 hover:bg-red-600 py-2 px-3 rounded-e-3xl"
+                            className="rounded-e-3xl"
                             onClick={() => handleDeleteClick(product._id)}
                           >
                             <svg
@@ -398,7 +398,7 @@ const ProductList = () => {
                               viewBox="0 0 24 24"
                             >
                               <path
-                                fill="white"
+                                fill="red"
                                 d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
                               ></path>
                             </svg>
