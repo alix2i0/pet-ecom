@@ -3,10 +3,9 @@ import { createUser, updateUser } from "../../services/reducer/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-const UserForm = ({ isOpen, onClose }) => {
+const UserForm = ({ isOpen, onClose, userId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userId } = useParams(); // Assuming you're using React Router for navigation
 
   const isEditMode = !!userId; // Check if userId exists, indicating edit mode
 
@@ -76,7 +75,9 @@ const UserForm = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      const userFormElements = document.getElementsByClassName("bg-primary shadow p-3");
+      const userFormElements = document.getElementsByClassName(
+        "bg-gray-100 shadow p-3"
+      );
       if (userFormElements.length > 0) {
         const userFormElement = userFormElements[0]; // Assuming there's only one element with this class
         if (!userFormElement.contains(e.target)) {
@@ -84,24 +85,23 @@ const UserForm = ({ isOpen, onClose }) => {
         }
       }
     };
-  
+
     document.addEventListener("mousedown", handleOutsideClick);
-  
+
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isOpen, onClose]);
-  
 
   return (
     <>
       {isOpen && (
         // {/* Card Section */}
-          // <div className="max-w-sm w-full bg-white shadow-md rounded-lg p-6">
-          // {/* <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto"> */}
-          // {/* Card */}
+        // <div className="max-w-sm w-full bg-white shadow-md rounded-lg p-6">
+        // {/* <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 mx-auto"> */}
+        // {/* Card */}
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-primary shadow p-3">
+          <div className="bg-gray-100 shadow p-3">
             <div className="bg-white p-5 rounded-lg">
               <div className="mb-8">
                 <h2 className="text-xl text-gray-800 mb-3 ">
@@ -162,7 +162,6 @@ const UserForm = ({ isOpen, onClose }) => {
                     />
                   </div>
                   {/* End Username Field */}
-
 
                   {/* Email Field */}
 

@@ -271,7 +271,7 @@ const PetModal = ({ isOpen, petData, handleClose, handleSubmit }) => {
                   >
                     Available
                   </label>
-                  <div className="block px-0 w-full text-sm bg-transparent border-gray-300 dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer">
+                  <div className="block px-0 w-full  bg-transparent border-gray-300 dark:text-gray-500 focus:outline-none focus:ring-0 focus:border-primary peer">
                     <input
                       type="radio"
                       id="available-yes"

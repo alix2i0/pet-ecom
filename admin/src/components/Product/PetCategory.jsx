@@ -60,7 +60,7 @@
 
 //   console.log('this the categories',categories);
 //   const category = categories.categories ;
-  
+
 //   return (
 //     <div className="mb-5">
 //       <label htmlFor="category" className="block mb-2 text-sm text-gray-900">
@@ -71,22 +71,25 @@
 //         className="block w-full p-1 text-gray-900 border-none border-gray-300 rounded-lg bg-gray-50"
 //       >
 //         <option value="">All Categories</option>
-//         {Array.isArray(category) && category.length > 0 && category.map(cat => 
+//         {Array.isArray(category) && category.length > 0 && category.map(cat =>
 //         (
 //           <option key={cat._id} value={cat._id}>
-//              {cat.name} 
+//              {cat.name}
 //           </option>
 //         )
 //         )}
 //       </select>
 //     </div>
-//   );  
+//   );
 // };
 
 // export default PetCategory;
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCategories, selectCategories } from '../../services/reducer/petCategorySlice';
+import {
+  fetchCategories,
+  selectCategories,
+} from "../../services/reducer/petCategorySlice";
 
 const PetCategory = ({ onChange }) => {
   const dispatch = useDispatch();
@@ -105,10 +108,7 @@ const PetCategory = ({ onChange }) => {
   const category = categories.categories;
 
   return (
-    <div className="mb-5">
-      <label htmlFor="category" className="block mb-2 text-sm text-gray-900">
-        Category
-      </label>
+    <div>
       <select
         id="category"
         value={selectedCategory}
@@ -116,15 +116,15 @@ const PetCategory = ({ onChange }) => {
         className="block w-full p-1 text-gray-900 border-none border-gray-300 rounded-lg bg-gray-50"
       >
         <option value="">All Categories</option>
-        {Array.isArray(category) && category.map((cat) => (
-          <option key={cat._id} value={cat._id}>
-            {cat.name}
-          </option>
-        ))}
+        {Array.isArray(category) &&
+          category.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
       </select>
     </div>
   );
 };
 
 export default PetCategory;
-
