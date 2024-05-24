@@ -29,17 +29,17 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center shadow-md ">
+    <div className="bg-gray-100 flex items-center justify-center shadow-md">
       <div
         className="max-w-screen-lg w-full h-screen my-5 grid md:grid-cols-2 md:gap-6 object-cover"
         style={{
-          backgroundImage: "url('bgg.png')",
+          backgroundImage: "url('bg.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
         <div></div>
-        <div className="p-12 text-white ">
+        <div className="p-12  ">
           <h2
             className="text-4xl font-bold mb-6 text-center"
             style={{ fontFamily: "Dynapuff" }}
@@ -54,8 +54,8 @@ const Login = () => {
                   name="username"
                   id="username"
                   className="block py-2.5 px-0 w-full text-sm bg-transparent
-                   border-0 border-b-[1px] border-gray-400 appearance-none dark:text-white
-                    dark:border-gray-400 dark:focus:border-secondary focus:outline-none 
+                   border-0 border-b-[1px] border-gray-300 appearance-none 
+                    dark:border-gray-300 dark:focus:border-secondary focus:outline-none 
                     focus:ring-0 focus:border-secondary peer"
                   placeholder=" "
                   value={username}
@@ -64,7 +64,7 @@ const Login = () => {
                 />
                 <label
                   htmlFor="username"
-                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium text-gray-500 absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Username
                 </label>
@@ -75,8 +75,8 @@ const Login = () => {
                   name="password"
                   id="password"
                   className="block py-2.5 px-0 w-full text-sm bg-transparent
-                   border-0 border-b-[1px] border-gray-400  dark:text-white
-                    dark:border-gray-400 dark:focus:border-secondary focus:outline-none 
+                   border-0 border-b-[1px] border-gray-300 
+                    dark:border-gray-300 dark:focus:border-secondary focus:outline-none 
                     focus:ring-0 focus:border-secondary peer "
                   placeholder=" "
                   value={password}
@@ -85,7 +85,7 @@ const Login = () => {
                 />
                 <label
                   htmlFor="password"
-                  className="peer-focus:font-medium absolute text-sm text-gray-400 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium text-gray-500 absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-secondary peer-focus:dark:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   Password
                 </label>
@@ -94,7 +94,7 @@ const Login = () => {
             <div className="flex flex-col gap-6">
               <Link
                 to="/forgot-password"
-                className="text-sm text-gray-300 underline flex justify-end hover:text-primary"
+                className="text-sm underline flex justify-end hover:text-primary"
               >
                 Forgot password?
               </Link>
@@ -107,14 +107,14 @@ const Login = () => {
             </div>
           </form>
           <div className="flex flex-col gap-2 mt-2">
-            <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300 dark:before:border-neutral-500 dark:after:border-neutral-500">
-              <p className="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">
+            <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-300 after:mt-0.5 after:flex-1 after:border-t after:border-gray-300 dark:before:border-gray-300 dark:after:border-gray-300">
+              <p className="mx-4 mb-0 text-center font-semibold text-gray-600">
                 OR
               </p>
             </div>
 
             <a
-              className=" flex w-full text-black items-center justify-center gap-2 
+              className=" flex w-full text-black items-center border border-gray-300 justify-center gap-2 
               rounded-lg bg-primary px-7 pb-2.5 pt-3 text-center text-md"
               style={{ backgroundColor: "#fff" }}
               href="#!"
@@ -128,9 +128,9 @@ const Login = () => {
               Continue with Google
             </a>
 
-            <div className="mt-3 text-sm text-center text-gray-300">
+            <div className="mt-3 text-sm text-center ">
               No account yet?&nbsp;
-              <Link to="/register" className="underline hover:text-primary">
+              <Link to="/register" className="underline text-primary">
                 Sign up now
               </Link>
             </div>

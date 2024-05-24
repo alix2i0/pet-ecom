@@ -39,8 +39,8 @@ const PetComponent = () => {
   const [modalData, setModalData] = useState({
     name: "",
     age: "",
-    gender:"",
-    isVaccinated:false,
+    gender: "",
+    isVaccinated: false,
     availability: false,
     location: "",
     categoryName: "",
@@ -132,8 +132,8 @@ const PetComponent = () => {
   };
 
   return (
-    <div className="bg-primary">
-      <div className="p-3 bg-primary sm:ml-64 overflow-hidden">
+    <div className="bg-gray-100">
+      <div className="p-3 bg-gray-100 sm:ml-64 overflow-hidden">
         <div className="bg-white p-3 shadow-md sm:rounded-lg">
           <h3 className="text-xl">All Pets</h3>
           <div className="flex flex-col gap-3">
@@ -169,7 +169,7 @@ const PetComponent = () => {
                 </div>
                 <button
                   onClick={handleAddPet}
-                  className="btn p-2 hover:bg-secondary rounded-lg bg-primary text-white"
+                  className="py-2 px-4 hover:bg-green-600 rounded-3xl bg-green-500 text-white"
                 >
                   <FontAwesomeIcon icon={faPlusSquare} /> Add Pet
                 </button>
@@ -213,8 +213,15 @@ const PetComponent = () => {
                       Pet Name
                     </TableHead>
                     <TableHead className="w-1/5 md:w-auto col">Age</TableHead>
-                    <TableHead className="w-1/5 md:w-auto col">Gender</TableHead>
-                    <TableHead className="w-1/5 md:w-auto col">Vaccination Status</TableHead>
+                    <TableHead className="w-1/5 md:w-auto col">
+                      Gender
+                    </TableHead>
+                    <TableHead className="w-1/5 md:w-auto col">
+                      Location
+                    </TableHead>
+                    <TableHead className="w-1/5 md:w-auto col">
+                      Vaccination
+                    </TableHead>
                     <TableHead className="w-1/5 md:w-auto col">
                       Availability
                     </TableHead>
@@ -223,15 +230,44 @@ const PetComponent = () => {
                 </TableHeader>
                 <TableBody>
                   {getFilteredAndSortedPets().map((pet) => (
-                    <TableRow key={pet._id}>
-                      <TableCell className="w-1/5 md:w-auto text-center">
+                    <TableRow key={pet._id} className="h-[52px]">
+                      <TableCell className="w-1/5 md:w-auto text-center ">
                         {pet.name}
                       </TableCell>
                       <TableCell className="w-1/5 md:w-auto text-center">
                         {pet.age}
                       </TableCell>
-                      <TableCell className={`w-1/5 md:w-auto text-center capitalize ${pet.gender==='male' ? 'text-blue-500':'text-pink-500'}`}>
-                        {pet.gender} 
+                      <TableCell
+                        className={`w-1/5 md:w-auto capitalize flex items-center justify-center`}
+                      >
+                        {pet.gender === "male" ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="2em"
+                            height="2em"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="blue"
+                              d="M20 4v6h-2V7.425l-3.975 3.95q.475.7.725 1.488T15 14.5q0 2.3-1.6 3.9T9.5 20t-3.9-1.6T4 14.5t1.6-3.9T9.5 9q.825 0 1.625.237t1.475.738L16.575 6H14V4zM9.5 11q-1.45 0-2.475 1.025T6 14.5t1.025 2.475T9.5 18t2.475-1.025T13 14.5t-1.025-2.475T9.5 11"
+                            ></path>
+                          </svg>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="2em"
+                            height="2em"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="#e600b4"
+                              d="M11 21v-2H9v-2h2v-2.1q-1.975-.35-3.238-1.888T6.5 9.45q0-2.275 1.613-3.862T12 4t3.888 1.588T17.5 9.45q0 2.025-1.263 3.563T13 14.9V17h2v2h-2v2zm1-8q1.45 0 2.475-1.025T15.5 9.5t-1.025-2.475T12 6T9.525 7.025T8.5 9.5t1.025 2.475T12 13"
+                            />
+                          </svg>
+                        )}
+                      </TableCell>
+                      <TableCell className="w-1/5 md:w-auto text-center">
+                        {pet.location}
                       </TableCell>
                       <TableCell className="w-1/5 md:w-auto text-center">
                         <span
@@ -239,34 +275,113 @@ const PetComponent = () => {
                             pet.isVaccinated ? "text-green-500" : "text-red-500"
                           }
                         >
-                          {pet.isVaccinated ? "Vaccinated" : "Not Vaccinated"}
+                          {pet.isVaccinated ? (
+                            <div className="flex justify-center items-center gap-2">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="2em"
+                                height="2em"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  fill="none"
+                                  stroke="green"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2.5"
+                                  d="M20 7L10 17l-5-5"
+                                />
+                              </svg>
+                              
+                            </div>
+                          ) : (
+                            <div className="flex justify-center items-center">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="3em"
+                                height="3em"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  fill="none"
+                                  stroke="red"
+                                  stroke-linecap="round"
+                                  stroke-width="1.5"
+                                  d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
+                                />
+                              </svg>{" "}
+                              
+                            </div>
+                          )}
                         </span>
                       </TableCell>
                       <TableCell className="w-1/5 md:w-auto text-center">
                         <span
-                          className={
-                            pet.availability ? "text-green-500" : "text-red-500"
-                          }
+                          className={`
+                            ${
+                              pet.availability
+                                ? "text-green-500"
+                                : "text-red-500"
+                            }`}
                         >
-                          {pet.availability ? "Available" : "Not Available"}
+                          {pet.availability ? (
+                            <div className="flex justify-center items-center gap-2">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="2em"
+                                height="2em"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  fill="none"
+                                  stroke="green"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2.5"
+                                  d="M20 7L10 17l-5-5"
+                                />
+                              </svg>
+                              
+                            </div>
+                          ) : (
+                            <div className="flex justify-center items-center">
+<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 15 15"><path fill="red" fillRule="evenodd" d="M11.782 4.032a.575.575 0 1 0-.813-.814L7.5 6.687L4.032 3.218a.575.575 0 0 0-.814.814L6.687 7.5l-3.469 3.468a.575.575 0 0 0 .814.814L7.5 8.313l3.469 3.469a.575.575 0 0 0 .813-.814L8.313 7.5z" clipRule="evenodd"></path></svg>                              
+                            </div>
+                          )}
                         </span>
                       </TableCell>
-                      <TableCell className="w-1/5 md:w-auto flex gap-2 justify-center">
+                      <TableCell className="w-1/5 md:w-auto flex justify-center gap-2">
                         <button
-                          className="text-blue-500 hover:text-blue-700 font-bold"
-                          onClick={() => handleEditPet(pet)}
+                            className="rounded-s-3xl "
+                            onClick={() => handleEditPet(pet)}
                         >
-                          <img src="edit.png" alt="edit" className="h-[20px]" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.5em"
+                              height="1.5em"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="orange"
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
+                              ></path>
+                            </svg>{" "}
                         </button>
                         <button
-                          className="text-red-500 hover:text-red-700 font-bold"
-                          onClick={() => handleDeletePet(pet._id)}
+                            className=" rounded-e-3xl"
+                            onClick={() => handleDeletePet(pet._id)}
                         >
-                          <img
-                            src="delete.png"
-                            alt="delete"
-                            className="h-[20px]"
-                          />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.5em"
+                              height="1.5em"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="red"
+                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
+                              ></path>
+                            </svg>
                         </button>
                       </TableCell>
                     </TableRow>
@@ -313,7 +428,7 @@ const PetComponent = () => {
                         className={`relative block px-3 py-1.5 text-sm transition-all duration-300 ${
                           currentPage === page + 1
                             ? "bg-primary hover:bg-secondary text-white"
-                            : "text-neutral-600 hover:bg-neutral-200"
+                            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                         }`}
                       >
                         {page + 1}
@@ -325,7 +440,6 @@ const PetComponent = () => {
                   <button
                     onClick={() => handlePagination(currentPage + 1)}
                     className="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-
                     disabled={currentPage === totalPages}
                   >
                     Next

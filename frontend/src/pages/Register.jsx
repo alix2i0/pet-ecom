@@ -65,13 +65,13 @@ const Register = () => {
       <div className="lg:flex-1 flex items-center justify-center">
         <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
           <div className="flex flex-col justify-center items-center mb-8">
-            <a href="/">
+            {/* <a href="/">
               <img
                 src="public/Logo.png"
                 alt="Pet Store Logo"
                 className="h-12 mr-2 mb-6 "
               />
-            </a>
+            </a> */}
             <h1 className="text-3xl font-light">REGISTER</h1>
           </div>
           <form action="POST" onSubmit={handleSubmit}>

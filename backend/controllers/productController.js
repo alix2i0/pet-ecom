@@ -260,7 +260,6 @@ exports.getAllProductsAdmin = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 // Search products
 exports.searchProducts = async (req, res) => {
   try {

@@ -18,7 +18,6 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import PetCategory from "./PetCategory";
 // import { selectCategories } from "../../services/reducer/petCategorySlice";
 
-
 const ProductList = () => {
   const dispatch = useDispatch();
   const products = useSelector(selectProduct);
@@ -38,7 +37,6 @@ const ProductList = () => {
   //   setSelectedCategory(e.target.value);
   // };
 
-  
   /*********************************************/
   const [isProductFormOpen, setIsProductFormOpen] = useState(false);
   const [isEditFormOpen, setIsEditFormOpen] = useState(false);
@@ -55,7 +53,6 @@ const ProductList = () => {
   const [viewProductId, setViewProductId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
 
-
   // useEffect(() => {
   //   dispatch(
   //     fetchProduct({
@@ -70,7 +67,7 @@ const ProductList = () => {
   //   console.log('imported products', importedproducts);
   // }, [importedproducts]);
   useEffect(() => {
-    console.log('Selected pet category:', selectedCategory);
+    console.log("Selected pet category:", selectedCategory);
     if (selectedCategory !== "") {
       // Fetch products based on selected pet category
       dispatch(
@@ -96,7 +93,6 @@ const ProductList = () => {
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
     setCurrentPage(1); // Reset pagination to first page
-
   };
 
   const handleSearch = (e) => {
@@ -115,7 +111,13 @@ const ProductList = () => {
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
 
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
   let filteredProducts = Array.isArray(products.product)
     ? products.product.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -191,10 +193,10 @@ const ProductList = () => {
         })
       );
       console.log("Product deleted successfully.");
-      } catch (error) {
-        console.error("Error deleting product:", error);
-      }
-    };
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
 
   const closeModal = () => {
     setDeleteUserId(null);
@@ -268,7 +270,7 @@ const ProductList = () => {
                 </div>
                 <PetCategory onChange={handleCategoryChange} />
                 <button
-                  className="p-2 hover:bg-secondary rounded-lg bg-primary text-white"
+                  className="py-2 px-4 hover:bg-green-600 rounded-3xl bg-green-500 text-white"
                   onClick={handleOpenProductForm}
                 >
                   <FontAwesomeIcon icon={faPlusSquare} /> Add Product
@@ -333,44 +335,73 @@ const ProductList = () => {
                     {filteredProducts.map((product) => (
                       <tr
                         key={product._id}
-                        className="text-gray-900 hover:bg-gray-100 bg-gray-50 text-sm font-medium "
+                        className="text-gray-900 hover:bg-gray-100 bg-gray-50 text-sm "
                       >
                         <td className="px-6 py-3">{product.name}</td>
-                        <td className="px-6 py-3 text-center text-emerald-500">
+                        <td className="px-6 py-3 text-center text-lg font-medium">
                           ${product.price}
                         </td>
                         <td className="px-6 py-3">{product.description}</td>
-                        <td className="px-6 py-3">{product.category ? product.category.name : ''}</td>
-                        <td className="px-6 py-3 text-red-500">
+                        <td className="px-6 py-3">
+                          {product.category ? product.category.name : ""}
+                        </td>
+                        <td className="px-6 py-3 text-red-500 text-lg">
                           {product.quantity}
                         </td>
-                        <td className="px-6 py-3 flex h-[100px] w-[200px] items-center justify-around gap-1 ">
+                        <td className="px-6 py-3 flex gap-2 h-[100px] w-[200px] items-center justify-center ">
                           <button
+                            className="rounded-s-3xl"
                             onClick={() => handleOpenViewForm(product._id)}
                           >
-                            <img
-                              src="view.png"
-                              alt="view"
-                              className="h-[20px]"
-                            />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.5em"
+                              height="1.5em"
+                              viewBox="0 0 32 32"
+                            >
+                              <circle
+                                cx={16}
+                                cy={16}
+                                r={4}
+                                fill="blue"
+                              ></circle>
+                              <path
+                                fill="blue"
+                                d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 22.5a6.5 6.5 0 1 1 6.5-6.5a6.51 6.51 0 0 1-6.5 6.5"
+                              ></path>
+                            </svg>{" "}
                           </button>
                           <button
+                            
                             onClick={() => handleOpenEditForm(product._id)}
                           >
-                            <img
-                              src="edit.png"
-                              alt="edit"
-                              className="h-[20px]"
-                            />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.5em"
+                              height="1.5em"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="orange"
+                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
+                              ></path>
+                            </svg>{" "}
                           </button>
                           <button
+                            className="rounded-e-3xl"
                             onClick={() => handleDeleteClick(product._id)}
                           >
-                            <img
-                              src="delete.png"
-                              alt="delete"
-                              className="h-[20px]"
-                            />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.5em"
+                              height="1.5em"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="red"
+                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
+                              ></path>
+                            </svg>
                           </button>
                         </td>
                       </tr>
@@ -378,11 +409,80 @@ const ProductList = () => {
                   </tbody>
                 </table>
               </div>
-              <Pagination
+              {/* <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={paginate}
-              />
+              /> */}
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                  className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                    currentPage === 1
+                      ? "text-gray-900  pointer-events-none"
+                      : "text-gray-600 hover:bg-neutral-200"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                    ></path>
+                  </svg>
+                  Previous
+                </button>
+                <div className="flex items-center gap-2">
+
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    className={`relative block px-3 py-1.5 text-sm transition-all duration-300 ${
+                      currentPage === index + 1
+                        ? "bg-primary text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}</div>
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                    currentPage === totalPages
+                      ? "text-gray-900  pointer-events-none"
+                      : "text-gray-600 hover:bg-neutral-200"
+                  }`}
+                >
+                  Next
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
             </div>
             {deleteModalOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
