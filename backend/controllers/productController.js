@@ -1,6 +1,6 @@
 const Productmd = require("../models/Product.js");
 const Category = require("../models/category.js");
-const petCategory = require("../models/PetCategory.js")
+const petCategory = require("../models/PetCategory.js");
 const Order = require("../models/Order.js");
 // Fetch all products (accessible to both admin and normal user)
 // exports.getAllProducts = async (req, res) => {
@@ -261,9 +261,6 @@ exports.getAllProductsAdmin = async (req, res) => {
   }
 };
 
-
-
-
 // Search products
 exports.searchProducts = async (req, res) => {
   try {
@@ -463,8 +460,7 @@ exports.getMostPopularProduct = async (req, res) => {
         },
       },
       { $sort: { totalQuantitySold: -1 } },
-      { $limit: 5 }
-
+      { $limit: 5 },
     ]);
     if (popularProduct.length === 0) {
       return res.status(404).json({ message: "No orders found" });
