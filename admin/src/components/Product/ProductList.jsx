@@ -270,7 +270,7 @@ const ProductList = () => {
                 </div>
                 <PetCategory onChange={handleCategoryChange} />
                 <button
-                  className="py-2 px-4 hover:bg-green-600 rounded-3xl bg-green-500 text-white"
+                  className="py-2 px-4 hover:bg-green-600 rounded-lg bg-green-500 text-white"
                   onClick={handleOpenProductForm}
                 >
                   <FontAwesomeIcon icon={faPlusSquare} /> Add Product
