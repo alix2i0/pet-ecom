@@ -3,16 +3,17 @@ export default function Footer() {
     <footer className="bg-amber-600 py-6 dark:bg-gray-800 w-full">
       <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
         <div className="flex items-center gap-2">
-          <a href="#">
-            <PawPrintIcon className="h-6 w-6 text-gray-50 dark:text-gray-400" />
+          <a href="/">
+            {/* <PawPrintIcon className="h-6 w-6 text-gray-50 dark:text-gray-400" />
             <span className="text-sm font-medium text-gray-50 dark:text-gray-300">
               Pet Store
-            </span>
+            </span> */}
+            <img src="../../public/logoo.png" className="w-40 ml-8"></img>
           </a>
         </div>
         <nav className="flex items-center gap-4 ">
           <a
-            className="text-sm font-semibold pl-8 text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
             href="/"
           >
             Home
@@ -55,7 +56,7 @@ export default function Footer() {
         </div>
       </div>
       <div>
-        <p className="text-sm flex justify-center items-center text-gray-50 dark:text-gray-400">
+        <p className="text-sm flex justify-end mt-8 items-center text-gray-50 dark:text-gray-400">
           © 2024 Pet Store. All rights reserved.
         </p>
       </div>

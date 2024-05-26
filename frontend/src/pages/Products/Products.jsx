@@ -21,17 +21,11 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown-menu";
 import Filters from "../../components/Filters";
+import Footer from "@/components/Footer";
 
 const Products = () => {
-  const {
-    product,
-    loading,
-    error,
-    totalPages,
-    search,
-    filters,
-    sort,
-  } = useSelector((state) => state.product);
+  const { product, loading, error, totalPages, search, filters, sort } =
+    useSelector((state) => state.product);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState(search);
   const [selectedFilters, setSelectedFilters] = useState(filters);
@@ -121,78 +115,74 @@ const Products = () => {
   return (
     <div className="bg-gray-50">
       <Navbar />
-      <section className="w-full pb-12 md:py-24 lg:py-16">
-        <div className="">
-          <img src="../../public/cover.png" className="size-full "></img>
+      <section className="w-full py-12 md:py-24 lg:py-16">
+        <div className="w-full">
+          <img src="../../public/cover.png" className="w-full" alt="Cover" />
         </div>
-        <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
-          <div className="space-y-3 ">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Our Pet Store Products
+        <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl font-bold font-serif tracking-tighter pt-8 sm:text-4xl md:text-5xl">
+              LET&apos;S SHOP !!
             </h2>
-            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              Discover our wide range of high-quality pet products tailored to
-              meet your furry friends&apos; needs.
+            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl lg:text-base xl:text-xl">
+              Explore our extensive selection of premium pet products designed
+              to cater to your furry friends&apos; every need.
             </p>
           </div>
           <form
             onSubmit={handleSearchSubmit}
-            className="flex items-center justify-end mb-6 gap-2"
+            className="flex flex-col md:flex-row items-center justify-center mt-6 mb-6 gap-2"
           >
-            <div className="mx-2 px-4 md:px-6 py-4 gap-2 flex items-center z-40">
-              <div className="flex">
-                <input
-                  type="search"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  placeholder="Search products..."
-                  className="px-4 py-2 border hover:border-amber-500 rounded-l-md shadow-sm sm:text-sm flex-grow"
-                />
-                <button
-                  type="submit"
-                  className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600"
-                >
-                  <FaSearch className="text-white" />
-                </button>
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="shrink-0" variant="outline">
-                    <ArrowUpDownIcon className="w-4 h-4 mr-2" />
-                    Sort by
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[200px]">
-                  <DropdownMenuRadioGroup
-                    value={sort}
-                    onValueChange={handleSortChange}
-                  >
-                    <DropdownMenuRadioItem value="featured">
-                      Featured
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="newest">
-                      Newest
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="priceLowHigh">
-                      Price: Low to High
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="priceHighLow">
-                      Price: High to Low
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <div>
-                <Filters
-                  searchTerm={searchTerm}
-                  setSearchTerm={setSearchTerm}
-                  selectedFilters={selectedFilters}
-                  setSelectedFilters={setSelectedFilters}
-                  setCurrentPage={setCurrentPage}
-                  onFilterChange={handleFilterChange}
-                />
-              </div>
+            <div className="flex items-center w-full md:w-auto">
+              <input
+                type="search"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Search products..."
+                className="px-4 py-2 w-full md:w-auto border hover:border-amber-500 rounded-l-md shadow-sm sm:text-sm flex-grow"
+              />
+              <button
+                type="submit"
+                className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600"
+              >
+                <FaSearch className="text-white" />
+              </button>
             </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="shrink-0" variant="outline">
+                  <ArrowUpDownIcon className="w-4 h-4 mr-2" />
+                  Sort by
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[200px]">
+                <DropdownMenuRadioGroup
+                  value={sort}
+                  onValueChange={handleSortChange}
+                >
+                  <DropdownMenuRadioItem value="featured">
+                    Featured
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="newest">
+                    Newest
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="priceLowHigh">
+                    Price: Low to High
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="priceHighLow">
+                    Price: High to Low
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Filters
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedFilters={selectedFilters}
+              setSelectedFilters={setSelectedFilters}
+              setCurrentPage={setCurrentPage}
+              onFilterChange={handleFilterChange}
+            />
           </form>
 
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -245,6 +235,7 @@ const Products = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

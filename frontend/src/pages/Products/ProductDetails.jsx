@@ -40,21 +40,21 @@ export default function ProductDetails() {
         exit={{ opacity: 0 }}
         className="fixed inset-0 pt-16 z-30 flex items-center justify-center bg-gray-50 bg-opacity-75"
       >
-        <Card className="max-w-4xl bg-white p-4">
-          <div className=" z-40">
+        <Card className="max-w-4xl w-full bg-white p-4 mx-2 sm:mx-4 md:mx-6 lg:mx-8 xl:mx-12">
+          <div className="z-40">
             <Breadcrumb paths={breadcrumbPaths} />
           </div>
-          <CardContent className="p-2 ">
+          <CardContent className="p-2">
             <motion.div
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
               className="flex flex-col lg:flex-row"
             >
-              <div className="flex-1">
+              <div className="flex-1 mb-6 lg:mb-0">
                 <img
                   alt={product.name}
-                  className="w-full h-auto"
+                  className="w-full h-auto rounded-lg"
                   height="400"
                   src={product.image || "/placeholder.svg"}
                   style={{
@@ -69,7 +69,7 @@ export default function ProductDetails() {
                       <motion.img
                         key={index}
                         alt={`Thumbnail ${index + 1}`}
-                        className="w-12 h-12"
+                        className="w-12 h-12 rounded-full"
                         height="50"
                         src={thumbnail || "/placeholder.svg"}
                         style={{
@@ -91,8 +91,10 @@ export default function ProductDetails() {
                 transition={{ duration: 0.5 }}
                 className="flex-1 mt-6 lg:mt-0 lg:ml-8"
               >
-                <h2 className="text-2xl font-bold">{product.name}</h2>
-                <div className="mt-1 flex items-center text-white">
+                <h2 className="text-2xl font-bold text-center lg:text-left">
+                  {product.name}
+                </h2>
+                <div className="mt-1 flex items-center justify-center lg:justify-start text-white">
                   <Badge
                     variant="secondary"
                     className="bg-gray-700 hover:bg-gray-700"
@@ -103,9 +105,11 @@ export default function ProductDetails() {
                     Product code: {product.code || "N/A"}
                   </span>
                 </div>
-                <p className="mt-4 text-gray-700">{product.description}</p>
+                <p className="mt-4 text-gray-700 text-center lg:text-left">
+                  {product.description}
+                </p>
                 <hr className="my-6" />
-                <div className="flex items-baseline space-x-2">
+                <div className="flex items-baseline justify-center lg:justify-start space-x-2">
                   <span className="text-3xl font-semibold">
                     ${product.price}
                   </span>
@@ -115,7 +119,7 @@ export default function ProductDetails() {
                     </span>
                   )}
                 </div>
-                <div className="flex mt-6 ">
+                <div className="flex mt-6 justify-center lg:justify-start">
                   <Button className="bg-amber-600 hover:bg-amber-700 text-white">
                     Add to Cart
                   </Button>
@@ -128,7 +132,7 @@ export default function ProductDetails() {
                 </div>
               </motion.div>
             </motion.div>
-            <div className="mt-8">
+            <div className="mt-8 text-center lg:text-left">
               <h3 className="text-xl font-semibold">Built for Pets</h3>
               <p className="mt-2 text-gray-700">
                 {product.additionalInfo ||
