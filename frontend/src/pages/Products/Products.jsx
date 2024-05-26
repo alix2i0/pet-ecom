@@ -219,11 +219,11 @@ const Products = () => {
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-center mt-6">
+          <div className="flex items-center justify-center mt-6 text-white">
             <Button onClick={handlePreviousPage} disabled={currentPage === 1}>
               Previous
             </Button>
-            <span className="mx-4">
+            <span className="mx-4 text-gray-900">
               Page {currentPage} of {totalPages}
             </span>
             <Button
