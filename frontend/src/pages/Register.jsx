@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  register,
+  googleLogin,
+} from "../../../admin/src/services/reducer/authSlice"; // Import googleLogin action
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const error = useSelector((state) => state.auth.isError);
+
+  if (error) {
+    console.log(error);
+  }
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -21,9 +34,8 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      console.log("username,email,password : ", username, email, password);
+      console.log("username, email, password: ", username, email, password);
       const res = await fetch("http://localhost:3300/api/auth/register", {
         method: "POST",
         headers: {
@@ -36,7 +48,7 @@ const Register = () => {
         }),
       });
 
-      console.log("Response : ", res);
+      console.log("Response: ", res);
 
       if (res.ok) {
         toast.success("Registration successful!");
@@ -46,12 +58,22 @@ const Register = () => {
         toast.error("Registration failed: " + errorData.message);
       }
     } catch (error) {
-      console.error("Error : ", error);
+      console.error("Error: ", error);
       toast.error(
         "An error occurred while registering. Please try again later."
       );
     }
   };
+
+  const handleGoogleSignIn = () => {
+    dispatch(googleLogin());
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/"); // Redirect to landing page
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="flex flex-col lg:flex-row items-stretch h-screen bg-gray-100">
@@ -121,10 +143,19 @@ const Register = () => {
               Register
             </button>
           </form>
+          <button
+            onClick={handleGoogleSignIn}
+            className="mt-4 bg-white text-gray-900 border-gray-900 border px-4 py-2 rounded-md hover:bg-gray-50 w-full"
+          >
+            <div className="flex items-center justify-center gap-4">
+              <img src="../../public/google.svg" className="w-8 h-8" />
+              Sign in with Google
+            </div>
+          </button>
           <div className="mt-4 text-gray-600">
             <span>
               Already have an account?{" "}
-              <Link to="/login" className="text-amber-600">
+              <Link to="/login" className="text-amber-600 hover:text-amber-700">
                 Login
               </Link>
             </span>

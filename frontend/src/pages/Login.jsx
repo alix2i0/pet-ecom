@@ -88,7 +88,7 @@ const Login = () => {
         </button>
         <div className="mt-4 text-gray-600">
           Don&apos;t have an account?{" "}
-          <Link to="/register" className="text-blue-600">
+          <Link to="/register" className="text-amber-600 hover:text-amber-700">
             Register
           </Link>
         </div>
