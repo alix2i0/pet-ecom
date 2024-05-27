@@ -286,13 +286,12 @@ const PetComponent = () => {
                                 <path
                                   fill="none"
                                   stroke="green"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2.5"
                                   d="M20 7L10 17l-5-5"
                                 />
                               </svg>
-                              
                             </div>
                           ) : (
                             <div className="flex justify-center items-center">
@@ -305,12 +304,11 @@ const PetComponent = () => {
                                 <path
                                   fill="none"
                                   stroke="red"
-                                  stroke-linecap="round"
-                                  stroke-width="1.5"
+                                  strokeLinecap="round"
+                                  strokeWidth="1.5"
                                   d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
                                 />
                               </svg>{" "}
-                              
                             </div>
                           )}
                         </span>
@@ -335,53 +333,64 @@ const PetComponent = () => {
                                 <path
                                   fill="none"
                                   stroke="green"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2.5"
                                   d="M20 7L10 17l-5-5"
                                 />
                               </svg>
-                              
                             </div>
                           ) : (
                             <div className="flex justify-center items-center">
-<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 15 15"><path fill="red" fillRule="evenodd" d="M11.782 4.032a.575.575 0 1 0-.813-.814L7.5 6.687L4.032 3.218a.575.575 0 0 0-.814.814L6.687 7.5l-3.469 3.468a.575.575 0 0 0 .814.814L7.5 8.313l3.469 3.469a.575.575 0 0 0 .813-.814L8.313 7.5z" clipRule="evenodd"></path></svg>                              
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="2em"
+                                height="2em"
+                                viewBox="0 0 15 15"
+                              >
+                                <path
+                                  fill="red"
+                                  fillRule="evenodd"
+                                  d="M11.782 4.032a.575.575 0 1 0-.813-.814L7.5 6.687L4.032 3.218a.575.575 0 0 0-.814.814L6.687 7.5l-3.469 3.468a.575.575 0 0 0 .814.814L7.5 8.313l3.469 3.469a.575.575 0 0 0 .813-.814L8.313 7.5z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
                             </div>
                           )}
                         </span>
                       </TableCell>
                       <TableCell className="w-1/5 md:w-auto flex justify-center gap-2">
                         <button
-                            className="rounded-s-3xl "
-                            onClick={() => handleEditPet(pet)}
+                          className="rounded-s-3xl "
+                          onClick={() => handleEditPet(pet)}
                         >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="1.5em"
-                              height="1.5em"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                fill="orange"
-                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
-                              ></path>
-                            </svg>{" "}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="1.5em"
+                            height="1.5em"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="orange"
+                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM21.41 6.34l-3.75-3.75l-2.53 2.54l3.75 3.75z"
+                            ></path>
+                          </svg>{" "}
                         </button>
                         <button
-                            className=" rounded-e-3xl"
-                            onClick={() => handleDeletePet(pet._id)}
+                          className=" rounded-e-3xl"
+                          onClick={() => handleDeletePet(pet._id)}
                         >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="1.5em"
-                              height="1.5em"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                fill="red"
-                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
-                              ></path>
-                            </svg>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="1.5em"
+                            height="1.5em"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="red"
+                              d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
+                            ></path>
+                          </svg>
                         </button>
                       </TableCell>
                     </TableRow>

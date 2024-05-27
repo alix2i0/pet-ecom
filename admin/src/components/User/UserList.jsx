@@ -183,7 +183,10 @@ const UserList = () => {
               </div>
               {showAddUserForm && ( // Conditionally render the form
                 <div className="p-3 bg-gray-200 rounded-lg">
-                  <UserForm isOpen={showAddUserForm} onClose={handleCloseForm} />
+                  <UserForm
+                    isOpen={showAddUserForm}
+                    onClose={handleCloseForm}
+                  />
                 </div>
               )}
               <div className="overflow-x-auto">
@@ -248,9 +251,9 @@ const UserList = () => {
                                 <path
                                   fill="none"
                                   stroke="green"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2.5"
                                   d="M20 7L10 17l-5-5"
                                 />
                               </svg>

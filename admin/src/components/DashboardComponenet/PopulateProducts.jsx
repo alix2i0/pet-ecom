@@ -19,7 +19,7 @@ function PopularProducts() {
 
         {popularProducts ? [popularProducts].map((product) => (
         <Link
-            key={product._id} // Assuming _id is unique for each product
+            key={product._id} 
             to={`/product/${product._id}`}
             className="flex items-start hover:no-underline"
           >
