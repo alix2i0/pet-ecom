@@ -76,11 +76,7 @@ const Navbar = () => {
             href="/"
             aria-label="Petopia"
           >
-            <img
-              src="../../logoo.png"
-              alt="Pet Store"
-              className="w-40 ml-8"
-            />
+            <img src="../../logoo.png" alt="Pet Store" className="w-40 ml-8" />
           </a>
         </div>
         {isAuthenticated ? (
@@ -221,12 +217,12 @@ const Navbar = () => {
             >
               Contact
             </a>
-            <a
+            {/* <a
               className="relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300"
               href="#"
             >
               Blog
-            </a>
+            </a> */}
           </div>
         </div>
       </nav>
