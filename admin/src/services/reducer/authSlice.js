@@ -1,10 +1,21 @@
 // authSlice.js
-import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  isRejectedWithValue,
+} from "@reduxjs/toolkit";
 import axios from "axios";
 
+import {
+  auth,
+  provider,
+  signInWithPopup,
+} from "../../../../frontend/src/lib/firebase";
+
 const initialState = {
-  isAuthenticated: localStorage.getItem('isAuthenticated') === 'true',
-  auth: null,
+  isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
+  auth: JSON.parse(localStorage.getItem("auth")) || null,
+  userId: localStorage.getItem('userId') || null,
   isLoading: false,
   isError: null,
   admin: false,
@@ -14,7 +25,7 @@ export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
   const response = await axios.get("http://localhost:3300/api/auth/profile", {
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
   return response.data.data;
@@ -22,16 +33,21 @@ export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
 
 export const login = createAsyncThunk("auth/login", async (data) => {
   try {
-    const response = await axios.post("http://localhost:3300/api/auth/login", data, {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axios.post(
+      "http://localhost:3300/api/auth/login",
+      data,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     console.log("response ", response);
 
     // Stockage de l'authentification dans le localStorage
     localStorage.setItem('isAuthenticated', true);
+    localStorage.setItem('userId', response.data.userId);
 
     return response.data;
   } catch (error) {
@@ -43,46 +59,83 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   const response = await axios.get("http://localhost:3300/api/auth/logout", {
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
   console.log("response logout ", response.data);
-  localStorage.removeItem('isAuthenticated');
+  localStorage.removeItem("isAuthenticated");
   return response.data;
 });
 
-export const forgotPassword = createAsyncThunk ("auth/forgotPassword", async (data) => {
-  try {
-    console.log("data", data);
-    const response = await axios.post("http://localhost:3300/api/auth/forgotPassword", data);
-    console.log("response", response);
-    return response.data;
-  } catch (error) {
-    return isRejectedWithValue(error.response.data);
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (data) => {
+    try {
+      console.log("data", data);
+      const response = await axios.post(
+        "http://localhost:3300/api/auth/forgotPassword",
+        data
+      );
+      console.log("response", response);
+      return response.data;
+    } catch (error) {
+      return isRejectedWithValue(error.response.data);
+    }
   }
+);
 
-})
-
-export const passwordReset = createAsyncThunk ("auth/passwordReset", async (data) => {
-  try {
-    const response = await axios.put(`http://localhost:3300/api/auth/passwordReset/${data.token}`, data);
-    console.log("response", response.data);
-    return response.data;
-  } catch (error) {
-    return isRejectedWithValue(error.response.data);
+export const passwordReset = createAsyncThunk(
+  "auth/passwordReset",
+  async (data) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3300/api/auth/passwordReset/${data.token}`,
+        data
+      );
+      console.log("response", response.data);
+      return response.data;
+    } catch (error) {
+      return isRejectedWithValue(error.response.data);
+    }
   }
-})
+);
 
 export const register = createAsyncThunk("auth/register", async (data) => {
   try {
-    const response = await axios.post("http://localhost:3300/auth/register", data);
+    const response = await axios.post(
+      "http://localhost:3300/auth/register",
+      data
+    );
     return response.data;
   } catch (error) {
     return isRejectedWithValue(error.response.data);
   }
 });
 
+// Google Login
+export const googleLogin = createAsyncThunk("auth/googleLogin", async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    // Optionally, send the user data to your backend
+    // const response = await axios.post("http://localhost:3300/api/auth/googleLogin", { user });
+    // return response.data;
 
+    // For now, just return the user data directly
+    return {
+      success: true,
+      user: {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        accessToken: user.accessToken,
+      },
+    };
+  } catch (error) {
+    return isRejectedWithValue(error.message);
+  }
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -97,21 +150,19 @@ export const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
-        if(action.payload.success) {
+        if (action.payload.success) {
           state.auth = action.payload;
-          state.isAuthenticated = true
+          state.isAuthenticated = true;
+          state.userId = action.payload.userId;
           state.admin = action.payload.role;
+        } else {
+          state.isError = action.payload;
         }
-        else {
-          state.isError = action.payload
-        }
-        
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
       })
-
 
       //Logout
       .addCase(logout.pending, (state) => {
@@ -184,6 +235,26 @@ export const authSlice = createSlice({
       .addCase(fetchUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.payload;
+      })
+      // Google Login
+      .addCase(googleLogin.pending, (state) => {
+        state.isLoading = true;
+        state.isError = null;
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload.success) {
+          state.auth = action.payload.user;
+          state.isAuthenticated = true;
+          localStorage.setItem("isAuthenticated", JSON.stringify(true));
+          localStorage.setItem("auth", JSON.stringify(action.payload.user));
+        } else {
+          state.isError = action.payload;
+        }
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload;
       });
   },
 });
@@ -195,11 +266,13 @@ export const authActions = {
   register,
   forgotPassword,
   passwordReset,
+  googleLogin,
 };
 
 export const selectUser = (state) => state.auth.auth;
 export const selectLoading = (state) => state.auth.isLoading;
 export const selectError = (state) => state.auth.isError;
 export const selectAuth = (state) => state.auth.isAuthenticated;
+export const selectUserId = (state) => state.auth.userId;
 
 export default authSlice.reducer;
