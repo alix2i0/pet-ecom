@@ -76,6 +76,98 @@ module.exports.updateCart = async (req, res) => {
     }
 };
 
+// module.exports.decreaseCart = async (req, res) => {
+//     const { userId } = req.params;
+//     const { productId } = req.body;
+  
+//     try {
+//       const cart = await Cart.findOne({ userId });
+//       const item = cart.items.find(item => item.product.equals(productId));
+  
+//       if (item.quantity > 1) {
+//         item.quantity--;
+//         await cart.save();
+//         res.json({ items: cart.items, bill: cart.bill });
+//       } else {
+//         res.status(400).json({ message: "Quantity cannot be less than 1" });
+//       }
+//     } catch (error) {
+//       res.status(500).json({ message: error.message });
+//     }
+//   }
+
+//   module.exports.increaseCart = async (req, res) => {
+//     const { userId } = req.params;
+//     const { productId } = req.body;
+//     console.log('increaseCart');
+  
+//     try {
+//       const cart = await Cart.findOne({ userId });
+//       const item = cart.items.find(item => item.product.equals(productId));
+  
+//       if (item) {
+//         item.quantity++;
+//         await cart.save();
+//         res.json({ items: cart.items, bill: cart.bill });
+//       } else {
+//         res.status(400).json({ message: "Item not found in cart" });
+//       }
+//     } catch (error) {
+//       res.status(500).json({ message: error.message });
+//     }
+//   }
+module.exports.decreaseCart = async (req, res) => {
+    const { userId } = req.params;
+    const { productId } = req.body;
+  
+    try {
+      const cart = await Cart.findOne({ userId });
+      const item = cart.items.find(item => item.product.equals(productId));
+  
+      if (item.quantity > 1) {
+        const product = await Product.findById(productId);
+        if (!product) {
+          return res.status(404).json({ message: "Product not found" });
+        }
+  
+        item.quantity--;
+        cart.bill -= product.price;
+        await cart.save();
+        res.json({ items: cart.items, bill: cart.bill });
+      } else {
+        res.status(400).json({ message: "Quantity cannot be less than 1" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+  
+  module.exports.increaseCart = async (req, res) => {
+    const { userId } = req.params;
+    const { productId } = req.body;
+    console.log('increaseCart');
+  
+    try {
+      const cart = await Cart.findOne({ userId });
+      const item = cart.items.find(item => item.product.equals(productId));
+  
+      if (item) {
+        const product = await Product.findById(productId);
+        if (!product) {
+          return res.status(404).json({ message: "Product not found" });
+        }
+  
+        item.quantity++;
+        cart.bill += product.price;
+        await cart.save();
+        res.json({ items: cart.items, bill: cart.bill });
+      } else {
+        res.status(400).json({ message: "Item not found in cart" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 module.exports.removeFromCart = async (req, res) => {
     const { userId, productId } = req.params;
 
@@ -103,3 +195,25 @@ module.exports.removeFromCart = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
+
+module.exports.clearCart = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+      // Find the cart by user ID
+      const cart = await Cart.findOne({ userId });
+      if (!cart) {
+        return res.status(404).json({ message: "Cart not found" });
+      }
+  
+      // Clear the cart items and reset the bill
+      cart.items = [];
+      cart.bill = 0;
+      await cart.save();
+  
+      res.json({ items: cart.items, bill: cart.bill });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+

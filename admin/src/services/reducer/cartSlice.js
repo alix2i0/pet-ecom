@@ -24,6 +24,20 @@ export const removeFromCart = createAsyncThunk('cart/removeFromCart', async ({ u
     return response.data;
 });
 
+export const clearCart = createAsyncThunk('cart/clearCart', async (userId) => {
+    const response = await axios.delete(`${API_URL}/cart/${userId}`);
+    return response.data;
+  });
+
+export const decreaseQuantity = createAsyncThunk('cart/decreaseQuantity', async ({ userId, productId }) => {
+const response = await axios.put(`${API_URL}/cart/${userId}/decrease`, { productId });
+return response.data;
+});
+
+export const increaseQuantity = createAsyncThunk('cart/increaseQuantity', async ({ userId, productId }) => {
+const response = await axios.put(`${API_URL}/cart/${userId}/increase`, { productId });
+return response.data;
+});
 // Slice
 const cartSlice = createSlice({
     name: 'cart',
@@ -34,24 +48,24 @@ const cartSlice = createSlice({
         error: null,
     },
     reducers: {
-        clearCart: (state) => {
-            state.items = [];
-            state.bill = 0;
-        },
-        decreaseQuantity(state, action) {
-            const { productId } = action.payload;
-            const existingItem = state.items.find((item) => item.product._id === productId);
-            if (existingItem && existingItem.quantity > 1) {
-              existingItem.quantity--;
-            }
-          },
-          increaseQuantity(state, action) {
-            const { productId } = action.payload;
-            const existingItem = state.items.find((item) => item.product._id === productId);
-            if (existingItem) {
-              existingItem.quantity++;
-            }
-        },
+        // clearCart: (state) => {
+        //     state.items = [];
+        //     state.bill = 0;
+        // },
+        // decreaseQuantity(state, action) {
+        //     const { productId } = action.payload;
+        //     const existingItem = state.items.find((item) => item.product._id === productId);
+        //     if (existingItem && existingItem.quantity > 1) {
+        //       existingItem.quantity--;
+        //     }
+        //   },
+        //   increaseQuantity(state, action) {
+        //     const { productId } = action.payload;
+        //     const existingItem = state.items.find((item) => item.product._id === productId);
+        //     if (existingItem) {
+        //       existingItem.quantity++;
+        //     }
+        // },
     },
     extraReducers: (builder) => {
         builder
@@ -78,9 +92,21 @@ const cartSlice = createSlice({
             .addCase(removeFromCart.fulfilled, (state, action) => {
                 state.items = action.payload.items;
                 state.bill = action.payload.bill;
+            })
+            .addCase(clearCart.fulfilled, (state) => {
+                state.items = [];
+                state.bill = 0;
+            })
+            .addCase(decreaseQuantity.fulfilled, (state, action) => {
+                state.items = action.payload.items;
+                state.bill = action.payload.bill;
+            })
+            .addCase(increaseQuantity.fulfilled, (state, action) => {
+                state.items = action.payload.items;
+                state.bill = action.payload.bill;
             });
     },
 });
 
-export const { clearCart, decreaseQuantity, increaseQuantity } = cartSlice.actions;
+// export const { clearCart, decreaseQuantity, increaseQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

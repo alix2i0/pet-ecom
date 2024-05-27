@@ -342,20 +342,54 @@ exports.createProduct = async (req, res) => {
 };
 
 // Update an existing product by ID (accessible only to admin)
+// exports.updateProductById = async (req, res) => {
+//   try {
+//     const product = await Productmd.findByIdAndUpdate(req.params.id, req.body, {
+//       new: true,
+//     });
+//     if (!product) {
+//       return res.status(404).json({ message: "Product not found" });
+//     }
+//     res.json(product);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
 exports.updateProductById = async (req, res) => {
   try {
-    const product = await Productmd.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!product) {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    // Find the existing product
+    const existingProduct = await Productmd.findById(id);
+
+    if (!existingProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
-    res.json(product);
+
+    // Only update the fields that are provided in the request body
+    if (updateData.name !== undefined) existingProduct.name = updateData.name;
+    if (updateData.description !== undefined) existingProduct.description = updateData.description;
+    if (updateData.price !== undefined) existingProduct.price = updateData.price;
+    if (updateData.category !== undefined) {
+      // Check if the category exists
+      let categoryObj = await Category.findOne({ name: updateData.category });
+      // If category doesn't exist, create it
+      if (!categoryObj) {
+        categoryObj = await Category.create({ name: updateData.category });
+      }
+      existingProduct.category = categoryObj._id;
+    }
+    if (updateData.quantity !== undefined) existingProduct.quantity = updateData.quantity;
+
+    // Save the updated product
+    const updatedProduct = await existingProduct.save();
+
+    res.json(updatedProduct);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
-
 // Delete a product by ID (accessible only to admin)
 exports.deleteProductById = async (req, res) => {
   try {
