@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PetCards from "./PetCards";
 import Navbar from "../../components/Navbar";
-
 import Footer from "../../components/Footer";
 import { FaSearch } from "react-icons/fa";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { ArrowUpDownIcon } from "lucide-react";
+import { Button } from "@headlessui/react";
+
 const Pets = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,11 +15,12 @@ const Pets = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCriteria, setSearchCriteria] = useState("-1"); // Default criteria
+  const [sortCriteria, setSortCriteria] = useState("name"); // Default sorting criteria
 
   const fetchPets = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3300/api/pets?query=${searchQuery}&page=${currentPage}`
+        `http://localhost:3300/api/pets?query=${searchQuery}&page=${currentPage}&sort=${sortCriteria}`
       );
       const { pets, totalPages } = response.data;
       setPets(pets);
@@ -48,7 +52,7 @@ const Pets = () => {
 
   useEffect(() => {
     fetchPets();
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery, sortCriteria]);
 
   useEffect(() => {
     fetchPets();
@@ -61,14 +65,22 @@ const Pets = () => {
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
+  const backgroundImageStyle = {
+    backgroundImage: 'url("../../../pets-bg.png")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height:'600px'
+  };
 
   return (
     <div>
       <Navbar />
-      <section className="w-full pt-32 md:pt-32 pb-10">
-        <div className="">
+      <div className=" bg-gray-500">
+        
+      
+      <section className="w-full pt-32 md:pt-32 pb-10" style={backgroundImageStyle}>        
           <div className="text-center space-y-4">
-            <h1 className="text-2xl tracking-wide font-primary font-bold sm:text-3xl">
+            <h1 className="text-4xl tracking-wide font-primary font-bold sm:text-4xl text-primary">
               Find Your Furry Friend
             </h1>
             <p className="max-w-[700px] mx-auto text-gray-500 md:text-xl dark:text-gray-400">
@@ -76,18 +88,20 @@ const Pets = () => {
               their forever homes.
             </p>
           </div>
-        </div>
+        
+        {/* <img src="../../../petss.png"/> */}
       </section>
+      </div>
 
-      <div class="w-full py-5 md:py-5 lg:py-5 bg-gray-100 dark:bg-gray-800">
-        <div class="relative  flex w-full flex-col justify-center rounded-lg p-2 sm:flex-row sm:items-center sm:p-0">
-          <div class="flex gap-4 items-center justify-center mb-5">
+      <div className="w-full py-5 md:py-5 lg:py-5 bg-gray-100 dark:bg-gray-800">
+        <div className="relative  flex w-full flex-col justify-center rounded-lg p-2 sm:flex-row sm:items-center sm:p-0">
+          <div className="flex gap-4 items-center justify-center mb-5">
             <label
-              class="focus-within:ring flex items-center justify-center h-10 rounded-md bg-gray-200 ring-primary"
-              for="category"
+              className="focus-within:ring flex items-center justify-center h-10 rounded-md bg-gray-200 ring-primary"
+              htmlFor="category"
             >
               <select
-                class="bg-transparent px-6  outline-none cursor-pointer"
+                className="bg-transparent px-6  outline-none cursor-pointer"
                 name="category"
                 id="category"
                 value={searchCriteria}
@@ -114,21 +128,52 @@ const Pets = () => {
               </div>
             </div>
 
-            <div>
-              {/* <button
-                type="button"
-                class="h-12 px-4 inline-flex w-full items-center justify-center rounded-md bg-primary text-center align-middle text-base font-medium normal-case text-white outline-none ring-primary ring-offset-1 focus:ring"
-                onClick={handleSearch}
-              >
-                Search
-              </button> */}
+            {/* Sorting */}
+            <div className="">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="flex items-center bg-gray-200 p-2 rounded-md" variant="outline">
+                    <ArrowUpDownIcon className="w-4 h-4 mr-2" />
+                    Sort by
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-[200px] z-50 bg-white p-1">
+                  <DropdownMenuRadioGroup
+                    value={sortCriteria}
+                    onValueChange={(value) => {
+                      setSortCriteria(value);
+                      setCurrentPage(1); // Reset to first page when sorting changes
+                    }}
+                  >
+                    <DropdownMenuRadioItem value="name" className="cursor-pointer hover:bg-gray-100 p-2">
+                      Name A-Z
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="nameDesc" className="cursor-pointer hover:bg-gray-100 p-2">
+                      Name Z-A
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="updatedAt" className="cursor-pointer hover:bg-gray-100 p-2">
+                      Recently Added
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="updatedAtDesc"  className="cursor-pointer hover:bg-gray-100 p-2">
+                      Oldest Added
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="age"  className="cursor-pointer hover:bg-gray-100 p-2">
+                      Age: Low to High
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="ageDesc"  className="cursor-pointer hover:bg-gray-100 p-2">
+                      Age: High to Low
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
+            
           </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div class="md:col-span-1 bg-gray-200">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="md:col-span-1 bg-gray-200">
           <div className="w-64 p-4 bg-gray-100">
             <h2 className="text-xl font-bold mb-4">Filters</h2>
 
@@ -143,20 +188,22 @@ const Pets = () => {
               </label>
             </div>
 
-            {/* Price filter */}
-            {/* <div className="mb-4">
-              <button className="w-full text-left font-semibold">Price</button>
+            {/* filter by age */}
+            <div className="mb-4">
+              <button className="w-full text-left font-semibold">Age</button>
               <div className="mt-2">
                 <input type="range" min="0" max="500" className="w-full" />
                 <div className="flex justify-between text-sm">
-                  <span>$0</span>
-                  <span>$500+</span>
+                  <span>0</span>
+                  <span>20</span>
                 </div>
               </div>
-            </div> */}
+            </div>
 
             <div className="mb-4">
-              <button className="w-full text-left font-semibold">Category</button>
+              <button className="w-full text-left font-semibold">
+                Category
+              </button>
               <div className="mt-2">
                 <label className="flex items-center">
                   <input type="checkbox" className="form-checkbox" />
@@ -166,7 +213,9 @@ const Pets = () => {
             </div>
 
             <div className="mb-4">
-              <button className="w-full text-left font-semibold">Location</button>
+              <button className="w-full text-left font-semibold">
+                Location
+              </button>
               <div className="mt-2">
                 <label className="flex items-center">
                   <input type="checkbox" className="form-checkbox" />

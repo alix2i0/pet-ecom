@@ -77,12 +77,21 @@
 
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart, clearCart, increaseQuantity, decreaseQuantity } from "../../../admin/src/services/reducer/cartSlice";
-
+import { removeFromCart, clearCart, increaseQuantity, decreaseQuantity, fetchCart } from "../../../admin/src/services/reducer/cartSlice";
+import { selectUserId } from "../../../admin/src/services/reducer/authSlice";
+import { postOrder } from "../../../admin/src/services/reducer/orderSlice";
 const CartMenu = ({ onClose }) => {
   const cartMenuRef = useRef(null);
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  const cartBill = useSelector((state) => state.cart.bill);
+  const userId = useSelector(selectUserId);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchCart(userId));
+    }
+  }, [userId, dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -98,20 +107,35 @@ const CartMenu = ({ onClose }) => {
     };
   }, [onClose]);
 
-  const handleRemoveFromCart = (productId) => {
-    dispatch(removeFromCart(productId));
+ const handleRemoveFromCart = (productId) => {
+    dispatch(removeFromCart({ userId, productId }));
   };
 
   const handleClearCart = () => {
-    dispatch(clearCart());
+    dispatch(clearCart(userId));
   };
 
   const handleIncreaseQuantity = (productId) => {
-    dispatch(increaseQuantity(productId));
+    console.log('Increasing quantity',userId, productId);
+    dispatch(increaseQuantity({ userId, productId }));
   };
 
   const handleDecreaseQuantity = (productId) => {
-    dispatch(decreaseQuantity(productId));
+    console.log('Decreasing quantity',userId, productId);
+
+    dispatch(decreaseQuantity({ userId, productId }));
+  };
+  
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchCart(userId));
+    }
+  }, [cartItems, userId, dispatch]);
+  const handleCheckout = () => {
+    const products = cartItems.map(item => ({ productId: item.product._id, quantity: item.quantity }));
+    const customer = userId;
+    // console.log(userId);
+    dispatch(postOrder({ customer, products, totalAmount: cartBill }));
   };
 
   return (
@@ -121,8 +145,9 @@ const CartMenu = ({ onClose }) => {
         onClose ? "opacity-100 translate-x-0 pointer-events-auto" : ""
       }`}
     >
-      <div className="absolute right-4 mt-12 w-70 bg-white rounded-md shadow-lg">
-        <h2 className="px-4 py-2 text-sm font-semibold text-gray-700">Cart</h2>
+      <div className="absolute right-4 mt-12 w-96 bg-white rounded-md shadow-lg">
+        <h2 className="px-4 py-2 text-sm font-semibold text-gray-700">Your Cart</h2>
+        <p className="px-4 py-2 text-sm text-gray-500">Review and checkout your items.</p>
         <div className="px-4 py-2">
           {cartItems.map((item) => (
             <div key={item.product._id} className="flex items-center justify-between mb-2">
@@ -131,19 +156,21 @@ const CartMenu = ({ onClose }) => {
                 <p className="text-gray-600">{item.product.name}</p>
               </div>
               <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => handleDecreaseQuantity(item.product._id)}
-                  className="text-gray-400"
-                >
-                  -
-                </button>
-                <span>{item.quantity}</span>
-                <button
-                  onClick={() => handleIncreaseQuantity(item.product._id)}
-                  className="text-gray-400"
-                >
-                  +
-                </button>
+              <button
+
+onClick={() => handleDecreaseQuantity(item.product._id)}
+className="text-gray-400 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+>
+-
+</button>
+<span className="mx-2">{item.quantity}</span>
+<button
+onClick={() => handleIncreaseQuantity(item.product._id)}
+className="text-gray-400 bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+>
++
+</button>
+
                 <button
                   onClick={() => handleRemoveFromCart(item.product._id)}
                   className="text-red-600 hover:text-red-800"
@@ -155,8 +182,8 @@ const CartMenu = ({ onClose }) => {
           ))}
           <div className="p-4">
             <div className="flex items-center justify-between">
-              <p className="font-medium">Total</p>
-              <p className="text-2xl font-bold">$170.00</p>
+              <p className="font-medium text-2xl">Total</p>
+              <p className="text-2xl font-bold">${cartBill.toFixed(2)}</p>
             </div>
             <div className="mt-4 flex">
               <button
@@ -165,12 +192,12 @@ const CartMenu = ({ onClose }) => {
               >
                 Clear Cart
               </button>
-              <a
-                href="#"
+              <button
+                onClick={handleCheckout}
                 className="flex-1 text-white bg-amber-700 hover:bg-amber-800 focus:ring-4 focus:ring-amber-300 font-medium rounded-lg text-sm px-6 py-2.5 me-2 mb-2 dark:bg-amber-600 dark:hover:bg-amber-700 focus:outline-none dark:focus:ring-amber-800"
               >
                 Checkout
-              </a>
+              </button>
             </div>
           </div>
         </div>

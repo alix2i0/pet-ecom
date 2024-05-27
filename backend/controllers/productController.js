@@ -373,7 +373,7 @@ exports.getAllCategories = async (req, res) => {
     let query = {};
     const { search, sortBy, sortOrder } = req.query;
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit);
     const skip = (page - 1) * limit;
 
     if (search) {
