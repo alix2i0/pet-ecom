@@ -10,6 +10,7 @@ const initialState = {
     isLoading: false,
     isError: null,
 }
+const API_URL = 'http://localhost:3300/api';
 
 export const GetOrders = createAsyncThunk("orders/getOrders", async () => {
     try {
@@ -71,6 +72,43 @@ export const mostPopularProduct = createAsyncThunk("orders/getPopularProducts", 
         throw error;
     }
 });
+// export const postOrder = createAsyncThunk('order/postOrder', async ({ customer, products, totalAmount }) => {
+//     console.log('log order order order post');
+//     console.log(customer);
+//     console.log(products);
+//     console.log(totalAmount);
+//     try {
+
+//         const response = await axios.post("http://localhost:3300/api/orders", { customer, products, totalAmount });
+//         console.log('test work');
+//         console.log(response);
+//         return response.data;
+//     } 
+//     catch (error) {
+//         console.error("Error posting order:", error);
+//         throw error;
+//     }
+
+// });
+export const postOrder = createAsyncThunk('order/postOrder', async ({ customer, products, totalAmount }) => {
+    // console.log('log order order order post');
+    // console.log(customer);
+    // console.log(products);
+    // console.log(totalAmount);
+
+    const payload = { customer, products, totalAmount: parseFloat(totalAmount.toFixed(2)) };
+    console.log('Payload:', JSON.stringify(payload, null, 2));
+
+    try {
+        const response = await axios.post("http://localhost:3300/api/orders", payload);
+        // console.log('test work');
+        // console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error("Error posting order:", error);
+        throw error;
+    }
+});
 
 export const orderSlice = createSlice({
     name: "orders",
@@ -126,6 +164,12 @@ export const orderSlice = createSlice({
                 state.isLoading = false;
                 state.isError = action.error.message; // Update with error message
             })
+            .addCase(postOrder.fulfilled, (state, action) => {
+                window.location.href = action.payload.url; // Redirect to Stripe checkout
+            })
+            .addCase(postOrder.rejected, (state, action) => {
+                state.isError = action.error.message;
+            });
     },
 });
 

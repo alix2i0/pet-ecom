@@ -1,15 +1,46 @@
 // components/Navbar/Navbar.jsx
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../admin/src/services/reducer/authSlice";
 import { Button } from "@headlessui/react";
 import { HeartIcon, ShoppingCartIcon } from "lucide-react";
+// import CartIcon from "./cartComponent/cartIcon";
+import CartMenu from "./CartMenu.jsx";
+// import WishlistPage from "./WishlistPage.jsx";
 
 const Navbar = () => {
   const location = useLocation(); // Get current location
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+
+    // const [wishlistPageOpen, setWishlistPageOpen] = useState(false);
+    const [cartMenuOpen, setCartMenuOpen] = useState(false);
+    const cartMenuRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (cartMenuRef.current && !cartMenuRef.current.contains(event.target)) {
+                setCartMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
+    // const toggleWishlistPage = () => {
+    //     setWishlistPageOpen(!wishlistPageOpen);
+    // };
+
+    const toggleCartMenu = () => {
+        setCartMenuOpen(!cartMenuOpen);
+    };
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
@@ -85,7 +116,7 @@ const Navbar = () => {
             className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
           >
             <div className="flex items-center gap-2">
-              <a href="/wishlist">
+            <a href="/wishlist">
                 <Button
                   className="rounded-full p-2 hover:text-white hover:bg-amber-600"
                   size="icon"
@@ -95,16 +126,23 @@ const Navbar = () => {
                   <span className="sr-only">Watchlist</span>
                 </Button>
               </a>
-              <a href="/cart">
                 <Button
-                  className="rounded-full p-2 hover:text-white hover:bg-amber-600"
-                  size="icon"
-                  variant="ghost"
+                    className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                    size="icon"
+                    variant="ghost"
+                    onClick={toggleCartMenu}
                 >
-                  <ShoppingCartIcon className="h-5 w-5" />
-                  <span className="sr-only">Basket</span>
+                    <ShoppingCartIcon className="h-5 w-5" />
+                    <span className="sr-only">Basket</span>
                 </Button>
-              </a>
+                {/* {wishlistPageOpen && <WishlistPage />} */}
+                {cartMenuOpen && (
+                    <CartMenu
+                        cartItems={cartItems}
+                        onClose={() => setCartMenuOpen(false)}
+                        ref={cartMenuRef}
+                    />
+                )}
             </div>
             <div ref={dropdownRef} className="relative">
               <button
@@ -222,6 +260,10 @@ const Navbar = () => {
               href="#"
             >
               Blog
+            </a>
+            {/* <a href="">
+              <CartIcon />
+              ali
             </a> */}
           </div>
         </div>

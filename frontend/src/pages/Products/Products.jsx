@@ -23,6 +23,9 @@ import {
 import Filters from "../../components/Filters";
 import Footer from "@/components/Footer";
 
+import { addToCart } from "../../../../admin/src/services/reducer/cartSlice";
+import { selectUserId } from "../../../../admin/src/services/reducer/authSlice";
+// import AddToCartBtn from "./AddtocartBtn.jsx";
 const Products = () => {
   const { product, loading, error, totalPages, search, filters, sort } =
     useSelector((state) => state.product);
@@ -30,8 +33,9 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState(search);
   const [selectedFilters, setSelectedFilters] = useState(filters);
   const dispatch = useDispatch();
-
+  const userId = useSelector(selectUserId);
   useEffect(() => {
+    console.log("ftecheddd product front");
     dispatch(
       fetchProduct({
         page: currentPage,
@@ -42,6 +46,11 @@ const Products = () => {
     );
     dispatch(fetchCategories());
   }, [dispatch, currentPage, searchTerm, selectedFilters, sort]);
+
+  const handleAddToCart = (productId, quantity) => {
+    console.log("Add to cart");
+    dispatch(addToCart({ userId, productId, quantity }));
+  };
 
   const handleFilterChange = (filterKey, filterValue) => {
     const newFilters = { ...selectedFilters, [filterKey]: filterValue };
@@ -208,9 +217,13 @@ const Products = () => {
                       {item.description}
                     </p>
                   </div>
-                  <div className="mt-4 flex items-center justify-between">
+                  <div className="mt-4 z-50 flex items-center justify-between">
                     <span className="text-lg font-semibold">${item.price}</span>
-                    <Button size="sm" className="text-white bg-amber-600">
+                    <Button
+                      size="sm"
+                      className="text-white bg-amber-600 z-50"
+                      onClick={() => handleAddToCart(item._id, 1)}
+                    >
                       <ShoppingCartIcon className="mr-2 h-4 w-4" />
                       Add to Cart
                     </Button>
