@@ -1,5 +1,5 @@
 // components/Navbar/Navbar.jsx
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../admin/src/services/reducer/authSlice";
