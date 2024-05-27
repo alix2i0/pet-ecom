@@ -34,7 +34,7 @@ const ProductView = ({ isOpen, onClose, productId }) => {
   useEffect(() => {
     const handleOutsideClick = (e) => {
       const userFormElements = document.getElementsByClassName(
-        "bg-primary shadow p-3"
+        "bg-gray-100 shadow p-3"
       );
       if (userFormElements.length > 0) {
         const userFormElement = userFormElements[0]; // Assuming there's only one element with this class
@@ -64,13 +64,13 @@ const ProductView = ({ isOpen, onClose, productId }) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-gray-100 shadow p-3">
+        <div className="fixed h-screen inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-y-auto">
+          <div className="bg-gray-100 h-[95%] shadow p-3 overflow-y-auto">
             <div className="bg-white p-5 rounded-lg w-[550px] flex flex-col gap-3">
-              <h2 className="text-xl text-gray-800 mb-3">Edit product</h2>
               <div className="card lg:card-side bg-base-100 shadow-xl">
                 <figure>
                   <img
+                  className="h-[400px] w-full"
                     src={
                       images[currentImageIndex] ||
                       "https://flowbite.com/docs/images/examples/image-1@2x.jpg"
@@ -81,25 +81,45 @@ const ProductView = ({ isOpen, onClose, productId }) => {
                 <div className="card-body">
                 <div className="grid gap-4 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
   <div className="col-span-1 flex flex-col justify-between">
-    <div className="flex justify-between mb-2">
-      <h2 className="text-xl text-gray-900">Name:</h2>
-      <h2 className="text-xl font-bold">{name}</h2>
+    <div className="mb-2">
+      {/* <h2 className="text-xl text-gray-900">Name:</h2> */}
+      <button
+              onClick={onClose}
+              className="absolute top-14 right-14 text-gray-600 hover:text-gray-800 focus:outline-none bg-white rounded-full p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+      <h2 className="text-xl text-center font-bold">{name}</h2>
     </div>
-    <div className="flex justify-between mb-2">
-      <p className="text-gray-900 mr-5">Description:</p>
-      <p className="text-gray-700">{description}</p>
+    <div className="flex justify-between mb-5">
+      {/* <p className="text-gray-900 mr-5">Description:</p> */}
+      <p className="text-gray-700 text-center">{description}</p>
     </div>
-    <div className="flex justify-between mb-2">
+    <hr className="w-[75%] m-auto"/>
+    <div className="flex justify-between mb-2 mt-4">
       <p className="text-gray-900">Price:</p>
-      <p className="text-gray-800">${price}</p>
+      <p className="text-gray-800 text-lg font-medium">${price}</p>
     </div>
     <div className="flex justify-between mb-2">
       <p className="text-gray-900">Category:</p>
       <p className="text-gray-600">{category}</p>
     </div>
     <div className="flex justify-between mb-2">
-      <p className="text-gray-900">Quantity:</p>
-      <p className="font-bold">{quantity}</p>
+      <p className="text-gray-900">Stock:</p>
+      <p className="font-medium text-lg text-red-500">{quantity}</p>
     </div>
   </div>
 </div>
@@ -156,7 +176,7 @@ const ProductView = ({ isOpen, onClose, productId }) => {
                       </>
                     )}
                     <button
-                      className="btn btn-primary block w-full p-1 text-white bg-teal-400 hover:bg-teal-500 border border-transparent rounded-lg shadow-sm "
+                      className="btn btn-primary block w-full p-1 text-white bg-primary hover:bg-secondary border border-transparent rounded-lg shadow-sm "
                       onClick={onClose}
                     >
                       Close
