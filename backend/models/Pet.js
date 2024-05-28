@@ -4,9 +4,11 @@ const bcrypt = require("bcryptjs");
 // Define schema for Pet
 const petSchema = new mongoose.Schema(
   {
-    // image: { type: String },
+    image: { type: String },
     name: { type: String, required: true },
     age: { type: Number, required: true },
+    gender: { type: String, required: true },
+    isVaccinated: { type: Boolean, required: true},
     location: { type: String, required: true },
     description: { type: String },
     availability: { type: Boolean, required: true },

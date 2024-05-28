@@ -23,8 +23,8 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: "#2dd4bf",
-        secondary: "#14b8a6",
+        primary: "#D97706",
+        secondary: "#B45309",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -46,11 +46,9 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      // borderRadius: {
-      //   lg: "var(--radius)",
-      //   md: "calc(var(--radius) - 2px)",
-      //   sm: "calc(var(--radius) - 4px)",
-      // },
+      fontFamily:{
+        primary:"Dynapuff"
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

@@ -11,7 +11,12 @@ import Products from "./pages/Products/Products";
 import ProductDetails from "./pages/Products/ProductDetails";
 import PetsDetails from "./pages/Pets/PetsDetails";
 import Pets from "./pages/Pets/Pets";
+
 import ProfilePage from "./components/Profile";
+
+import Wishlist from "./pages/Wishlist";
+import CartShopping from "./pages/CartShopping";
+
 
 const App = () => {
   return (
@@ -28,6 +33,9 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/pets" element={<Pets />} />
         <Route path="/pets/:id" element={<PetsDetails />} />
+
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/cart" element={<CartShopping />} />
       </Routes>
     </div>
   );

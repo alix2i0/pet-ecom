@@ -9,6 +9,7 @@ const Login = () => {
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const error = useSelector((state) => state.auth.isError);
+  const userId = useSelector((state) => state.auth.userId);
 
   if (error) {
     console.log(error);
@@ -32,13 +33,13 @@ const Login = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
         <div className="flex flex-col justify-center items-center mb-8">
-          <a href="/">
+          {/* <a href="/">
             <img
-              src="public/Logo.png"
+              src="public/logoo.png"
               alt="Pet Store Logo"
               className="h-12 mr-2 mb-6 "
             />
-          </a>
+          </a> */}
           <h1 className="text-3xl font-light">LOGIN</h1>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">

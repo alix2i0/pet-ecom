@@ -7,6 +7,7 @@ const { errorMonitor } = require("events");
 
 // Controller function for user registration
 exports.register = async (req, res) => {
+  console.log('it get into the function ');
   try {
     const { username, email, password } = req.body; // Extracting username, email, and password from request body
     console.log("Attempting to register with username:", username, "email:", email, "password:", password);
@@ -51,6 +52,7 @@ exports.login = async (req, res) => {
     res.cookie("token", token, tokenOption).status(200).json({
       message: "Login successfully",
       data: token,
+      userId: user.id,
       success: true,
       error: false,
     });

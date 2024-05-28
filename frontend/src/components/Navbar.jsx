@@ -1,13 +1,46 @@
 // components/Navbar/Navbar.jsx
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../admin/src/services/reducer/authSlice";
+import { Button } from "@headlessui/react";
+import { HeartIcon, ShoppingCartIcon } from "lucide-react";
+// import CartIcon from "./cartComponent/cartIcon";
+import CartMenu from "./CartMenu.jsx";
+// import WishlistPage from "./WishlistPage.jsx";
 
 const Navbar = ({user}) => {
   const location = useLocation(); // Get current location
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+
+    // const [wishlistPageOpen, setWishlistPageOpen] = useState(false);
+    const [cartMenuOpen, setCartMenuOpen] = useState(false);
+    const cartMenuRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (cartMenuRef.current && !cartMenuRef.current.contains(event.target)) {
+                setCartMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
+    // const toggleWishlistPage = () => {
+    //     setWishlistPageOpen(!wishlistPageOpen);
+    // };
+
+    const toggleCartMenu = () => {
+        setCartMenuOpen(!cartMenuOpen);
+    };
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
@@ -63,7 +96,7 @@ const Navbar = ({user}) => {
   return (
     <div>
       <nav
-        className={`fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mb-10 mt-0 ${
+        className={`fixed w-full flex flex-wrap z-50 py-2 md:grid md:grid-cols-12 basis-full items-center px-4  md:px-8 mx-auto mt-0 ${
           isScrolled ? "bg-gray-50" : ""
         }`}
         aria-label="Global"
@@ -75,7 +108,7 @@ const Navbar = ({user}) => {
             aria-label="Petopia"
           >
             <img
-              src="../../public/logoo.png"
+              src="../../logoo.png"
               alt="Pet Store"
               className="w-40 ml-8"
             />
@@ -86,10 +119,39 @@ const Navbar = ({user}) => {
             ref={dropdownRef}
             className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3"
           >
+            <div className="flex items-center gap-2">
+            <a href="/wishlist">
+                <Button
+                  className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <HeartIcon className="h-5 w-5 hover:text-gray-50" />
+                  <span className="sr-only">Watchlist</span>
+                </Button>
+              </a>
+                <Button
+                    className="rounded-full p-2 hover:text-white hover:bg-amber-600"
+                    size="icon"
+                    variant="ghost"
+                    onClick={toggleCartMenu}
+                >
+                    <ShoppingCartIcon className="h-5 w-5" />
+                    <span className="sr-only">Basket</span>
+                </Button>
+                {/* {wishlistPageOpen && <WishlistPage />} */}
+                {cartMenuOpen && (
+                    <CartMenu
+                        cartItems={cartItems}
+                        onClose={() => setCartMenuOpen(false)}
+                        ref={cartMenuRef}
+                    />
+                )}
+            </div>
             <div ref={dropdownRef} className="relative">
               <button
                 onClick={toggleDropdown}
-                className="py-2 px-3 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
+                className="py-2 px-3 ml-4 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
               >
                {user?.username[0].toUpperCase()}
               </button>
@@ -155,9 +217,9 @@ const Navbar = ({user}) => {
           id="navbar-collapse-with-animation"
           className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6"
         >
-          <div className="flex flex-col font-serif gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
+          <div className="flex flex-col font-primary gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
             <a
-              className={`relative inline-block dark:text-white ${checkActive(
+              className={`relative inline-block dark:text-white  hover:text-primary ${checkActive(
                 "/"
               )}`}
               href="./"
@@ -166,31 +228,31 @@ const Navbar = ({user}) => {
               Home
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/pets"
               )}`}
-              href="pets"
+              href="/pets"
             >
               Pets
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/products"
               )}`}
-              href="products"
+              href="/products"
             >
               Shop
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/aboutus"
               )}`}
-              href="aboutus"
+              href="/aboutus"
             >
               About Us
             </a>
             <a
-              className={`relative inline-block dark:text-white dark:hover:text-neutral-300 ${checkActive(
+              className={`relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300 ${checkActive(
                 "/contact"
               )}`}
               href="/contact"
@@ -198,11 +260,15 @@ const Navbar = ({user}) => {
               Contact
             </a>
             <a
-              className="relative inline-block dark:text-white dark:hover:text-neutral-300"
+              className="relative inline-block dark:text-white hover:text-primary dark:hover:text-neutral-300"
               href="#"
             >
               Blog
             </a>
+            {/* <a href="">
+              <CartIcon />
+              ali
+            </a> */}
           </div>
         </div>
       </nav>

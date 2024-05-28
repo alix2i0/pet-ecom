@@ -1,43 +1,61 @@
 {
-  "hash": "45fb4915",
+  "hash": "d5d30673",
   "configHash": "a0e7591d",
-  "lockfileHash": "f1cf3551",
-  "browserHash": "2d1300c9",
+  "lockfileHash": "33ae56f8",
+  "browserHash": "7f513308",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "ad427fc5",
+      "fileHash": "7aaef3a9",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "5c89cf5a",
+      "fileHash": "2b20f538",
       "needsInterop": true
     },
     "react-redux": {
       "src": "../../node_modules/react-redux/dist/react-redux.mjs",
       "file": "react-redux.js",
-      "fileHash": "39d24bae",
+      "fileHash": "b9868d6c",
       "needsInterop": false
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "b3691514",
+      "fileHash": "1f17b808",
       "needsInterop": false
     },
     "@reduxjs/toolkit": {
       "src": "../../node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs",
       "file": "@reduxjs_toolkit.js",
-      "fileHash": "022e9b2f",
+      "fileHash": "aa02a338",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "f05c6269",
+      "fileHash": "95d04938",
+      "needsInterop": false
+    },
+    "@fortawesome/free-solid-svg-icons": {
+      "src": "../../node_modules/@fortawesome/free-solid-svg-icons/index.mjs",
+      "file": "@fortawesome_free-solid-svg-icons.js",
+      "fileHash": "4ab80254",
+      "needsInterop": false
+    },
+    "@fortawesome/react-fontawesome": {
+      "src": "../../node_modules/@fortawesome/react-fontawesome/index.es.js",
+      "file": "@fortawesome_react-fontawesome.js",
+      "fileHash": "10d43417",
+      "needsInterop": false
+    },
+    "react-toastify": {
+      "src": "../../node_modules/react-toastify/dist/react-toastify.esm.mjs",
+      "file": "react-toastify.js",
+      "fileHash": "a2f48c9e",
       "needsInterop": false
     }
   },
