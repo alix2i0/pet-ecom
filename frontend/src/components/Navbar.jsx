@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../../admin/src/services/reducer/authSlice";
 
-const Navbar = () => {
+const Navbar = ({user}) => {
   const location = useLocation(); // Get current location
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -91,7 +91,7 @@ const Navbar = () => {
                 onClick={toggleDropdown}
                 className="py-2 px-3 text-sm font-semibold text-white bg-amber-500 rounded-full hover:bg-amber-600"
               >
-                Pf
+               {user?.username[0].toUpperCase()}
               </button>
               {dropdownOpen && (
                 <div

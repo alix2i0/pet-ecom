@@ -7,11 +7,11 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import Contact from "./pages/Contact";
-
 import Products from "./pages/Products/Products";
 import ProductDetails from "./pages/Products/ProductDetails";
 import PetsDetails from "./pages/Pets/PetsDetails";
 import Pets from "./pages/Pets/Pets";
+import ProfilePage from "./components/Profile";
 
 const App = () => {
   return (

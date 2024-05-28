@@ -5,16 +5,24 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Sponsor from "../components/Sponsor";
 import Testimonials from "../components/Testimonials";
-
+import { useEffect } from "react";
+import { fetchUser } from "../../../admin/src/services/reducer/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Home = () => {
+  const user = useSelector(state => state.auth.auth)
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(fetchUser())
+  },[])
+  console.log(user);
   return (
     <div className=" flex flex-col w-full items-end pb-1.5 min-h-[1115px] max-md:px-5 bg-gray-50">
       <div className="bg-dog absolute inset-0  opacity-60 top-0"></div>
 
       <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full ">
-        <Navbar />
+        <Navbar user={user} />
       </header>
 
       <div className="relative h-screen max-w-full w-[1297px] max-md:mt-10">
