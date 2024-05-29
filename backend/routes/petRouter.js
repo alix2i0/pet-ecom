@@ -7,6 +7,7 @@ const {
   getPet,
   getPets,
   searchPets,
+  getCustomerPets,
 } = require("../controllers/PetsController");
 // const validatePet = require("../middlewares/PetMiddleware/validation");
 // const {
@@ -22,6 +23,7 @@ router.post(
 );
 router.get("/", getPets);
 router.get("/:petId", getPet);
+router.get("/customers/:id",getCustomerPets)
 router.put("/:petId", /* ensureAuthenticated , validatePet,*/ updatePet);
 router.delete("/:petId", /* ensureAuthenticated ,*/ deletePet);
 router.post('/search', searchPets);

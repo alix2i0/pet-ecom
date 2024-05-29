@@ -96,6 +96,7 @@ const createPet = async (req, res) => {
       description,
       availability,
       CategoryName,
+      userId
     } = req.body;
 
     // Fetch the category by name
@@ -115,6 +116,7 @@ const createPet = async (req, res) => {
       description,
       availability,
       CategoryName: category.name,
+      userId
     });
 
     console.log(newPet);
@@ -142,6 +144,20 @@ const getPet = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+const getCustomerPets = async (req,res) => {
+  const {id} = req.params ;
+  try {
+    const resault = await Pet.find({userId : id});
+    if (!resault) {
+      return res.status(404).json({ message: "Pet not found" });
+    }
+    res.status(200).json(resault);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
 
 const updatePet = async (req, res) => {
   try {
@@ -206,4 +222,5 @@ module.exports = {
   deletePet,
   getPets,
   searchPets,
+  getCustomerPets
 };

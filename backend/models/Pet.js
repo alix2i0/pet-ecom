@@ -17,6 +17,7 @@ const petSchema = new mongoose.Schema(
       ref: "PetCategory",
       required: true,
     },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } 
   },
   { timestamps: true }
 );

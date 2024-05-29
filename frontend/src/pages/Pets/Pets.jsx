@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PetCards from "./PetCards";
+import PetModal from "./PetModal"
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { FaSearch } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaPlusSquare, FaSearch } from "react-icons/fa";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +15,8 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
 import { Button } from "@headlessui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../../../admin/src/services/reducer/authSlice";
 
 const Pets = () => {
   const [pets, setPets] = useState([]);
@@ -20,9 +24,15 @@ const Pets = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
   const [searchCriteria, setSearchCriteria] = useState("-1"); // Default criteria
   const [sortCriteria, setSortCriteria] = useState("name"); // Default sorting criteria
-
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const user = useSelector(state => state.auth.auth)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
   const fetchPets = async () => {
     try {
       const response = await axios.get(
@@ -36,7 +46,7 @@ const Pets = () => {
       console.error("Error fetching pets:", error);
     }
   };
-
+  console.log(pets);
   const handleSearch = async () => {
     try {
       setCurrentPage(1); // Reset to first page when performing a new search
@@ -76,6 +86,26 @@ const Pets = () => {
     backgroundSize: "cover",
     backgroundPosition: "center",
     height: "600px",
+  };
+
+  const handleAddPet = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handlePetSubmit = async (formData) => {
+    try {
+      // Make API call to add the pet
+      // Dispatch action to add pet using Redux if needed
+      // Close the modal after successful addition
+      setShowModal(false);
+      // Optionally, you can update the pets list to reflect the new addition immediately
+    } catch (error) {
+      console.error("Error adding pet:", error);
+    }
   };
 
   return (
@@ -198,6 +228,14 @@ const Pets = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+            {isAuthenticated ? <button
+              onClick={handleAddPet}
+              className="flex justify-center text-center py-2 px-4 hover:bg-green-600 rounded-lg bg-green-500 text-white"
+            >
+              <FaPlusSquare className="m-1" /> <p> Add Pet</p>
+            </button>
+            : null}
+
           </div>
         </div>
       </div>
@@ -323,11 +361,10 @@ const Pets = () => {
                   <button
                     onClick={goToPreviousPage}
                     disabled={currentPage === 1}
-                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
-                      currentPage === 1
-                        ? "text-gray-900  pointer-events-none"
-                        : "text-gray-600 hover:bg-neutral-200"
-                    }`}
+                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${currentPage === 1
+                      ? "text-gray-900  pointer-events-none"
+                      : "text-gray-600 hover:bg-neutral-200"
+                      }`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -349,11 +386,10 @@ const Pets = () => {
                   {[...Array(totalPages)].map((_, index) => (
                     <button
                       key={index}
-                      className={`mx-2 px-4 py-2 rounded ${
-                        currentPage === index + 1
-                          ? "bg-primary text-white"
-                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                      }`}
+                      className={`mx-2 px-4 py-2 rounded ${currentPage === index + 1
+                        ? "bg-primary text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                        }`}
                       onClick={() => setCurrentPage(index + 1)}
                     >
                       {index + 1}
@@ -362,11 +398,10 @@ const Pets = () => {
                   <button
                     onClick={goToNextPage}
                     disabled={currentPage === totalPages}
-                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
-                      currentPage === totalPages
-                        ? "text-gray-900  pointer-events-none"
-                        : "text-gray-600 hover:bg-neutral-200"
-                    }`}
+                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${currentPage === totalPages
+                      ? "text-gray-900  pointer-events-none"
+                      : "text-gray-600 hover:bg-neutral-200"
+                      }`}
                   >
                     Next
                     <svg
@@ -391,6 +426,9 @@ const Pets = () => {
           </div>
         </section>
       </div>
+      {showModal && (
+        <PetModal isOpen={showModal} handleClose={closeModal} handleSubmit={handlePetSubmit} />
+      )} {/* Modal component */}
       <Footer />
     </div>
   );
