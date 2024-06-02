@@ -8,22 +8,23 @@ import Testimonials from "../components/Testimonials";
 import { useEffect } from "react";
 import { fetchUser } from "../../../admin/src/services/reducer/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import Component from "./Localisation";
+import PetCards from "./HomeCards";
 
 const Home = () => {
   const user = useSelector(state => state.auth.auth)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchUser());
-}, [dispatch]);
+  }, [dispatch]);
 
-console.log('User:', user);
+  console.log('User:', user);
 
   return (
-    <div className=" flex flex-col w-full items-end pb-1.5 min-h-[1115px] max-md:px-5 bg-gray-50">
-      <div className="bg-dog absolute inset-0  opacity-60 top-0"></div>
+    <div className="flex flex-col w-full items-center pb-1.5 min-h-[1115px] max-md:px-5 bg-gray-50">
+      <div className="bg-dog absolute inset-0 opacity-60 top-0"></div>
 
-      <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full ">
+      <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full">
         <Navbar user={user} />
       </header>
 
@@ -41,7 +42,7 @@ console.log('User:', user);
                 <br />
                 Happiness Begins!
               </div>
-              <div className="mt-6 text-base font-normal  leading-8 text-gray-500 max-md:max-w-full">
+              <div className="mt-6 text-base font-normal leading-8 text-gray-500 max-md:max-w-full">
                 Dive into a world where wagging tails and purring companionship
                 await. Our pet-centric haven is a one-stop destination for all
                 your furry friend&apos;s needs. From gourmet treats to stylish
@@ -58,31 +59,24 @@ console.log('User:', user);
               loading="lazy"
               src="../../public/landing-dog.png"
               alt="Happy Pets"
+              className="max-w-full h-auto"
             />
           </div>
         </div>
       </div>
 
-      {/* Featured Products section */}
-      <section className="bg-gray-50 h-screen py-12 w-full">
+      {/* Pet Cards section */}
+      <section className="bg-gray-50 py-12 w-full">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold tracking-tighter text-center text-gray-800 sm:text-4xl md:text-5xl">
-            Our Best Sellers
+            Adopt a Pet
           </h2>
-          <div className="text-right z-50">
-            <a
-              href="/products"
-              className="text-lg font-semibold text-orange-500 hover:text-orange-600 transition-colors"
-            >
-              See All
-            </a>
-          </div>
-          <div className="flex justify-center">
-            <FeaturedProducts />
+          <div className="text-center">
+            <PetCards />
           </div>
         </div>
       </section>
-      <section className="bg-gray-50 h-screen py-12 w-full">
+      <section className="bg-gray-50 py-12 w-full">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold tracking-tighter text-center text-gray-800 sm:text-4xl md:text-5xl">
             Our Services
@@ -102,15 +96,17 @@ console.log('User:', user);
           <Sponsor />
         </div>
       </section>
+
       {/* Testimonials section */}
       <section className="bg-gray-50 py-12 w-full">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl text-center font-bold text-gray-800 mb-6">
             Testimonials
           </h2>
-          <Testimonials />
+          <Component />
         </div>
       </section>
+
       <Footer />
     </div>
   );

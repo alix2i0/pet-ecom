@@ -1,5 +1,6 @@
 import "./App.css";
 import React from "react";
+import 'leaflet/dist/leaflet.css';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import Home from "./pages/Home";
