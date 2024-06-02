@@ -214,6 +214,24 @@ const searchPets = async (req, res) => {
   }
 };
 
+const getThreeCatsAndDogs = async (req, res) => {
+  try {
+    // Find 3 cats
+    const cats = await Pet.find({ CategoryName: 'Cats' }).limit(3);
+
+    // Find 3 dogs
+    const dogs = await Pet.find({ CategoryName: 'Dogs' }).limit(3);
+
+    // Combine results
+    const pets = { cats, dogs };
+    // Send response
+    res.status(200).json(pets);
+  } catch (error) {
+    // Handle error
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createPet,
   // uploadImage,
@@ -222,5 +240,6 @@ module.exports = {
   deletePet,
   getPets,
   searchPets,
-  getCustomerPets
+  getCustomerPets,
+  getThreeCatsAndDogs
 };
