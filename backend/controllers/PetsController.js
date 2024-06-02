@@ -11,6 +11,8 @@ const getPets = async (req, res) => {
       availability,
       location,
       sort,
+      minAge,
+      maxAge,
     } = req.query;
 
     // Convert page and limit to numbers, provide default values if not specified
@@ -19,10 +21,32 @@ const getPets = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const filter = {};
-    if (category) filter.CategoryName = { $regex: new RegExp(category, "i") }; // Case insensitive;
-    if (availability !== undefined)
-      filter.availability = availability === "true";
-    if (location) filter.location = { $regex: new RegExp(location, "i") };
+    if (category) {
+      const categories = Array.isArray(category) ? category : [category];
+      filter.CategoryName = {
+        $in: categories.map((cat) => new RegExp(cat, "i")),
+      };
+    }
+    if (availability !== undefined) {
+      const availabilities = Array.isArray(availability)
+        ? availability
+        : [availability];
+      filter.availability = {
+        $in: availabilities.map((avail) => avail === "true"),
+      };
+    }
+
+    if (location) {
+      const locations = Array.isArray(location) ? location : [location];
+      filter.location = { $in: locations.map((loc) => new RegExp(loc, "i")) };
+    }
+
+    // Age filter
+    if (minAge !== undefined || maxAge !== undefined) {
+      filter.age = {};
+      if (minAge !== undefined) filter.age.$gte = parseInt(minAge);
+      if (maxAge !== undefined) filter.age.$lte = parseInt(maxAge);
+    }
 
     // Sort configuration
     let sortOptions = {};

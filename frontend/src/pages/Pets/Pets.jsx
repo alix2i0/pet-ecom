@@ -27,6 +27,23 @@ const Pets = () => {
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
   const [searchCriteria, setSearchCriteria] = useState("-1"); // Default criteria
   const [sortCriteria, setSortCriteria] = useState("name"); // Default sorting criteria
+  const [availabilityFilter, setAvailabilityFilter] = useState({
+    available: false,
+    notAvailable: false,
+  });
+  const [ageFilter, setAgeFilter] = useState(20); // Default age filter value
+  const [categoryFilter, setCategoryFilter] = useState([]); // Default category filter value
+  const [locations, setLocations] = useState({
+    Casablanca: false,
+    Rabat: false,
+    Tanger: false,
+    Marrakech: false,
+    Agadir: false,
+    "El Jadida": false,
+    Mohammedia: false,
+    Fes: false,
+  });
+
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
   const user = useSelector(state => state.auth.auth)
   const dispatch = useDispatch()
@@ -35,9 +52,30 @@ const Pets = () => {
   }, [dispatch]);
   const fetchPets = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3300/api/pets?query=${searchQuery}&page=${currentPage}&sort=${sortCriteria}`
-      );
+      let apiUrl = `http://localhost:3300/api/pets?query=${searchQuery}&page=${currentPage}&sort=${sortCriteria}`;
+
+      // Add availability filter to the API URL only if available checkbox is checked
+      const availabilityOptions = [];
+      if (availabilityFilter.available) availabilityOptions.push("true");
+      if (availabilityFilter.notAvailable) availabilityOptions.push("false");
+      if (availabilityOptions.length > 0) {
+        apiUrl += `&availability=${availabilityOptions.join("&availability=")}`;
+      }
+      // Add age filter to the API URL
+      apiUrl += `&minAge=0&maxAge=${ageFilter}`;
+
+      // Add category filter to the API URL
+      if (categoryFilter.length > 0) {
+        apiUrl += `&category=${categoryFilter.join("&category=")}`;
+      }
+      // Construct location filter based on selected options
+      const selectedLocations = Object.entries(locations)
+        .filter(([_, isSelected]) => isSelected)
+        .map(([location, _]) => location);
+      if (selectedLocations.length > 0) {
+        apiUrl += `&location=${selectedLocations.join("&location=")}`;
+      }
+      const response = await axios.get(apiUrl);
       const { pets, totalPages } = response.data;
       setPets(pets);
       setTotalPages(totalPages);
@@ -45,6 +83,30 @@ const Pets = () => {
     } catch (error) {
       console.error("Error fetching pets:", error);
     }
+  };
+
+  // Function to clear filters
+  const clearFilters = () => {
+    setSearchQuery("");
+    setSearchCriteria("-1");
+    setSortCriteria("name");
+    setAvailabilityFilter({
+      available: false,
+      notAvailable: false,
+    });
+    setAgeFilter(20);
+    setCategoryFilter([]);
+    setLocations({
+      Casablanca: false,
+      Rabat: false,
+      Tanger: false,
+      Marrakech: false,
+      Agadir: false,
+      "El Jadida": false,
+      Mohammedia: false,
+      Fes: false,
+    });
+    setCurrentPage(1);
   };
   console.log(pets);
   const handleSearch = async () => {
@@ -68,7 +130,38 @@ const Pets = () => {
 
   useEffect(() => {
     fetchPets();
-  }, [currentPage, searchQuery, sortCriteria]);
+  }, [
+    currentPage,
+    searchQuery,
+    sortCriteria,
+    availabilityFilter,
+    ageFilter,
+    categoryFilter,
+    locations,
+  ]);
+
+  const handleAvailabilityChange = (option) => {
+    setAvailabilityFilter({
+      ...availabilityFilter,
+      [option]: !availabilityFilter[option],
+    });
+  };
+
+  const handleCategoryChange = (category) => {
+    if (categoryFilter.includes(category)) {
+      setCategoryFilter(categoryFilter.filter((item) => item !== category));
+    } else {
+      setCategoryFilter([...categoryFilter, category]);
+    }
+  };
+
+  // Function to handle changes in location checkboxes
+  const handleLocationChange = (location) => {
+    setLocations({
+      ...locations,
+      [location]: !locations[location],
+    });
+  };
 
   useEffect(() => {
     fetchPets();
@@ -247,11 +340,21 @@ const Pets = () => {
 
             <div className="mb-4">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input
+                  type="checkbox"
+                  checked={availabilityFilter.available}
+                  onChange={() => handleAvailabilityChange("available")}
+                  className="form-checkbox"
+                />
                 <span className="ml-2">Available</span>
               </label>
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input
+                  type="checkbox"
+                  checked={availabilityFilter.notAvailable}
+                  onChange={() => handleAvailabilityChange("notAvailable")}
+                  className="form-checkbox"
+                />
                 <span className="ml-2">Not Available</span>
               </label>
             </div>
@@ -260,8 +363,15 @@ const Pets = () => {
             <div className="mb-4">
               <button className="w-full text-left font-semibold">Age</button>
               <div className="mt-2">
-                <input type="range" min="0" max="20" className="w-full" />
-                <div className="flex justify-between text-sm">
+                <input
+                  type="range"
+                  min="0"
+                  max="20"
+                  className="w-full accent-primary"
+                  value={ageFilter}
+                  onChange={(e) => setAgeFilter(e.target.value)}
+                />
+                <div className="flex justify-between text-sm ">
                   <span>0</span>
                   <span>20</span>
                 </div>
@@ -274,11 +384,21 @@ const Pets = () => {
               </button>
               <div className="mt-2">
                 <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
+                  <input
+                    type="checkbox"
+                    className="form-checkbox"
+                    checked={categoryFilter.includes("Cats")}
+                    onChange={() => handleCategoryChange("Cats")}
+                  />
                   <span className="ml-2">Cats</span>
                 </label>
                 <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
+                  <input
+                    type="checkbox"
+                    className="form-checkbox"
+                    checked={categoryFilter.includes("Dogs")}
+                    onChange={() => handleCategoryChange("Dogs")}
+                  />
                   <span className="ml-2">Dogs</span>
                 </label>
               </div>
@@ -289,42 +409,24 @@ const Pets = () => {
                 Location
               </button>
               <div className="mt-2">
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">Casablanca</span>
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">Rabat</span>
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">Tanger</span>
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">Marrakech</span>
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">Agadir</span>
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">El Jadida</span>
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">Mohammedia</span>
-                </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span className="ml-2">Fes</span>
-                </label>
+                {Object.entries(locations).map(([location, isSelected]) => (
+                  <label key={location} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox"
+                      checked={isSelected}
+                      onChange={() => handleLocationChange(location)}
+                    />
+                    <span className="ml-2">{location}</span>
+                  </label>
+                ))}
               </div>
             </div>
 
-            <button className="w-full py-2 bg-primary hover:bg-secondary text-white font-bold">
+            <button
+              onClick={clearFilters}
+              className="w-full py-2 bg-primary hover:bg-secondary text-white font-bold"
+            >
               Clear Filters
             </button>
           </div>
