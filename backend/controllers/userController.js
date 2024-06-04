@@ -1,9 +1,10 @@
 const User = require("../models/User"); // Importing the User model
 const bcrypt = require("bcrypt"); // Importing bcrypt for password hashing
 const jwt = require("jsonwebtoken"); // Importing jsonwebtoken for token generation
-const sendEmail = require("../utils/sendEmail");
+const sendEmail = require("../utils/emailService");
 const crypto = require("crypto");
 const { errorMonitor } = require("events");
+
 
 // Controller function for user registration
 exports.register = async (req, res) => {
@@ -62,40 +63,34 @@ exports.login = async (req, res) => {
 };
 
 // Controller function for ForgottenPassword
-
-exports.forgotPassword = async (req, res, next) => {
-  const user = await User.findOne({ email: req.body.email });
+exports.forgotPassword = async (req, res) => {
+  const mail = req.body.email;
+  console.log(mail);
+  const user = await User.findOne({ email: mail });
+  console.log(user);
   if (!user) {
     return res.status(400).json("User does not exist");
   }
+  console.log(user);
   const resetToken = await user.createResetPasswordToken();
 
   await user.save({ validateBeforeSave: false });
 
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/auth/passwordReset/${resetToken}`;
+  const resetUrl = `${req.protocol}://${req.get("host")}/api/auth/passwordReset/${resetToken}`;
 
-  const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.\n TOKEN : ${resetToken}\n
-  http://localhost:5173/auth/reset-password/${resetToken} `;
+  const message = `Your password reset token is as follows:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.\n TOKEN : ${resetToken}\n http://localhost:5173/auth/reset-password/${resetToken} `;
 
   try {
-    sendEmail({
-      email: user.email,
-      subject: "Password Change Request Received",
-      message: message,
-    });
+    await sendEmail(user.email, "Password Change Request Received", message);
     res.status(200).json({
-      message:
-        "A link to change your password has been sent to your registered Email" +
-        user.email,
+      message: "A link to change your password has been sent to your registered Email " + user.email,
       status: "Success",
     });
   } catch (error) {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save({ validateBeforeSave: false });
-    res.status(500).json("There was an issue with your email");
+    res.status(500).json({ message: "There was an issue with your email", error: error.message });
   }
 };
 
