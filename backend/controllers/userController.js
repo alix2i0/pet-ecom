@@ -78,7 +78,7 @@ exports.forgotPassword = async (req, res) => {
 
   const resetUrl = `${req.protocol}://${req.get("host")}/api/auth/passwordReset/${resetToken}`;
 
-  const message = `Your password reset token is as follows:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.\n TOKEN : ${resetToken}\n http://localhost:5173/auth/reset-password/${resetToken} `;
+  const message = `Your password reset token is as follows:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.\n TOKEN : ${resetToken}\n http://localhost:5173/reset-password/${resetToken} `;
 
   try {
     await sendEmail(user.email, "Password Change Request Received", message);
