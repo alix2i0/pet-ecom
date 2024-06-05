@@ -6,6 +6,7 @@ const API_URL = 'http://localhost:3300/api';
 // Thunks for async operations
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (userId) => {
     const response = await axios.get(`${API_URL}/cart/${userId}`);
+    console.log('userId :', userId);
     return response.data;
 });
 

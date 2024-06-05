@@ -1,7 +1,15 @@
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../../admin/src/services/reducer/authSlice";
 
 export default function Wishlist() {
+  const user = useSelector(state => state.auth.auth)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUser());
+}, [dispatch]);
   return (
     <>
       <Navbar />

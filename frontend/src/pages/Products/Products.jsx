@@ -24,7 +24,7 @@ import Filters from "../../components/Filters";
 import Footer from "@/components/Footer";
 
 import { addToCart } from "../../../../admin/src/services/reducer/cartSlice";
-import { selectUserId } from "../../../../admin/src/services/reducer/authSlice";
+import { fetchUser, selectUserId } from "../../../../admin/src/services/reducer/authSlice";
 // import AddToCartBtn from "./AddtocartBtn.jsx";
 const Products = () => {
   const { product, loading, error, totalPages, search, filters, sort } =
@@ -34,6 +34,10 @@ const Products = () => {
   const [selectedFilters, setSelectedFilters] = useState(filters);
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
+  const user = useSelector(state => state.auth.auth)
+  useEffect(() => {
+    dispatch(fetchUser());
+}, [dispatch]);
   useEffect(() => {
     console.log("ftecheddd product front");
     dispatch(
