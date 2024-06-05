@@ -100,7 +100,11 @@ const PetsDetails = () => {
                   </svg>
                   <span className="text-gray-500">Gender</span>
                 </div>
-                <span className={`ml-auto capitalize flex items-center font-medium ${pet.gender === "male" ? "text-blue-700" : "text-pink-500"}`}>
+                <span
+                  className={`ml-auto capitalize flex items-center font-medium ${
+                    pet.gender === "male" ? "text-blue-700" : "text-pink-500"
+                  }`}
+                >
                   {pet.gender === "male" ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -160,9 +164,9 @@ const PetsDetails = () => {
                         <path
                           fill="none"
                           stroke="green"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2.5"
                           d="M20 7L10 17l-5-5"
                         />
                       </svg>
@@ -179,8 +183,8 @@ const PetsDetails = () => {
                         <path
                           fill="none"
                           stroke="red"
-                          stroke-linecap="round"
-                          stroke-width="1.5"
+                          strokeLinecap="round"
+                          strokeWidth="1.5"
                           d="m8.464 15.535l7.072-7.07m-7.072 0l7.072 7.07"
                         />
                       </svg>{" "}
@@ -222,9 +226,9 @@ const PetsDetails = () => {
                         <path
                           fill="none"
                           stroke="green"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2.5"
                           d="M20 7L10 17l-5-5"
                         />
                       </svg>

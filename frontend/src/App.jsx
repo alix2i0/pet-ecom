@@ -17,6 +17,7 @@ import ProfilePage from "./components/Profile";
 
 import Wishlist from "./pages/Wishlist";
 import CartShopping from "./pages/CartShopping";
+import About from "./pages/About";
 
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/pets" element={<Pets />} />
         <Route path="/pets/:id" element={<PetsDetails />} />
+        <Route path="/about" element={<About />} />
 
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<CartShopping />} />

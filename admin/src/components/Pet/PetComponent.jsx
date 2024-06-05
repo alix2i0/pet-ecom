@@ -286,9 +286,9 @@ const PetComponent = () => {
                                 <path
                                   fill="none"
                                   stroke="green"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2.5"
                                   d="M20 7L10 17l-5-5"
                                 />
                               </svg>
@@ -332,9 +332,9 @@ const PetComponent = () => {
                                 <path
                                   fill="none"
                                   stroke="green"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2.5"
                                   d="M20 7L10 17l-5-5"
                                 />
                               </svg>
