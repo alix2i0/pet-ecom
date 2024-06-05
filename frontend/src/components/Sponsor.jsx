@@ -12,7 +12,7 @@ const sponsors = [
 
 export default function Sponsor() {
   return (
-    <section className="py-12 md:py-16 lg:py-20">
+    <section className="py-12 md:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         {/* <div className="mb-8 md:mb-10 lg:mb-12">
           <h2 className="text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl">

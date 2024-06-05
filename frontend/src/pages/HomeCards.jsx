@@ -32,7 +32,7 @@ export default function PetCards() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-8 p-4 md:p-8">
+    <div className="flex flex-col items-center gap-8 p-4 md:p-8 w-full pt-12 md:pt-24 lg:pt-32">
       <div className="flex gap-2 md:gap-4">
         <Button
           onClick={() => setActiveTab("dogs")}
@@ -72,8 +72,12 @@ export default function PetCards() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
                     <div className="flex flex-col items-center justify-center h-full text-white">
-                      <h3 className="text-xl font-semibold animate-fade-in-up">{card.name}</h3>
-                      <p className="text-sm animate-fade-in-up delay-100">{card.description}</p>
+                      <h3 className="text-xl font-semibold animate-fade-in-up">
+                        {card.name}
+                      </h3>
+                      <p className="text-sm animate-fade-in-up delay-100">
+                        {card.description}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -94,8 +98,12 @@ export default function PetCards() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
                     <div className="flex flex-col items-center justify-center h-full text-white">
-                      <h3 className="text-xl font-semibold animate-fade-in-up">{card.name}</h3>
-                      <p className="text-sm animate-fade-in-up delay-100">{card.description}</p>
+                      <h3 className="text-xl font-semibold animate-fade-in-up">
+                        {card.name}
+                      </h3>
+                      <p className="text-sm animate-fade-in-up delay-100">
+                        {card.description}
+                      </p>
                     </div>
                   </div>
                 </div>

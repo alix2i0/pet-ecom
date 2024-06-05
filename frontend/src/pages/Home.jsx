@@ -10,15 +10,16 @@ import { fetchUser } from "../../../admin/src/services/reducer/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Component from "./Localisation";
 import PetCards from "./HomeCards";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const user = useSelector(state => state.auth.auth)
-  const dispatch = useDispatch()
+  const user = useSelector((state) => state.auth.auth);
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  console.log('User:', user);
+  console.log("User:", user);
 
   return (
     <div className="flex flex-col w-full items-center pb-1.5 min-h-[1115px] max-md:px-5 bg-gray-50">
@@ -50,7 +51,9 @@ const Home = () => {
                 hearts flutter.
               </div>
               <button className="mt-5 flex items-center px-4 py-3 w-4/12 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-amber-600 rounded-md hover:bg-amber-700 focus:outline-none focus:ring focus:ring-amber-300 focus:ring-opacity-80">
-                <span className="mx-1">Find out more</span>
+                <a href="/pets">
+                  <span className="mx-1">Find out more</span>
+                </a>
               </button>
             </div>
           </div>

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-amber-600 py-6 dark:bg-gray-800 w-full">
+    <footer className="bg-amber-500 py-6 dark:bg-gray-800 w-full">
       <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:flex-row md:px-6">
         <div className="flex items-center gap-2">
           <a href="/">
@@ -13,31 +13,31 @@ export default function Footer() {
         </div>
         <nav className="flex items-center gap-4 ">
           <a
-            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            className="text-sm font-semibold text-gray-950 transition-colors hover:text-gray-100 dark:text-gray-300 dark:hover:text-gray-50"
             href="/"
           >
             Home
           </a>
           <a
-            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            className="text-sm font-semibold text-gray-950 transition-colors hover:text-gray-100 dark:text-gray-300 dark:hover:text-gray-50"
             href="/pets"
           >
             Pets
           </a>
           <a
-            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            className="text-sm font-semibold text-gray-950 transition-colors hover:text-gray-100 dark:text-gray-300 dark:hover:text-gray-50"
             href="/products"
           >
             Shop
           </a>
           <a
-            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            className="text-sm font-semibold text-gray-950 transition-colors hover:text-gray-100 dark:text-gray-300 dark:hover:text-gray-50"
             href="/about"
           >
             About
           </a>
           <a
-            className="text-sm font-semibold text-gray-50 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50"
+            className="text-sm font-semibold text-gray-950 transition-colors hover:text-gray-100 dark:text-gray-300 dark:hover:text-gray-50"
             href="/contact"
           >
             Contact
@@ -45,18 +45,18 @@ export default function Footer() {
         </nav>
         <div className="flex items-center gap-4">
           <a aria-label="Facebook" href="#">
-            <FacebookIcon className="h-5 w-5 text-gray-50 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" />
+            <FacebookIcon className="h-5 w-5 text-gray-950 transition-colors hover:text-blue-700 dark:text-gray-400 dark:hover:text-gray-300" />
           </a>
           <a aria-label="Twitter" href="#">
-            <TwitterIcon className="h-5 w-5 text-gray-50 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" />
+            <TwitterIcon className="h-5 w-5 text-gray-950 transition-colors hover:text-blue-400 dark:text-gray-400 dark:hover:text-gray-300" />
           </a>
           <a aria-label="Instagram" href="#">
-            <InstagramIcon className="h-5 w-5 text-gray-50 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" />
+            <InstagramIcon className="h-5 w-5 text-gray-950 transition-colors hover:text-pink-700 dark:text-gray-400 dark:hover:text-gray-300" />
           </a>
         </div>
       </div>
       <div>
-        <p className="text-sm flex justify-end mt-8 items-center text-gray-50 dark:text-gray-400">
+        <p className="text-sm flex justify-end mt-8 items-center text-gray-950 dark:text-gray-400">
           © 2024 Pet Store. All rights reserved.
         </p>
       </div>
