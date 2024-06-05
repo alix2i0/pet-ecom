@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PetCards from "./PetCards";
-import PetModal from "./PetModal"
+import PetModal from "./PetModal";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,8 +45,9 @@ const Pets = () => {
   });
 
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-  const user = useSelector(state => state.auth.auth)
-  const dispatch = useDispatch()
+  const [isHovered, setIsHovered] = useState(null); // State to manage hovered item
+  const user = useSelector((state) => state.auth.auth);
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
@@ -84,6 +85,10 @@ const Pets = () => {
       console.error("Error fetching pets:", error);
     }
   };
+
+  useEffect(() => {
+    console.log("petty", isHovered);
+  }, []);
 
   // Function to clear filters
   const clearFilters = () => {
@@ -222,12 +227,11 @@ const Pets = () => {
           {/* <img src="../../../petss.png"/> */}
         </section>
       </div>
-
       <div className="w-full py-5 md:py-5 lg:py-5 bg-gray-100 dark:bg-gray-800">
-        <div className="relative  flex w-full flex-col justify-center rounded-lg p-2 sm:flex-row sm:items-center sm:p-0">
+        <div className="relative  flex w-full flex-col justify-center p-2 sm:flex-row sm:items-center sm:p-0">
           <div className="flex gap-4 items-center justify-center mb-5">
             <label
-              className="focus-within:ring flex items-center justify-center h-10 rounded-md bg-gray-200 ring-primary"
+              className="focus-within:ring flex items-center justify-center h-10  bg-gray-200 ring-primary"
               htmlFor="category"
             >
               <select
@@ -248,12 +252,12 @@ const Pets = () => {
               <input
                 type="name"
                 name="search"
-                className="px-4 py-2 border border-primary ring-primary rounded-l-md shadow-sm sm:text-sm flex-grow"
+                className="px-4 py-2 border border-primary ring-primary  shadow-sm sm:text-sm flex-grow"
                 placeholder="Search by name, location, etc."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <div className="bg-amber-500 p-2 rounded-r-md flex items-center justify-center hover:bg-amber-600 cursor-pointer">
+              <div className="bg-primary p-2  flex items-center justify-center hover:bg-primary cursor-pointer">
                 <FaSearch className="text-white" onClick={handleSearch} />
               </div>
             </div>
@@ -263,7 +267,7 @@ const Pets = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
-                    className="flex items-center bg-gray-200 p-2 rounded-md"
+                    className="flex items-center bg-gray-200 p-2"
                     variant="outline"
                   >
                     <ArrowUpDownIcon className="w-4 h-4 mr-2" />
@@ -321,18 +325,17 @@ const Pets = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            {isAuthenticated ? <button
-              onClick={handleAddPet}
-              className="flex justify-center text-center py-2 px-4 hover:bg-green-600 rounded-lg bg-green-500 text-white"
-            >
-              <FaPlusSquare className="m-1" /> <p> Add Pet</p>
-            </button>
-            : null}
-
+            {isAuthenticated ? (
+              <button
+                onClick={handleAddPet}
+                className="flex justify-center text-center py-2 px-4 hover:bg-green-600  bg-green-500 text-white"
+              >
+                <FaPlusSquare className="m-1" /> <p> Add Pet</p>
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div className="md:col-span-1 bg-gray-200">
           <div className="w-64 p-4 bg-gray-100">
@@ -443,6 +446,9 @@ const Pets = () => {
                     {pets.map((pet, index) => (
                       <PetCards
                         key={index}
+                        // onBlur={() => setIsHovered(null)}
+                        setIsHovered={setIsHovered}
+                        isHovered={isHovered}
                         id={pet._id}
                         image={pet.image}
                         name={pet.name}
@@ -463,10 +469,11 @@ const Pets = () => {
                   <button
                     onClick={goToPreviousPage}
                     disabled={currentPage === 1}
-                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${currentPage === 1
-                      ? "text-gray-900  pointer-events-none"
-                      : "text-gray-600 hover:bg-neutral-200"
-                      }`}
+                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all  select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                      currentPage === 1
+                        ? "text-gray-900  pointer-events-none"
+                        : "text-gray-600 hover:bg-neutral-200"
+                    }`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -488,10 +495,11 @@ const Pets = () => {
                   {[...Array(totalPages)].map((_, index) => (
                     <button
                       key={index}
-                      className={`mx-2 px-4 py-2 rounded ${currentPage === index + 1
-                        ? "bg-primary text-white"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                        }`}
+                      className={`mx-2 px-4 py-2  ${
+                        currentPage === index + 1
+                          ? "bg-primary text-white"
+                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      }`}
                       onClick={() => setCurrentPage(index + 1)}
                     >
                       {index + 1}
@@ -500,10 +508,11 @@ const Pets = () => {
                   <button
                     onClick={goToNextPage}
                     disabled={currentPage === totalPages}
-                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${currentPage === totalPages
-                      ? "text-gray-900  pointer-events-none"
-                      : "text-gray-600 hover:bg-neutral-200"
-                      }`}
+                    className={`flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all select-none active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                      currentPage === totalPages
+                        ? "text-gray-900  pointer-events-none"
+                        : "text-gray-600 hover:bg-neutral-200"
+                    }`}
                   >
                     Next
                     <svg
@@ -529,8 +538,13 @@ const Pets = () => {
         </section>
       </div>
       {showModal && (
-        <PetModal isOpen={showModal} handleClose={closeModal} handleSubmit={handlePetSubmit} />
-      )} {/* Modal component */}
+        <PetModal
+          isOpen={showModal}
+          handleClose={closeModal}
+          handleSubmit={handlePetSubmit}
+        />
+      )}{" "}
+      {/* Modal component */}
       <Footer />
     </div>
   );

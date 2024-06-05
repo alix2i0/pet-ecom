@@ -14,6 +14,7 @@ const PasswordReset = () => {
         return password === confirmPassword
     }
 
+    
     const handleSubmit = (e) => {
         e.preventDefault()
         if (handlePasswordConfirmation()) {
@@ -26,6 +27,7 @@ const PasswordReset = () => {
             console.error('Passwords do not match')
         }
     }
+
 
     return (
         <div className="max-w-lg mx-auto my-16">
