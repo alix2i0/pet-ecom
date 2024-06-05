@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 const PetCards = ({
   id,
+  isHovered,
+  setIsHovered,
   image,
   name,
   age,
@@ -18,9 +20,24 @@ const PetCards = ({
     day: "numeric",
     month: "short",
   });
+
   return (
-    <Link to={`/pets/${id}`} className="w-[248px]">
-      <div className="group hover:saturate-100 saturate-0 transition-[filter] relative w-[248px] h-[260px] bg-[#ffede2] font-['Robot_Flex'] border-b-2 border-b-primary">
+    <Link
+      to={`/pets/${id}`}
+      className="w-[248px]"
+      onMouseOver={() => setIsHovered(id)}
+      onMouseLeave={() => setIsHovered(null)}
+    >
+      <div
+        className={`group ${
+          isHovered
+            ? isHovered === id
+              ? "hover:saturate-100"
+              : "saturate-0"
+            : "saturate-100"
+        }  duration-300 transition-[filter] relative w-[248px] h-[260px] bg-[#ffede2] font-['Robot_Flex'] border-b-2 border-b-primary
+      `}
+      >
         <img
           className="group-hover:rounded-br-[100px] rounded-br-[0px] transition-[border-radius] duration-300"
           src={image}
@@ -31,7 +48,7 @@ const PetCards = ({
         </div>
         <p className="m-[5px] text-[#262626] font-primary text-lg">{name}</p>
         <p className="m-[5px] text-[#777674] text-sm font-primary">
-          {age} {age < 2 ? 'year' : 'years'} old
+          {age} {age < 2 ? "year" : "years"} old
         </p>
         {/* <!-- SVG of Arrow --> */}
         <svg

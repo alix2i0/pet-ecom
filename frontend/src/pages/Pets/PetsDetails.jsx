@@ -239,7 +239,7 @@ const PetsDetails = () => {
               <div className="flex justify-between">
                 <Link
                   to={"/pets"}
-                  className="flex w-full items-center justify-center text-white bg-primary border-0 py-2 px-6 focus:outline-none hover:bg-secondary rounded"
+                  className="flex w-full items-center justify-center text-white bg-primary border-0 py-2 px-6 focus:outline-none hover:bg-secondary "
                 >
                   Back
                 </Link>
@@ -262,7 +262,7 @@ const PetsDetails = () => {
             </div>
             <img
               alt="ecommerce"
-              className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+              className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center"
               src={pet.image}
             />
           </div>
