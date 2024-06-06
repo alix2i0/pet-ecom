@@ -247,9 +247,7 @@ const Sidebar = () => {
                 {/* Settings menu content */}
                 <ul>
                   <li>
-                    <a href="#" className="block py-2 px-4 hover:bg-gray-100">
-                      Profile
-                    </a>
+                    <Link className="block py-2 px-4 hover:bg-gray-100" to={"/profile"}>Profile</Link>
                   </li>
                   <li>
                     <a href="#" className="block py-2 px-4 hover:bg-gray-100">

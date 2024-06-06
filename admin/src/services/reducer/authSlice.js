@@ -18,6 +18,7 @@ export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
       'Content-Type': 'application/json',
     },
   });
+  
   return response.data.data;
 });
 

@@ -94,6 +94,8 @@ import Footer from "../components/Footer";
 import emailjs from 'emailjs-com'; // Import EmailJS library
 
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../../admin/src/services/reducer/authSlice";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -101,6 +103,11 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const user = useSelector(state => state.auth.auth)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUser());
+}, [dispatch]);
 
   useEffect(() => {
     // Initialize EmailJS with your User ID

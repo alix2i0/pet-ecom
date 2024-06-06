@@ -110,6 +110,8 @@ export const postOrder = createAsyncThunk('order/postOrder', async ({ customer, 
     }
 });
 
+
+
 export const orderSlice = createSlice({
     name: "orders",
     initialState,
@@ -172,5 +174,7 @@ export const orderSlice = createSlice({
             });
     },
 });
+
+
 
 export default orderSlice.reducer;
