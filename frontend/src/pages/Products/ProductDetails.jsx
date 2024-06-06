@@ -9,18 +9,32 @@ import { fetchProductById } from "../../../../admin/src/services/reducer/product
 import { CopyIcon, HeartIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Breadcrumb from "@/components/Breadcrumb";
-
+import { addToCart } from "../../../../admin/src/services/reducer/cartSlice";
+import { selectUserId } from "../../../../admin/src/services/reducer/authSlice";
+import { addToWishlist } from "../../../../admin/src/services/reducer/wishSlice";
 export default function ProductDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.productDetails);
   const loading = useSelector((state) => state.product.loading);
+  const userId = useSelector(selectUserId);
+
 
   useEffect(() => {
     if (id) {
       dispatch(fetchProductById({ productId: id }));
     }
   }, [dispatch]);
+
+  const handleAddToCart = (productId, quantity) => {
+    console.log("Add to cart");
+    dispatch(addToCart({ userId, productId, quantity }));
+  };
+  const handleAddToWish = () => {
+    console.log("Add to Wish");
+    console.log(userId, id);
+    dispatch(addToWishlist({ userId, productId: id}));
+  };
 
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;
@@ -116,14 +130,18 @@ export default function ProductDetails() {
                   )}
                 </div>
                 <div className="flex mt-6 ">
-                  <Button className="bg-amber-600 hover:bg-amber-700 text-white">
+                  <Button className="bg-amber-600 hover:bg-amber-700 text-white"
+                                        onClick={() => handleAddToCart(product._id, 1)}
+                                        >
                     Add to Cart
                   </Button>
-                  <Button className="ml-2" variant="ghost">
+                  <Button className="ml-2" variant="ghost" 
+                  onClick= {handleAddToWish }>
                     <HeartIcon className="w-6 h-6" />
                   </Button>
                   <Button className="ml-2" variant="ghost">
                     <CopyIcon className="w-6 h-6" />
+
                   </Button>
                 </div>
               </motion.div>

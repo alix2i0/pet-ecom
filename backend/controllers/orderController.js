@@ -221,9 +221,7 @@ exports.getOrderById = async (req, res) => {
 //     res.status(500).json({ message: err.message });
 //   }
 // };
-
 exports.postOrder = async (req, res) => {
-  // console.log('post order get in');
   try {
     if (!req.body) {
       return res.status(400).json({ message: "Request body is required" });
@@ -232,7 +230,8 @@ exports.postOrder = async (req, res) => {
     const { customer, products, totalAmount } = req.body;
     if (!customer || !products || !totalAmount) {
       return res.status(400).json({ error: 'Missing required fields' });
-  }
+    }
+
     // Check if the products array and totalAmount are valid
     if (!Array.isArray(products) || products.length === 0) {
       return res.status(400).json({ message: "Products array is required" });
@@ -291,11 +290,106 @@ exports.postOrder = async (req, res) => {
   }
 };
 
+// exports.postOrder = async (req, res) => {
+//   // console.log('post order get in');
+//   try {
+//     if (!req.body) {
+//       return res.status(400).json({ message: "Request body is required" });
+//     }
+
+//     const { customer, products, totalAmount } = req.body;
+//     if (!customer || !products || !totalAmount) {
+//       return res.status(400).json({ error: 'Missing required fields' });
+//   }
+//     // Check if the products array and totalAmount are valid
+//     if (!Array.isArray(products) || products.length === 0) {
+//       return res.status(400).json({ message: "Products array is required" });
+//     }
+
+//     if (typeof totalAmount !== 'number' || totalAmount <= 0) {
+//       return res.status(400).json({ message: "Total amount is required and must be a positive number" });
+//     }
+
+//     const orderedProducts = [];
+
+//     for (const product of products) {
+//       const { productId, quantity } = product;
+//       const productDoc = await Product.findById(productId);
+//       if (!productDoc) {
+//         return res.status(404).json({ message: `Product with ID ${productId} not found` });
+//       }
+//       orderedProducts.push({ product: productId, quantity });
+//     }
+
+//     const orderId = "ORD" + Date.now().toString();
+//     const orderDate = new Date();
+
+//     const newOrder = new Order({
+//       orderId,
+//       customer,
+//       products: orderedProducts,
+//       totalAmount,
+//       orderDate
+//     });
+
+//     const savedOrder = await newOrder.save();
+
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types: ["card"],
+//       line_items: [
+//         {
+//           price_data: {
+//             currency: "usd",
+//             product_data: {
+//               name: "Order",
+//             },
+//             unit_amount: totalAmount * 100,
+//           },
+//           quantity: 1,
+//         },
+//       ],
+//       mode: "payment",
+//       success_url: `${req.protocol}://${req.get("host")}/api/orders/success/${orderId}`,
+//       cancel_url: `${req.protocol}://${req.get("host")}/api/orders/reject/${orderId}`,
+//     });
+
+//     res.status(201).json({ url: session.url });
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+
+// exports.orderSuccess = async (req, res) => {
+//   try {
+//     const orderId = req.params.orderId;
+//     await Order.findOneAndUpdate({ orderId }, { status: 'Completed' });
+//     res.send('Payment was successful!');
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
 exports.orderSuccess = async (req, res) => {
   try {
     const orderId = req.params.orderId;
-    await Order.findOneAndUpdate({ orderId }, { status: 'Completed' });
-    res.send('Payment was successful!');
+    const order = await Order.findOneAndUpdate({ orderId }, { status: 'Completed' });
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // Decrease the stock quantity for each product in the order
+    for (const orderedProduct of order.products) {
+      const productDoc = await Product.findById(orderedProduct.product);
+      if (productDoc) {
+        productDoc.stock -= orderedProduct.quantity;
+        if (productDoc.stock < 0) {
+          productDoc.stock = 0; // Ensuring stock doesn't go negative
+        }
+        await productDoc.save();
+      }
+    }
+
+    res.send('Payment was successful and stock updated!');
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

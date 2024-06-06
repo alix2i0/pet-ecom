@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3300/api';
+const API_URL = 'http://localhost:3300/api/wishes';
 
 // Thunks for async operations
 export const fetchWishlist = createAsyncThunk('wishlist/fetchWishlist', async (userId) => {
@@ -10,7 +10,8 @@ export const fetchWishlist = createAsyncThunk('wishlist/fetchWishlist', async (u
 });
 
 export const addToWishlist = createAsyncThunk('wishlist/addToWishlist', async ({ userId, productId }) => {
-    const response = await axios.post(`${API_URL}/wishlist/${userId}`, { productId });
+    console.log('addToWishlist', userId, productId);
+    const response = await axios.post(`${API_URL}/wishlist/${userId}/${productId}`);
     return response.data;
 });
 
