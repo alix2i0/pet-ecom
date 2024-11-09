@@ -26,6 +26,7 @@ const Orders = () => {
         `http://localhost:3300/api/orders?page=${currentPage}&limit=${limit}&search=${searchTerm}&sortBy=${sortBy}&sortOrder=${sortOrder}`
       );
       setOrders(response.data.orders);
+      // console.log(orders);
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -34,6 +35,8 @@ const Orders = () => {
 
   useEffect(() => {
     fetchOrders();
+    // console.log(orders);
+
   }, [currentPage, limit, searchTerm, sortBy, sortOrder]);
 
   const handleDelete = async (id) => {
@@ -105,6 +108,10 @@ const Orders = () => {
       console.error("Error updating order status:", error);
     }
   };
+  
+    // console.log(orders)
+    
+  
 
   return (
     <div className="bg-gray-100 h-screen">
@@ -171,8 +178,8 @@ const Orders = () => {
               </TableHeader>
               <TableBody>
                 {orders.map((order) => (
-                  <TableRow key={order._id} className="">
-                    <TableCell>{order.customer.username}</TableCell>
+                  <TableRow key={order._id} >
+                    <TableCell>{order.customer?.username}</TableCell>
                     {/* Display product details here */}
                     <TableCell>
                       <ul>

@@ -9,7 +9,9 @@
 
 # # production
 # /build
-
+/backend/.env
+**/*.env
+**/.vite/
 # # misc
 # .DS_Store
 # .env.local
